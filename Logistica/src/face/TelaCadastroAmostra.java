@@ -534,8 +534,13 @@ public class TelaCadastroAmostra extends JFrame {
 					JOptionPane.showMessageDialog(null, "Campos Proposta/Amostra vazio(s)");
 				} else {
 					parametroDAO.cadastrarParametro_Amostra(numAmostra, proposta, codParametro);
+					
+					
+					String index = (String) cbNumeroAmostra.getSelectedItem();
 					cbNumeroAmostra.removeAllItems();
-					cbNumeroAmostra.getSelectedItem();  
+					JOptionPane.showMessageDialog(null, index);
+					cbNumeroAmostra.setSelectedItem(index);
+					
 				}
 
 				try {
