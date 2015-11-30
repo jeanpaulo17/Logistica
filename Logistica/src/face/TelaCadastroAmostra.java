@@ -536,10 +536,18 @@ public class TelaCadastroAmostra extends JFrame {
 					parametroDAO.cadastrarParametro_Amostra(numAmostra, proposta, codParametro);
 					
 					
-					String index = (String) cbNumeroAmostra.getSelectedItem();
+					int index = cbNumeroAmostra.getSelectedIndex();
 					cbNumeroAmostra.removeAllItems();
+					
+					ArrayList amostras = null;
+					for (int i = 0; i <= amostras.size() - 1; i++)
+					
+					cbNumeroAmostra.addItem(amostras.get(i));
+					parametroDAO parametroDAO1 = new parametroDAO();
+					amostras = parametroDAO1.obterAmostra(txtProposta_Amostra.getText());
+					
 					JOptionPane.showMessageDialog(null, index);
-					cbNumeroAmostra.setSelectedItem(index);
+					cbNumeroAmostra.setSelectedIndex(index);
 					
 				}
 
