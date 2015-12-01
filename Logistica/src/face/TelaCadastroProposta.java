@@ -101,6 +101,8 @@ public class TelaCadastroProposta extends JFrame {
 				}
 			}
 		});
+		
+		sadsadasdsa
 
 		final propostaDAO propostaDAO = new DAO.propostaDAO();
 
