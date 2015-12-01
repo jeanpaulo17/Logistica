@@ -16,9 +16,19 @@ import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import DAO.propostaDAO;
+
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
+import javax.swing.JList;
+import javax.swing.JToggleButton;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JMenuItem;
+
+import java.awt.Choice;
+
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class TelaCadastroProposta extends JFrame {
 
@@ -69,6 +79,28 @@ public class TelaCadastroProposta extends JFrame {
 		lblimg.setIcon(new ImageIcon(TelaCadastroProposta.class.getResource("/face/proposta.png")));
 		lblimg.setBounds(427, 11, 192, 205);
 		contentPane.add(lblimg);
+		
+		JLabel lblQtdAmostras = new JLabel("Quantidade de Amostras");
+		lblQtdAmostras.setHorizontalAlignment(SwingConstants.CENTER);
+		lblQtdAmostras.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		lblQtdAmostras.setBounds(11, 130, 179, 23);
+		contentPane.add(lblQtdAmostras);
+		
+		final JSpinner txtQuantidade = new JSpinner();
+		txtQuantidade.setModel(new SpinnerNumberModel(new Integer(1), new Integer(0), null, new Integer(1)));
+		txtQuantidade.setBounds(200, 131, 109, 20);
+		contentPane.add(txtQuantidade);
+		
+		txtQuantidade.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent ev) {
+
+				String caracteres = "0123456789";
+				if (!caracteres.contains(ev.getKeyChar() + "")) {
+					ev.consume();
+				}
+			}
+		});
 
 		final propostaDAO propostaDAO = new DAO.propostaDAO();
 
@@ -77,9 +109,9 @@ public class TelaCadastroProposta extends JFrame {
 
 				String proposta = txtProposta.getText();
 				String empresa = txtEmpresa.getText();
+				Integer qtd = (Integer) txtQuantidade.getValue();
 
-				String msg = propostaDAO.cadastrarProposta(proposta, empresa);
-
+				String msg = propostaDAO.cadastrarProposta(proposta, empresa, qtd);
 			}
 		});
 

@@ -46,38 +46,28 @@ import utilitarios.ModeloTable;
 public class TelaCadastroAmostra extends JFrame {
 
 	private JPanel contentPane;
-
 	private JPanel panelParametros;
 	private JTextField txtProposta;
 	private JTextField txtEmpresa;
 	private JTextField txtAmostra;
-
 	private JTabbedPane tabbedPane;
-
 	private DefaultTableModel modelo = new DefaultTableModel();
 	private DefaultTableModel modelo2 = new DefaultTableModel();
-
 	private JTable tableAmostra;
 	private JTable tableParametro = new JTable();
-
 	JScrollPane scrollPane = new JScrollPane(tableAmostra);
 	JScrollPane scrollPaneParametro = new JScrollPane(tableParametro);
-
 	private ArrayList dados;
 	private ArrayList dados2;
-
 	private String[] colunas;
 	private String[] colunas2;
-
 	private JTextField txtPonto;
 	private JTextField txtProposta_Amostra;
 	private JTextField txtEmpresa_Parametro;
-	
 	private int index;
 
 	public TelaCadastroAmostra() {
-		
-		
+
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCadastroAmostra.class.getResource("/face/vidro.png")));
 		setTitle("Cadastro de Amostras");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -113,7 +103,6 @@ public class TelaCadastroAmostra extends JFrame {
 				if (txtProposta.getText().equals("Exemplo: 14589/2015") == true) {
 					txtProposta.setText("");
 					txtProposta.setForeground(Color.BLACK);
-
 				}
 			}
 		});
@@ -173,6 +162,7 @@ public class TelaCadastroAmostra extends JFrame {
 				}
 			}
 		});
+		
 		txtAmostra.setForeground(Color.GRAY);
 		txtAmostra.setHorizontalAlignment(SwingConstants.CENTER);
 		txtAmostra.setText("Exemplo: 35648/2015");
@@ -311,7 +301,6 @@ public class TelaCadastroAmostra extends JFrame {
 					;
 				}
 			}
-
 		});
 
 		txtProposta.addFocusListener(new FocusAdapter() {
@@ -353,7 +342,6 @@ public class TelaCadastroAmostra extends JFrame {
 
 							return this;
 						}
-
 					});
 				} finally {
 				}
@@ -423,7 +411,6 @@ public class TelaCadastroAmostra extends JFrame {
 				if (txtProposta_Amostra.getText().equals("Exemplo: 14589/2015") == true) {
 					txtProposta_Amostra.setText("");
 					txtProposta_Amostra.setForeground(Color.BLACK);
-
 				}
 			}
 		});
@@ -448,7 +435,6 @@ public class TelaCadastroAmostra extends JFrame {
 		final JComboBox cbNumeroAmostra = new JComboBox();
 		cbNumeroAmostra.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-
 				parametroDAO parametroDAO = new parametroDAO();
 
 				try {
@@ -490,21 +476,17 @@ public class TelaCadastroAmostra extends JFrame {
 					tableParametro.getTableHeader().setReorderingAllowed(false);
 					tableParametro.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 					tableParametro.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
 					tableParametro.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 
 						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 								boolean hasFocus, int row, int column) {
 							super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 							this.setHorizontalAlignment(CENTER);
-
 							return this;
 						}
-
 					});
 				} finally {
 				}
-
 			}
 		});
 
@@ -598,7 +580,6 @@ public class TelaCadastroAmostra extends JFrame {
 								boolean hasFocus, int row, int column) {
 							super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 							this.setHorizontalAlignment(CENTER);
-
 							return this;
 						}
 					});
@@ -607,7 +588,6 @@ public class TelaCadastroAmostra extends JFrame {
 				
 				cbNumeroAmostra.setSelectedIndex(index);
 			}
-
 		});
 
 		txtProposta_Amostra.addFocusListener(new FocusAdapter() {
@@ -671,15 +651,12 @@ public class TelaCadastroAmostra extends JFrame {
 								boolean hasFocus, int row, int column) {
 							super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 							this.setHorizontalAlignment(CENTER);
-
 							return this;
 						}
-
 					});
 				} finally {
 				}
 			}
 		});
-
 	}
 }

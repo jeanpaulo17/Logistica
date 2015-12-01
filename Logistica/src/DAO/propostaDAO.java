@@ -20,16 +20,17 @@ public class propostaDAO {
 		t.setLocationRelativeTo(null);
 	}
 
-	public String cadastrarProposta(String proposta, String empresa) {
+	public String cadastrarProposta(String proposta, String empresa, Integer qtd) {
 
 		ConectaBanco conexao = new ConectaBanco();
 		conexao.conexao();
-		String sql = "INSERT INTO proposta (numero,empresa) VALUES (?,?)";
+		String sql = "INSERT INTO proposta (numero,empresa,quantidadedeamostras) VALUES (?,?,?)";
 
 		try {
 			PreparedStatement pst = conexao.conn.prepareStatement(sql);
 			pst.setString(1, proposta);
 			pst.setString(2, empresa);
+			pst.setInt(3, qtd);
 
 			pst.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Proposta incluida!");
