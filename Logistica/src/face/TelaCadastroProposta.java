@@ -61,6 +61,17 @@ public class TelaCadastroProposta extends JFrame {
 		txtProposta.setBounds(162, 63, 245, 20);
 		contentPane.add(txtProposta);
 		txtProposta.setColumns(10);
+		
+		txtProposta.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent ev) {
+
+				String caracteres = "0123456789/";
+				if (!caracteres.contains(ev.getKeyChar() + "")) {
+					ev.consume();
+				}
+			}
+		});
 
 		txtEmpresa = new JTextField();
 		txtEmpresa.setBounds(162, 100, 245, 20);
@@ -102,8 +113,6 @@ public class TelaCadastroProposta extends JFrame {
 			}
 		});
 		
-		sadsadasdsa
-
 		final propostaDAO propostaDAO = new DAO.propostaDAO();
 
 		btnCadastar.addActionListener(new ActionListener() {
