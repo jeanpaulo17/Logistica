@@ -2,6 +2,7 @@ package face;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -71,8 +72,12 @@ public class TelaCadastroAmostra extends JFrame {
 	private JTextField txtPonto;
 	private JTextField txtProposta_Amostra;
 	private JTextField txtEmpresa_Parametro;
+	
+	private int index;
 
 	public TelaCadastroAmostra() {
+		
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCadastroAmostra.class.getResource("/face/vidro.png")));
 		setTitle("Cadastro de Amostras");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -92,7 +97,7 @@ public class TelaCadastroAmostra extends JFrame {
 		panelParametros.setLayout(null);
 
 		getContentPane().add(tabbedPane);
-
+		
 		JLabel lblNProposta = new JLabel("N\u00BA Proposta / Ano: ");
 		lblNProposta.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNProposta.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -520,7 +525,7 @@ public class TelaCadastroAmostra extends JFrame {
 
 		btnAdicionarParametro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				
 				String numAmostra = (String) cbNumeroAmostra.getSelectedItem();
 				String proposta = txtProposta_Amostra.getText();
 
@@ -534,24 +539,12 @@ public class TelaCadastroAmostra extends JFrame {
 					JOptionPane.showMessageDialog(null, "Campos Proposta/Amostra vazio(s)");
 				} else {
 					parametroDAO.cadastrarParametro_Amostra(numAmostra, proposta, codParametro);
-					
-					
-					int index = cbNumeroAmostra.getSelectedIndex();
+					index = cbNumeroAmostra.getSelectedIndex();
 					cbNumeroAmostra.removeAllItems();
 					
-					ArrayList amostras = null;
-					for (int i = 0; i <= amostras.size() - 1; i++)
-					
-					cbNumeroAmostra.addItem(amostras.get(i));
-					parametroDAO parametroDAO1 = new parametroDAO();
-					amostras = parametroDAO1.obterAmostra(txtProposta_Amostra.getText());
-					
-					JOptionPane.showMessageDialog(null, index);
-					cbNumeroAmostra.setSelectedIndex(index);
-					
 				}
-
 				try {
+					cbNumeroAmostra.removeAllItems();
 					tableParametro.removeAll();
 
 					ArrayList amostras = null;
@@ -611,6 +604,8 @@ public class TelaCadastroAmostra extends JFrame {
 					});
 				} finally {
 				}
+				
+				cbNumeroAmostra.setSelectedIndex(index);
 			}
 
 		});
