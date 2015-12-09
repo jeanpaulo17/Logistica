@@ -24,7 +24,7 @@ public class propostaDAO {
 
 		ConectaBanco conexao = new ConectaBanco();
 		conexao.conexao();
-		String sql = "INSERT INTO proposta (numero,empresa,quantidadedeamostras) VALUES (?,?,?)";
+		String sql = "INSERT INTO proposta (numero_proposta,empresa,quantidadedeamostras) VALUES (?,?,?)";
 
 		try {
 			PreparedStatement pst = conexao.conn.prepareStatement(sql);

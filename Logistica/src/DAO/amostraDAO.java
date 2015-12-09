@@ -51,7 +51,7 @@ public class amostraDAO {
 			conexao.conexao();
 
 			Statement stm = conexao.conn.createStatement();
-			ResultSet rs = stm.executeQuery("select empresa from proposta where numero='" + proposta + "'");
+			ResultSet rs = stm.executeQuery("select empresa from proposta where idproposta='" + proposta + "'");
 
 			if (rs.next()) {
 				msg = rs.getString(1);
@@ -64,8 +64,54 @@ public class amostraDAO {
 			return msg;
 		}
 	}
+	
+	public String buscarIdAmostra(String string) {
+		String msg = "";
 
-	public String verificaCadastroAmostra(String amostra, String proposta) {
+		try {
+
+			conexao.conexao();
+
+			Statement stm = conexao.conn.createStatement();
+			ResultSet rs = stm.executeQuery("select idamostra from amostra where numero_amostra='"+string+"';");
+
+			if (rs.next()) {
+				msg = rs.getString(1);
+				return msg;
+			}
+
+		} catch (SQLException e1) {
+		} finally {
+			conexao.desconecta();
+			return msg;
+		}
+	}
+	
+	
+	public String buscarIdProposta(String numero_proposta) {
+		String msg = "";
+
+		try {
+
+			conexao.conexao();
+
+			Statement stm = conexao.conn.createStatement();
+			ResultSet rs = stm.executeQuery("select idproposta from proposta where numero_proposta='"+numero_proposta+"';");
+
+			if (rs.next()) {
+				msg = rs.getString(1);
+				return msg;
+			}
+
+		} catch (SQLException e1) {
+		} finally {
+			conexao.desconecta();
+			return msg;
+		}
+	}
+	
+
+	public String verificaCadastroAmostra(String amostra, int proposta) {
 
 		String status = "";
 
@@ -74,12 +120,12 @@ public class amostraDAO {
 		try {
 
 			Statement stm = conexao.conn.createStatement();
-			ResultSet rs = stm.executeQuery("select numero, proposta from amostra where numero='" + amostra
+			ResultSet rs = stm.executeQuery("select numero_amostra, proposta from amostra where numero_amostra='" + amostra
 					+ "' and proposta='" + proposta + "'");
 
 			if (rs.next()) {
 
-				if (rs.getString(1).equals(amostra) && rs.getString(2).equals(proposta)) {
+				if (rs.getString(1).equals(amostra) && rs.getInt(2) == proposta) {
 					status = "false";
 					return status;
 				} else {
@@ -98,17 +144,17 @@ public class amostraDAO {
 
 	}
 
-	public String cadastrarAmostra(String amostra, String periodicidade, String ponto, String proposta) {
+	public String cadastrarAmostra(String amostra, String periodicidade, String ponto, int proposta) {
 
 		try {
 
 			conexao.conexao();
 			PreparedStatement pst = conexao.conn
-					.prepareStatement("INSERT INTO amostra (numero,periodicidade,ponto,proposta) VALUES (?,?,?,?)");
+			.prepareStatement("INSERT INTO amostra (numero_amostra,periodicidade,ponto,proposta) VALUES (?,?,?,?)");
 			pst.setString(1, amostra);
 			pst.setString(2, periodicidade);
 			pst.setString(3, ponto);
-			pst.setString(4, proposta);
+			pst.setInt(4, proposta);
 
 			pst.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Amostra incluida!");
