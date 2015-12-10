@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -169,30 +170,6 @@ public class amostraDAO {
 
 	}
 
-	public void cadastrarAmostra_os(int idamostra, int proposta, int ordem) {
-
-		try {
-
-			conexao.conexao();
-			PreparedStatement pst = conexao.conn
-			.prepareStatement("INSERT INTO amostra (proposta, amostra, ordem) VALUES (?,?,?)");
-			pst.setInt(1, proposta);
-			pst.setInt(2, idamostra);
-			pst.setInt(3, ordem);
-
-
-			pst.executeUpdate();
-			JOptionPane.showMessageDialog(null, "Amostra_os incluida!");
-
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		} finally {
-			conexao.desconecta();
-		}
-
-	}
-	
-	
 	public void PreencherTabela(String sql, ArrayList dados) {
 
 		conexao.conexao();
@@ -236,5 +213,84 @@ public class amostraDAO {
 			conexao.desconecta();
 		}
 	}
+	
+	
+	public void cadastrarAmostra_OS(int idproposta, int idamostra, int qtd){
+		try {
+			conexao.conexao();
+			PreparedStatement pst = conexao.conn.prepareStatement("INSERT INTO amostra_os (proposta, amostra, ordem) VALUES (?,?,?)");
+			int ordem = 0;
+			
+		for(int i=1; i<=qtd ;i++){
+			ordem = i;
+			pst.setInt(1, idproposta);
+			pst.setInt(2, idamostra);
+			pst.setInt(3, ordem);
+			pst.executeUpdate();
+		}
+	}catch(SQLException ex){
+		JOptionPane.showMessageDialog(null, "ERROR"+ex.getMessage());
+		
+	}finally{
+		conexao.desconecta();
+	}
+	}
+	
+	public int verificaQuantidadeDeAmostrasNaProposta(int idproposta){
+		conexao.conexao();
 
+		try {
+
+			Statement stm = conexao.conn.createStatement();
+			ResultSet rs = stm.executeQuery("select quantidadedeamostras from proposta where idproposta="+idproposta);
+			
+			if(rs.next()){
+				return rs.getInt(1);
+			}
+		
+	}catch(SQLException ex){
+		JOptionPane.showMessageDialog(null, "ERROR"+ex.getClass());
+	}finally{
+		conexao.desconecta();
+	}
+		return idproposta;
+} 
+	
+	public int contaQuantidadeDeAmostrasNaProposta(int idproposta){
+		conexao.conexao();
+
+		try {
+
+			Statement stm = conexao.conn.createStatement();
+			ResultSet rs = stm.executeQuery("select count(proposta) from amostra_os where proposta="+idproposta);
+			
+			if(rs.next()){
+				return rs.getInt(1);
+			}
+		
+	}catch(SQLException ex){
+		JOptionPane.showMessageDialog(null, "ERROR"+ex.getClass());
+	}finally{
+		conexao.desconecta();
+	}
+		return idproposta;
+} 
+	
+	
+	public boolean verificaQtdAmostras(int qtd_inserir, int idproposta){
+		boolean ok;
+		amostraDAO dao = new amostraDAO();
+		
+		int qtdNaProposta = dao.contaQuantidadeDeAmostrasNaProposta(idproposta);
+		int qtdPermitida = dao.verificaQuantidadeDeAmostrasNaProposta(idproposta);
+		
+		if(qtdNaProposta + qtd_inserir > qtdPermitida){
+			ok = false;
+		}else{
+			ok = true;
+		}
+		return ok;
+		
+	}
+	
 }

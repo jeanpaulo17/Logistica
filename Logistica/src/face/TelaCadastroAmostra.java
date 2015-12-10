@@ -266,17 +266,13 @@ public class TelaCadastroAmostra extends JFrame {
 		btnCadastar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				Integer proposta = Integer.parseInt(amostraDAO
-						.buscarIdProposta(txtProposta.getText()));
-				String amostra = txtAmostra.getText();
-				String periodicidade = (String) comboBox.getSelectedItem();
-				String ponto = txtPonto.getText();
-				
-				String id = amostraDAO.buscarIdAmostra(txtAmostra.getText());
-				int idamostra = Integer.valueOf(id);
-				int qtd = Integer.parseInt(spinner.getValue().toString()); 
-				int ordem = 0;
-				
+				Integer proposta = Integer.parseInt(amostraDAO.buscarIdProposta(txtProposta.getText()));						
+				String amostra = txtAmostra.getText(); 							
+				String periodicidade = (String) comboBox.getSelectedItem();							
+				String ponto = txtPonto.getText(); 
+				int qtd = Integer.valueOf(spinner.getValue().toString());
+				int ordem = 1; 
+					
 				
 				amostraDAO amostraDAO = new DAO.amostraDAO();
 
@@ -284,20 +280,21 @@ public class TelaCadastroAmostra extends JFrame {
 					JOptionPane.showMessageDialog(null,
 							"Amostra ja cadastrada antes!");
 				} else {
-					amostraDAO.cadastrarAmostra(amostra, periodicidade, ponto,
-							proposta);
 					
-
-					for(int i = 0; i < qtd;i++){
-						ordem = qtd++;
-						amostraDAO.cadastrarAmostra_os(idamostra, proposta, ordem);				
-					}
+					if(amostraDAO.verificaQtdAmostras(qtd, proposta) == true){
+					
+					amostraDAO.cadastrarAmostra(amostra, periodicidade, ponto,proposta);
+					Integer idamostra = Integer.parseInt(amostraDAO.buscarIdAmostra(txtAmostra.getText()));
+					amostraDAO.cadastrarAmostra_OS(proposta, idamostra, qtd);
+				}else{
+					JOptionPane.showMessageDialog(null, "Você esta tentando cadastrar uma quantidade maior de amostras do que é permitido na proposta!");
+				}
+					
 				}
 
 				try {
 					amostraDAO
-							.PreencherTabela(
-									"select p.numero_proposta PROPOSTA ,a.numero_amostra AMOSTRA ,a.ponto PONTO, a.periodicidade PERIODO "
+							.PreencherTabela("select p.numero_proposta PROPOSTA ,a.numero_amostra AMOSTRA ,a.ponto PONTO, a.periodicidade PERIODO "
 											+ "from proposta as p , amostra as a where p.idproposta = a.proposta and p.numero_proposta='"
 											+ txtProposta.getText() + "'",
 									dados);
