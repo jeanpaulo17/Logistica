@@ -169,6 +169,30 @@ public class amostraDAO {
 
 	}
 
+	public void cadastrarAmostra_os(int idamostra, int proposta, int ordem) {
+
+		try {
+
+			conexao.conexao();
+			PreparedStatement pst = conexao.conn
+			.prepareStatement("INSERT INTO amostra (proposta, amostra, ordem) VALUES (?,?,?)");
+			pst.setInt(1, proposta);
+			pst.setInt(2, idamostra);
+			pst.setInt(3, ordem);
+
+
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Amostra_os incluida!");
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			conexao.desconecta();
+		}
+
+	}
+	
+	
 	public void PreencherTabela(String sql, ArrayList dados) {
 
 		conexao.conexao();

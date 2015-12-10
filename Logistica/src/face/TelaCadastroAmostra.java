@@ -230,7 +230,7 @@ public class TelaCadastroAmostra extends JFrame {
 		lblQuantidade.setBounds(27, 220, 139, 20);
 		contentPane.add(lblQuantidade);
 
-		JSpinner spinner = new JSpinner();
+		final JSpinner spinner = new JSpinner();
 		spinner.setBounds(177, 220, 51, 20);
 		contentPane.add(spinner);
 
@@ -271,7 +271,13 @@ public class TelaCadastroAmostra extends JFrame {
 				String amostra = txtAmostra.getText();
 				String periodicidade = (String) comboBox.getSelectedItem();
 				String ponto = txtPonto.getText();
-
+				
+				String id = amostraDAO.buscarIdAmostra(txtAmostra.getText());
+				int idamostra = Integer.valueOf(id);
+				int qtd = Integer.parseInt(spinner.getValue().toString()); 
+				int ordem = 0;
+				
+				
 				amostraDAO amostraDAO = new DAO.amostraDAO();
 
 				if (amostraDAO.verificaCadastroAmostra(amostra, proposta) == "false") {
@@ -280,6 +286,12 @@ public class TelaCadastroAmostra extends JFrame {
 				} else {
 					amostraDAO.cadastrarAmostra(amostra, periodicidade, ponto,
 							proposta);
+					
+
+					for(int i = 0; i < qtd;i++){
+						ordem = qtd++;
+						amostraDAO.cadastrarAmostra_os(idamostra, proposta, ordem);				
+					}
 				}
 
 				try {
