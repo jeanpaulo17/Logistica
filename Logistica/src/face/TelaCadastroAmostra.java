@@ -645,7 +645,7 @@ public class TelaCadastroAmostra extends JFrame {
 		textField_3.setFont(new Font("Tahoma", Font.BOLD, 12));
 		textField_3.setEnabled(true);
 		textField_3.setEditable(false);
-		textField_3.setColumns(10);
+		textField_3.setColumns(10);   
 		textField_3.setBackground(Color.WHITE);
 		textField_3.setBounds(159, 239, 431, 20);
 		panelDefinirData.add(textField_3);
