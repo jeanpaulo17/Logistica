@@ -209,7 +209,7 @@ public class amostraDAO {
 
 							conexao.rs.getObject("PROPOSTA"), conexao.rs.getObject("AMOSTRA"),
 							conexao.rs.getObject("ORDEM"), conexao.rs.getObject("COLETOR"),
-							conexao.rs.getObject("DATA_COLETA"),
+							conexao.rs.getObject("DATACOLETA"),
 
 					});
 
