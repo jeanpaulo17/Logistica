@@ -66,10 +66,8 @@ public class TelaCadastroAmostra extends JFrame {
 	private JTextField txtProposta_Amostra;
 	private JTextField txtEmpresa_Parametro;
 	private int index;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField txtDatasProposta;
+	private JTextField txtDatasAmostra;
 
 	public TelaCadastroAmostra() {
 
@@ -92,8 +90,6 @@ public class TelaCadastroAmostra extends JFrame {
 
 		tabbedPane = new JTabbedPane();
 
-		tabbedPane.add("Amostra", contentPane);
-		tabbedPane.add("Parâmetros", panelParametros);
 		panelParametros.setLayout(null);
 
 		getContentPane().add(tabbedPane);
@@ -209,7 +205,7 @@ public class TelaCadastroAmostra extends JFrame {
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		ScrolPaneDashBoard.setViewportBorder(new TitledBorder(null, "",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		ScrolPaneDashBoard.setBounds(-196, 283, 1056, 327);
+		ScrolPaneDashBoard.setBounds(10, 296, 1056, 327);
 		contentPane.add(ScrolPaneDashBoard);
 
 		JLabel lblPonto = new JLabel("Ponto");
@@ -576,84 +572,158 @@ public class TelaCadastroAmostra extends JFrame {
 		lblParam.setBounds(617, 11, 449, 195);
 		panelParametros.add(lblParam);
 		
-		Panel panelDefinirData = new Panel();
-		tabbedPane.addTab("Data da Coleta", null, panelDefinirData, null);
-		panelDefinirData.setLayout(null);
+		tabbedPane.add("Amostra", contentPane);
+		tabbedPane.add("Parâmetros", panelParametros);
 		
-		JLabel lblColetor = new JLabel("Coletor:");
-		lblColetor.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		lblColetor.setBounds(54, 188, 77, 25);
-		panelDefinirData.add(lblColetor);
+		JPanel panelDatas = new JPanel();
+		panelDatas.setLayout(null);
+		panelDatas.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Definir Datas", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		tabbedPane.addTab("New tab", null, panelDatas, null);
 		
-		JLabel label_1 = new JLabel("N\u00BA Proposta:");
+		JLabel label_1 = new JLabel("N\u00BA Amostra / Ano: ");
 		label_1.setHorizontalAlignment(SwingConstants.CENTER);
 		label_1.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		label_1.setBounds(10, 52, 139, 20);
-		panelDefinirData.add(label_1);
+		label_1.setBounds(296, 26, 139, 20);
+		panelDatas.add(label_1);
 		
-		textField = new JTextField();
-		textField.setText("Exemplo: 14589/2015");
-		textField.setHorizontalAlignment(SwingConstants.CENTER);
-		textField.setForeground(Color.LIGHT_GRAY);
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		textField.setColumns(10);
-		textField.setBackground(Color.WHITE);
-		textField.setBounds(159, 54, 431, 20);
-		panelDefinirData.add(textField);
+		JButton btnDatasPesquisar = new JButton("Pesquisar");
+		btnDatasPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				if(amostraDAO.buscarIdProposta(txtDatasProposta.getText()) != null){
+					
+					try {
+						tableParametro.removeAll();
+						parametroDAO parametroDAO = new parametroDAO();
+						parametroDAO.PreencherTabelaParametro("", dados2);
+
+						tableParametro.setSurrendersFocusOnKeystroke(true);
+						tableParametro.setFocusTraversalPolicyProvider(true);
+						tableParametro.setFocusCycleRoot(true);
+						tableParametro.setForeground(new Color(0, 0, 0));
+						tableParametro.setSelectionForeground(new Color(0, 0, 0));
+						tableParametro.setFillsViewportHeight(true);
+						tableParametro.setSelectionBackground(new Color(135, 206,
+								235));
+						tableParametro.setAutoCreateRowSorter(true);
+						scrollPaneParametro.setViewportView(tableParametro);
+
+						tableParametro.getColumnModel().getColumn(0)
+								.setPreferredWidth(130);
+						tableParametro.getColumnModel().getColumn(1)
+								.setPreferredWidth(200);
+						tableParametro.getColumnModel().getColumn(2)
+								.setPreferredWidth(130);
+						tableParametro.getColumnModel().getColumn(3)
+								.setPreferredWidth(200);
+						tableParametro.getColumnModel().getColumn(4)
+								.setPreferredWidth(400);
+						tableParametro.getColumnModel().getColumn(5)
+								.setPreferredWidth(200);
+						tableParametro.getColumnModel().getColumn(6)
+								.setPreferredWidth(200);
+						tableParametro.getColumnModel().getColumn(7)
+								.setPreferredWidth(100);
+						tableParametro.getColumnModel().getColumn(8)
+								.setPreferredWidth(70);
+						tableParametro.getColumnModel().getColumn(9)
+								.setPreferredWidth(120);
+
+						tableParametro.getTableHeader().setReorderingAllowed(false);
+						tableParametro
+								.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+						tableParametro
+								.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+						tableParametro.setDefaultRenderer(Object.class,
+								new DefaultTableCellRenderer() {
+
+									public Component getTableCellRendererComponent(
+											JTable table, Object value,
+											boolean isSelected, boolean hasFocus,
+											int row, int column) {
+										super.getTableCellRendererComponent(table,
+												value, isSelected, hasFocus, row,
+												column);
+										this.setHorizontalAlignment(CENTER);
+										return this;
+									}
+						});
+					}finally {
+					}
+					
+				}
+				
+				
+			}
+		});
+		btnDatasPesquisar.setBounds(604, 28, 102, 23);
+		panelDatas.add(btnDatasPesquisar);
 		
-		JLabel label_2 = new JLabel("Empresa");
-		label_2.setHorizontalAlignment(SwingConstants.CENTER);
-		label_2.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		label_2.setBounds(10, 96, 139, 20);
-		panelDefinirData.add(label_2);
+		JSeparator separator_2 = new JSeparator();
+		separator_2.setBounds(10, 69, 1056, 2);
+		panelDatas.add(separator_2);
 		
-		textField_1 = new JTextField();
-		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_1.setForeground(Color.BLACK);
-		textField_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-		textField_1.setEnabled(true);
-		textField_1.setEditable(false);
-		textField_1.setColumns(10);
-		textField_1.setBackground(Color.WHITE);
-		textField_1.setBounds(159, 98, 431, 20);
-		panelDefinirData.add(textField_1);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setViewportBorder(new TitledBorder(null, "",
+						TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane_1.setBounds(10, 82, 1056, 541);
+		panelDatas.add(scrollPane_1);
 		
-		JLabel label_3 = new JLabel("N\u00BA Amostra / Ano: ");
-		label_3.setHorizontalAlignment(SwingConstants.CENTER);
-		label_3.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		label_3.setBounds(10, 137, 139, 20);
-		panelDefinirData.add(label_3);
+		JLabel lblDatasNumeroProposta = new JLabel("N\u00BA Proposta:");
+		lblDatasNumeroProposta.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDatasNumeroProposta.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		lblDatasNumeroProposta.setBounds(10, 26, 139, 20);
+		panelDatas.add(lblDatasNumeroProposta);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(159, 140, 431, 20);
-		panelDefinirData.add(comboBox_1);
+		txtDatasProposta = new JTextField();
+		txtDatasProposta.setText("Exemplo: 14589/2015");
+		txtDatasProposta.setHorizontalAlignment(SwingConstants.CENTER);
+		txtDatasProposta.setForeground(Color.LIGHT_GRAY);
+		txtDatasProposta.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		txtDatasProposta.setColumns(10);
+		txtDatasProposta.setBackground(Color.WHITE);
+		txtDatasProposta.setBounds(147, 29, 139, 20);
+		panelDatas.add(txtDatasProposta);
 		
-		textField_2 = new JTextField();
-		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_2.setForeground(Color.BLACK);
-		textField_2.setFont(new Font("Tahoma", Font.BOLD, 12));
-		textField_2.setEnabled(true);
-		textField_2.setEditable(false);
-		textField_2.setColumns(10);
-		textField_2.setBackground(Color.WHITE);
-		textField_2.setBounds(159, 192, 431, 20);
-		panelDefinirData.add(textField_2);
+		txtDatasProposta.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				if (txtDatasProposta.getText().equals("Exemplo: 14589/2015") == true) {
+					txtDatasProposta.setText("");
+					txtDatasProposta.setForeground(Color.BLACK);
+				}
+			}
+		});
 		
-		textField_3 = new JTextField();
-		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_3.setForeground(Color.BLACK);
-		textField_3.setFont(new Font("Tahoma", Font.BOLD, 12));
-		textField_3.setEnabled(true);
-		textField_3.setEditable(false);
-		textField_3.setColumns(10);   
-		textField_3.setBackground(Color.WHITE);
-		textField_3.setBounds(159, 239, 431, 20);
-		panelDefinirData.add(textField_3);
+
+	
+
+		txtDatasAmostra = new JTextField();
+		txtDatasAmostra.setText("Exemplo: 14589/2015");
+		txtDatasAmostra.setHorizontalAlignment(SwingConstants.CENTER);
+		txtDatasAmostra.setForeground(Color.LIGHT_GRAY);
+		txtDatasAmostra.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		txtDatasAmostra.setColumns(10);
+		txtDatasAmostra.setBackground(Color.WHITE);
+		txtDatasAmostra.setBounds(445, 29, 139, 20);
+		panelDatas.add(txtDatasAmostra);
+
 		
-		JLabel lblNewLabel = new JLabel("Data da Coleta:");
-		lblNewLabel.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		lblNewLabel.setBounds(39, 240, 110, 14);
-		panelDefinirData.add(lblNewLabel);
+		
+		txtDatasAmostra.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				if (txtDatasAmostra.getText().equals("Exemplo: 14589/2015") == true) {
+					txtDatasAmostra.setText("");
+					txtDatasAmostra.setForeground(Color.BLACK);
+				}
+			}
+		});
+		tabbedPane.add("Definir Datas", panelDatas);
 
 		dados2 = new ArrayList();
 		colunas2 = new String[] { "PROPOSTA", "EMPRESA", "AMOSTRA", "PONTO",
