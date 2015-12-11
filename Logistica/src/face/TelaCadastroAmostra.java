@@ -42,6 +42,7 @@ import javax.swing.table.DefaultTableModel;
 import utilitarios.ModeloTable;
 import DAO.amostraDAO;
 import DAO.parametroDAO;
+import java.awt.Panel;
 
 public class TelaCadastroAmostra extends JFrame {
 
@@ -65,6 +66,10 @@ public class TelaCadastroAmostra extends JFrame {
 	private JTextField txtProposta_Amostra;
 	private JTextField txtEmpresa_Parametro;
 	private int index;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
 
 	public TelaCadastroAmostra() {
 
@@ -204,7 +209,7 @@ public class TelaCadastroAmostra extends JFrame {
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		ScrolPaneDashBoard.setViewportBorder(new TitledBorder(null, "",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		ScrolPaneDashBoard.setBounds(10, 296, 1056, 327);
+		ScrolPaneDashBoard.setBounds(-196, 283, 1056, 327);
 		contentPane.add(ScrolPaneDashBoard);
 
 		JLabel lblPonto = new JLabel("Ponto");
@@ -570,6 +575,85 @@ public class TelaCadastroAmostra extends JFrame {
 				.getResource("/face/parametros2.png")));
 		lblParam.setBounds(617, 11, 449, 195);
 		panelParametros.add(lblParam);
+		
+		Panel panelDefinirData = new Panel();
+		tabbedPane.addTab("Data da Coleta", null, panelDefinirData, null);
+		panelDefinirData.setLayout(null);
+		
+		JLabel lblColetor = new JLabel("Coletor:");
+		lblColetor.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		lblColetor.setBounds(54, 188, 77, 25);
+		panelDefinirData.add(lblColetor);
+		
+		JLabel label_1 = new JLabel("N\u00BA Proposta:");
+		label_1.setHorizontalAlignment(SwingConstants.CENTER);
+		label_1.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		label_1.setBounds(10, 52, 139, 20);
+		panelDefinirData.add(label_1);
+		
+		textField = new JTextField();
+		textField.setText("Exemplo: 14589/2015");
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
+		textField.setForeground(Color.LIGHT_GRAY);
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		textField.setColumns(10);
+		textField.setBackground(Color.WHITE);
+		textField.setBounds(159, 54, 431, 20);
+		panelDefinirData.add(textField);
+		
+		JLabel label_2 = new JLabel("Empresa");
+		label_2.setHorizontalAlignment(SwingConstants.CENTER);
+		label_2.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		label_2.setBounds(10, 96, 139, 20);
+		panelDefinirData.add(label_2);
+		
+		textField_1 = new JTextField();
+		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_1.setForeground(Color.BLACK);
+		textField_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		textField_1.setEnabled(true);
+		textField_1.setEditable(false);
+		textField_1.setColumns(10);
+		textField_1.setBackground(Color.WHITE);
+		textField_1.setBounds(159, 98, 431, 20);
+		panelDefinirData.add(textField_1);
+		
+		JLabel label_3 = new JLabel("N\u00BA Amostra / Ano: ");
+		label_3.setHorizontalAlignment(SwingConstants.CENTER);
+		label_3.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		label_3.setBounds(10, 137, 139, 20);
+		panelDefinirData.add(label_3);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setBounds(159, 140, 431, 20);
+		panelDefinirData.add(comboBox_1);
+		
+		textField_2 = new JTextField();
+		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_2.setForeground(Color.BLACK);
+		textField_2.setFont(new Font("Tahoma", Font.BOLD, 12));
+		textField_2.setEnabled(true);
+		textField_2.setEditable(false);
+		textField_2.setColumns(10);
+		textField_2.setBackground(Color.WHITE);
+		textField_2.setBounds(159, 192, 431, 20);
+		panelDefinirData.add(textField_2);
+		
+		textField_3 = new JTextField();
+		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_3.setForeground(Color.BLACK);
+		textField_3.setFont(new Font("Tahoma", Font.BOLD, 12));
+		textField_3.setEnabled(true);
+		textField_3.setEditable(false);
+		textField_3.setColumns(10);
+		textField_3.setBackground(Color.WHITE);
+		textField_3.setBounds(159, 239, 431, 20);
+		panelDefinirData.add(textField_3);
+		
+		JLabel lblNewLabel = new JLabel("Data da Coleta:");
+		lblNewLabel.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		lblNewLabel.setBounds(39, 240, 110, 14);
+		panelDefinirData.add(lblNewLabel);
 
 		dados2 = new ArrayList();
 		colunas2 = new String[] { "PROPOSTA", "EMPRESA", "AMOSTRA", "PONTO",
