@@ -65,7 +65,7 @@ public class amostraDAO {
 			return msg;
 		}
 	}
-	
+
 	public String buscarIdAmostra(String string) {
 		String msg = "";
 
@@ -74,7 +74,7 @@ public class amostraDAO {
 			conexao.conexao();
 
 			Statement stm = conexao.conn.createStatement();
-			ResultSet rs = stm.executeQuery("select idamostra from amostra where numero_amostra='"+string+"';");
+			ResultSet rs = stm.executeQuery("select idamostra from amostra where numero_amostra='" + string + "';");
 
 			if (rs.next()) {
 				msg = rs.getString(1);
@@ -87,8 +87,7 @@ public class amostraDAO {
 			return msg;
 		}
 	}
-	
-	
+
 	public String buscarIdProposta(String numero_proposta) {
 		String msg = "";
 
@@ -97,7 +96,8 @@ public class amostraDAO {
 			conexao.conexao();
 
 			Statement stm = conexao.conn.createStatement();
-			ResultSet rs = stm.executeQuery("select idproposta from proposta where numero_proposta='"+numero_proposta+"';");
+			ResultSet rs = stm
+					.executeQuery("select idproposta from proposta where numero_proposta='" + numero_proposta + "';");
 
 			if (rs.next()) {
 				msg = rs.getString(1);
@@ -110,7 +110,6 @@ public class amostraDAO {
 			return msg;
 		}
 	}
-	
 
 	public String verificaCadastroAmostra(String amostra, int proposta) {
 
@@ -121,8 +120,8 @@ public class amostraDAO {
 		try {
 
 			Statement stm = conexao.conn.createStatement();
-			ResultSet rs = stm.executeQuery("select numero_amostra, proposta from amostra where numero_amostra='" + amostra
-					+ "' and proposta='" + proposta + "'");
+			ResultSet rs = stm.executeQuery("select numero_amostra, proposta from amostra where numero_amostra='"
+					+ amostra + "' and proposta='" + proposta + "'");
 
 			if (rs.next()) {
 
@@ -150,8 +149,8 @@ public class amostraDAO {
 		try {
 
 			conexao.conexao();
-			PreparedStatement pst = conexao.conn
-			.prepareStatement("INSERT INTO amostra (numero_amostra,periodicidade,ponto,proposta) VALUES (?,?,?,?)");
+			PreparedStatement pst = conexao.conn.prepareStatement(
+					"INSERT INTO amostra (numero_amostra,periodicidade,ponto,proposta) VALUES (?,?,?,?)");
 			pst.setString(1, amostra);
 			pst.setString(2, periodicidade);
 			pst.setString(3, ponto);
@@ -197,6 +196,34 @@ public class amostraDAO {
 		}
 	}
 
+	public void PreencherTabelaColeta(String sql, ArrayList dados) {
+
+		conexao.conexao();
+		conexao.executaSQL(sql);
+		try {
+
+			if (conexao.rs.first()) {
+				dados.clear();
+				do {
+					dados.add(new Object[] {
+
+							conexao.rs.getObject("PROPOSTA"), conexao.rs.getObject("AMOSTRA"),
+							conexao.rs.getObject("ORDEM"), conexao.rs.getObject("COLETOR"),
+							conexao.rs.getObject("DATA_COLETA"),
+
+					});
+
+				} while (conexao.rs.next());
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+
 	public void cadastrarTipoAmostra(String tipo) {
 
 		String sql = "INSERT INTO tipoamostra (descricao) VALUES (?);";
@@ -213,84 +240,83 @@ public class amostraDAO {
 			conexao.desconecta();
 		}
 	}
-	
-	
-	public void cadastrarAmostra_OS(int idproposta, int idamostra, int qtd){
+
+	public void cadastrarAmostra_OS(int idproposta, int idamostra, int qtd) {
 		try {
 			conexao.conexao();
-			PreparedStatement pst = conexao.conn.prepareStatement("INSERT INTO amostra_os (proposta, amostra, ordem) VALUES (?,?,?)");
+			PreparedStatement pst = conexao.conn
+					.prepareStatement("INSERT INTO amostra_os (proposta, amostra, ordem) VALUES (?,?,?)");
 			int ordem = 0;
-			
-		for(int i=1; i<=qtd ;i++){
-			ordem = i;
-			pst.setInt(1, idproposta);
-			pst.setInt(2, idamostra);
-			pst.setInt(3, ordem);
-			pst.executeUpdate();
+
+			for (int i = 1; i <= qtd; i++) {
+				ordem = i;
+				pst.setInt(1, idproposta);
+				pst.setInt(2, idamostra);
+				pst.setInt(3, ordem);
+				pst.executeUpdate();
+			}
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
 		}
-	}catch(SQLException ex){
-		JOptionPane.showMessageDialog(null, "ERROR"+ex.getMessage());
-		
-	}finally{
-		conexao.desconecta();
 	}
-	}
-	
-	public int verificaQuantidadeDeAmostrasNaProposta(int idproposta){
+
+	public int verificaQuantidadeDeAmostrasNaProposta(int idproposta) {
 		conexao.conexao();
 
 		try {
 
 			Statement stm = conexao.conn.createStatement();
-			ResultSet rs = stm.executeQuery("select quantidadedeamostras from proposta where idproposta="+idproposta);
-			
-			if(rs.next()){
+			ResultSet rs = stm.executeQuery("select quantidadedeamostras from proposta where idproposta=" + idproposta);
+
+			if (rs.next()) {
 				return rs.getInt(1);
 			}
-		
-	}catch(SQLException ex){
-		JOptionPane.showMessageDialog(null, "ERROR"+ex.getClass());
-	}finally{
-		conexao.desconecta();
-	}
+
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getClass());
+		} finally {
+			conexao.desconecta();
+		}
 		return idproposta;
-} 
-	
-	public int contaQuantidadeDeAmostrasNaProposta(int idproposta){
+	}
+
+	public int contaQuantidadeDeAmostrasNaProposta(int idproposta) {
 		conexao.conexao();
 
 		try {
 
 			Statement stm = conexao.conn.createStatement();
-			ResultSet rs = stm.executeQuery("select count(proposta) from amostra_os where proposta="+idproposta);
-			
-			if(rs.next()){
+			ResultSet rs = stm.executeQuery("select count(proposta) from amostra_os where proposta=" + idproposta);
+
+			if (rs.next()) {
 				return rs.getInt(1);
 			}
-		
-	}catch(SQLException ex){
-		JOptionPane.showMessageDialog(null, "ERROR"+ex.getClass());
-	}finally{
-		conexao.desconecta();
-	}
+
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getClass());
+		} finally {
+			conexao.desconecta();
+		}
 		return idproposta;
-} 
-	
-	
-	public boolean verificaQtdAmostras(int qtd_inserir, int idproposta){
+	}
+
+	public boolean verificaQtdAmostras(int qtd_inserir, int idproposta) {
 		boolean ok;
 		amostraDAO dao = new amostraDAO();
-		
+
 		int qtdNaProposta = dao.contaQuantidadeDeAmostrasNaProposta(idproposta);
 		int qtdPermitida = dao.verificaQuantidadeDeAmostrasNaProposta(idproposta);
-		
-		if(qtdNaProposta + qtd_inserir > qtdPermitida){
+
+		if (qtdNaProposta + qtd_inserir > qtdPermitida) {
 			ok = false;
-		}else{
+		} else {
 			ok = true;
 		}
 		return ok;
-		
+
 	}
-	
+
 }
