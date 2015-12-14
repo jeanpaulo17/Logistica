@@ -262,6 +262,29 @@ public class amostraDAO {
 			conexao.desconecta();
 		}
 	}
+	
+	
+	public void DefinirDataColetor(int idproposta, int idamostra, int ordem, String datacoleta, String coletor) {
+		try {
+			conexao.conexao();
+			PreparedStatement pst = conexao.conn.prepareStatement("UPDATE amostra_os SET coletor=?, datacoleta=? where proposta=? and amostra=? and ordem=? ");
+			
+			pst.setString(1, coletor);
+			pst.setString(2, datacoleta);
+			pst.setInt(3, idproposta);
+			pst.setInt(4, idamostra);
+			pst.setInt(5, ordem);
+			
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Adicionado!");
+			
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
 
 	public int verificaQuantidadeDeAmostrasNaProposta(int idproposta) {
 		conexao.conexao();

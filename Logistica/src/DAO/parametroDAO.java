@@ -498,7 +498,7 @@ public class parametroDAO {
 				do {
 					dados.add(new Object[] {
 
-					conexao.rs.getObject("PROPOSTA"),
+							conexao.rs.getObject("PROPOSTA"),
 							conexao.rs.getObject("EMPRESA"),
 							conexao.rs.getObject("AMOSTRA"),
 							conexao.rs.getObject("PONTO"),
