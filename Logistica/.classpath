@@ -2,10 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="src/utilitarios/postgresql-9.4-1201.jdbc4.jar"/>
-	<classpathentry kind="lib" path="src/utilitarios/Jars/jcalendar-1.4.jar"/>
-	<classpathentry kind="lib" path="src/utilitarios/Jars/jgoodies-common-1.2.0.jar"/>
-	<classpathentry kind="lib" path="src/utilitarios/Jars/jgoodies-looks-2.4.1.jar"/>
-	<classpathentry kind="lib" path="src/utilitarios/Jars/junit-4.6.jar"/>
+	<classpathentry kind="lib" path="src/utilitarios/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="src/utilitarios/jgoodies-common-1.2.0.jar"/>
+	<classpathentry kind="lib" path="src/utilitarios/jgoodies-looks-2.4.1.jar"/>
+	<classpathentry kind="lib" path="src/utilitarios/junit-4.6.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Postgress"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Calendario"/>
