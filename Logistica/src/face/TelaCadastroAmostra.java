@@ -92,7 +92,7 @@ public class TelaCadastroAmostra extends JFrame {
 				TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panelParametros = new JPanel();
 		panelParametros.setBorder(new TitledBorder(null, "Cadastro de Param\u00EAtros", TitledBorder.CENTER,
-				TitledBorder.TOP, null, null));
+		TitledBorder.TOP, null, null));
 		contentPane.setLayout(null);
 
 		tabbedPane = new JTabbedPane();
@@ -208,8 +208,7 @@ public class TelaCadastroAmostra extends JFrame {
 
 		final JScrollPane ScrolPaneDashBoard = new JScrollPane();
 		ScrolPaneDashBoard.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		ScrolPaneDashBoard
-				.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		ScrolPaneDashBoard.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		ScrolPaneDashBoard.setBounds(10, 296, 1056, 327);
 		contentPane.add(ScrolPaneDashBoard);
 
@@ -298,10 +297,9 @@ public class TelaCadastroAmostra extends JFrame {
 				try {
 					amostraDAO.PreencherTabela(
 							"select p.numero_proposta PROPOSTA ,a.numero_amostra AMOSTRA ,a.ponto PONTO, a.periodicidade PERIODO "
-									+ "from proposta as p , amostra as a where p.idproposta = a.proposta and p.numero_proposta='"
-									+ txtProposta.getText() + "'",
-							dados);
-
+									+ "from proposta as p , amostra as a where p.idproposta = a.proposta and p.idproposta="
+									+ amostraDAO.buscarIdProposta(txtProposta.getText()),dados);
+					
 					tableAmostra.setSurrendersFocusOnKeystroke(true);
 					tableAmostra.setFocusTraversalPolicyProvider(true);
 					tableAmostra.setFocusCycleRoot(true);
@@ -310,6 +308,7 @@ public class TelaCadastroAmostra extends JFrame {
 					tableAmostra.setFillsViewportHeight(true);
 					tableAmostra.setSelectionBackground(new Color(135, 206, 235));
 					tableAmostra.setAutoCreateRowSorter(true);
+					
 					ScrolPaneDashBoard.setViewportView(tableAmostra);
 
 					tableAmostra.getColumnModel().getColumn(0).setPreferredWidth(100);
@@ -332,7 +331,7 @@ public class TelaCadastroAmostra extends JFrame {
 						}
 					});
 				} finally {
-					tableAmostra.requestFocus();
+					
 					;
 				}
 			}
@@ -383,6 +382,7 @@ public class TelaCadastroAmostra extends JFrame {
 				}
 			}
 		});
+
 
 		JLabel lblNumAmostra = new JLabel("N\u00BA Amostra / Ano: ");
 		lblNumAmostra.setHorizontalAlignment(SwingConstants.CENTER);
@@ -864,6 +864,7 @@ public class TelaCadastroAmostra extends JFrame {
 			@Override
 			public void focusLost(FocusEvent e) {
 
+				try{
 				if (amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) != null) {
 
 					cbNumeroAmostra.removeAllItems();
@@ -936,6 +937,11 @@ public class TelaCadastroAmostra extends JFrame {
 					} finally {
 					}
 				}
+			}catch(NullPointerException exx){
+				
+			}
+				finally {
+			}
 			}
 		});
 		

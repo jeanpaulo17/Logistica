@@ -2,6 +2,7 @@ package DAO;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.HeadlessException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -183,9 +184,12 @@ public class amostraDAO {
 							conexao.rs.getObject("PROPOSTA"), conexao.rs.getObject("AMOSTRA"),
 							conexao.rs.getObject("PONTO"), conexao.rs.getObject("PERIODO"),
 
+							
 					});
 
 				} while (conexao.rs.next());
+				
+				
 			}
 
 		} catch (SQLException e) {
@@ -193,9 +197,8 @@ public class amostraDAO {
 
 		} finally {
 			conexao.desconecta();
-		}
 	}
-
+	}
 	public void PreencherTabelaColeta(String sql, ArrayList dados) {
 
 		conexao.conexao();
