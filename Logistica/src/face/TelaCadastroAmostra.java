@@ -963,11 +963,12 @@ public class TelaCadastroAmostra extends JFrame {
 
 						amostraDAO.PreencherTabelaColeta("SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor, os.datacoleta "
 								+ "from proposta as pr, amostra as am, amostra_os as os where os.proposta = " + amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + ""
+
 								+ "and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem", dados3);
 						
 						
 						scrollPaneColeta.setViewportView(tableColeta);
-						
+
 						tableColeta.setSurrendersFocusOnKeystroke(true);
 						tableColeta.setFocusTraversalPolicyProvider(true);
 						tableColeta.setFocusCycleRoot(true);
