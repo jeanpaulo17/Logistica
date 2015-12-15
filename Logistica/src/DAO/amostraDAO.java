@@ -1,30 +1,20 @@
 package DAO;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.HeadlessException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
-import javax.naming.spi.DirStateFactory.Result;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableCellRenderer;
 
-import face.TelaCadastroAmostra;
-import face.TelaCadastroProposta;
-import face.TelaManutencao;
 import utilitarios.ConectaBanco;
-import utilitarios.ModeloTable;
+import face.TelaCadastroAmostra;
+import face.TelaManutencao;
 
 public class amostraDAO {
 	final ConectaBanco conexao = new ConectaBanco();
@@ -183,17 +173,13 @@ public class amostraDAO {
 
 							conexao.rs.getObject("PROPOSTA"), conexao.rs.getObject("AMOSTRA"),
 							conexao.rs.getObject("PONTO"), conexao.rs.getObject("PERIODO"),
-
 							
 					});
 
 				} while (conexao.rs.next());
-				
-				
 			}
 
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
 
 		} finally {
 			conexao.desconecta();
@@ -220,7 +206,6 @@ public class amostraDAO {
 			}
 
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
 
 		} finally {
 			conexao.desconecta();
@@ -267,8 +252,17 @@ public class amostraDAO {
 	}
 	
 	
-	public void DefinirDataColetor(int idproposta, int idamostra, int ordem, String datacoleta, String coletor) {
+	public void DefinirDataColetor(int idproposta, int idamostra, int ordem, String datacoleta, String coletor) throws ParseException {
 		try {
+			
+			 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	         Date teste = sdf.parse(datacoleta);
+	         GregorianCalendar gc = new GregorianCalendar();
+	         gc.setTime(teste);
+	         int diaDaSemana = gc.get(GregorianCalendar.DAY_OF_WEEK);
+	            
+	         
+	        if(diaDaSemana != 1){ 
 			conexao.conexao();
 			PreparedStatement pst = conexao.conn.prepareStatement("UPDATE amostra_os SET coletor=?, datacoleta=? where proposta=? and amostra=? and ordem=? ");
 			
@@ -280,6 +274,9 @@ public class amostraDAO {
 			
 			pst.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Adicionado!");
+	        }else{
+	        	JOptionPane.showMessageDialog(null, "Você não pode agendar coletas no Domingo!");
+	        }
 			
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());

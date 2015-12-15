@@ -47,19 +47,15 @@ public class parametroDAO {
 
 		try {
 			Statement stm = conexao.conn.createStatement();
-			ResultSet rs = stm
-					.executeQuery("SELECT numero_amostra FROM amostra where proposta='"
-							+ proposta + "'");
+			ResultSet rs = stm.executeQuery("SELECT numero_amostra FROM amostra where proposta='"+proposta+"'");
 
 			while (rs.next()) {
 				dados.add(rs.getString(1));
 			}
 		} catch (org.postgresql.util.PSQLException e) {
-			JOptionPane.showMessageDialog(null,
-					"Proposta Não Existe");
+			JOptionPane.showMessageDialog(null,	"Proposta Não Existe");
 		}catch(Exception ex){
-			JOptionPane.showMessageDialog(null,
-					"Proposta Não Existe".getClass());
+			JOptionPane.showMessageDialog(null,	"ERRO!"+ex.getClass());
 		} finally {
 			conexao.desconecta();
 		}
@@ -449,8 +445,7 @@ public class parametroDAO {
 			}
 
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null,
-					"Erro ao obter os dados. (obterListaDeCodigo)" + e.getMessage());
+			JOptionPane.showMessageDialog(null,	"Erro ao obter os dados. (obterListaDeCodigo)");
 		} finally {
 			conexao.desconecta();
 		}
@@ -515,8 +510,6 @@ public class parametroDAO {
 			}
 
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null,
-					"Erro ao obter os dados.(PreencherTabela2)" + e.getMessage());
 
 		} finally {
 			conexao.desconecta();
