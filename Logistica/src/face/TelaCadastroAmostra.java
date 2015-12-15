@@ -15,8 +15,6 @@ import java.awt.event.MouseEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -813,7 +811,7 @@ public class TelaCadastroAmostra extends JFrame {
 						+ "from proposta as pr, amostra as am, amostra_os as os where os.proposta = " + amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + ""
 						+ "and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem", dados3);
 				
-				
+					
 				scrollPaneColeta.setViewportView(tableColeta);
 				
 				tableColeta.setSurrendersFocusOnKeystroke(true);
