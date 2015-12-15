@@ -90,17 +90,13 @@ public class TelaCadastroAmostra extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Cadastro de Amostras",
 				TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panelParametros = new JPanel();
-		panelParametros.setBorder(new TitledBorder(null, "Cadastro de Param\u00EAtros", TitledBorder.CENTER,
-		TitledBorder.TOP, null, null));
+		
 		contentPane.setLayout(null);
-
+		
 		tabbedPane = new JTabbedPane();
-
-		panelParametros.setLayout(null);
-
+		
 		getContentPane().add(tabbedPane);
-
+		
 		JLabel lblNProposta = new JLabel("N\u00BA Proposta / Ano: ");
 		lblNProposta.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNProposta.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -119,6 +115,7 @@ public class TelaCadastroAmostra extends JFrame {
 				}
 			}
 		});
+		
 		txtProposta.setForeground(Color.GRAY);
 		txtProposta.setHorizontalAlignment(SwingConstants.CENTER);
 		txtProposta.setBounds(176, 32, 429, 20);
@@ -233,7 +230,9 @@ public class TelaCadastroAmostra extends JFrame {
 		lblQuantidade.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		lblQuantidade.setBounds(27, 220, 139, 20);
 		contentPane.add(lblQuantidade);
-
+		
+		tabbedPane.add("Amostra", contentPane);
+		
 		final JSpinner spinner = new JSpinner();
 		spinner.setBounds(177, 220, 51, 20);
 		contentPane.add(spinner);
@@ -382,8 +381,18 @@ public class TelaCadastroAmostra extends JFrame {
 				}
 			}
 		});
+		
+		//ATÉ AQUI TA CERTO!
 
+		panelParametros = new JPanel();
+		
+		panelParametros.setBorder(new TitledBorder(null, "Cadastro de Param\u00EAtros", TitledBorder.CENTER,
+		TitledBorder.TOP, null, null));
 
+		panelParametros.setLayout(null);
+		
+		tabbedPane.add("Parâmetros", panelParametros);
+		
 		JLabel lblNumAmostra = new JLabel("N\u00BA Amostra / Ano: ");
 		lblNumAmostra.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNumAmostra.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -533,14 +542,16 @@ public class TelaCadastroAmostra extends JFrame {
 		lblParam.setBounds(617, 11, 449, 195);
 		panelParametros.add(lblParam);
 
-		tabbedPane.add("Amostra", contentPane);
-		tabbedPane.add("Parâmetros", panelParametros);
+		
 
 		JPanel panelDatas = new JPanel();
 		panelDatas.setLayout(null);
 		panelDatas.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Definir Datas",
 				TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		tabbedPane.addTab("New tab", null, panelDatas, null);
+		
+		tabbedPane.add("Definir Datas", panelDatas);
+		
 
 		JLabel label_1 = new JLabel("N\u00BA Amostra / Ano: ");
 		label_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -617,7 +628,6 @@ public class TelaCadastroAmostra extends JFrame {
 				}
 			}
 		});
-		tabbedPane.add("Definir Datas", panelDatas);
 		
 		JLabel label_2 = new JLabel("N\u00BA Proposta:");
 		label_2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -758,7 +768,6 @@ public class TelaCadastroAmostra extends JFrame {
 		Coletor.setBounds(296, 105, 139, 20);
 		panelDatas.add(Coletor);
 
-		dados = new ArrayList();
 		colunas2 = new String[] { "PROPOSTA", "EMPRESA", "AMOSTRA", "PONTO", "PARAMETRO", "FRASCO", "PRESERVACAO",
 				"VOLUME", "UNIDADE DE MEDIDA", "TIPO DE AMOSTRA" };
 
