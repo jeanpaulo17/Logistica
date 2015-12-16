@@ -248,8 +248,6 @@ public class TelaDefinirParametro extends JFrame {
 					});
 
 				} catch (Exception ex) {
-
-					JOptionPane.showMessageDialog(null, ex.getClass());
 					tableParametro.removeAll();
 				} finally {
 				}
@@ -328,7 +326,6 @@ public class TelaDefinirParametro extends JFrame {
 							}
 						});
 					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(null, ex.getClass());
 					} finally {
 					}
 
