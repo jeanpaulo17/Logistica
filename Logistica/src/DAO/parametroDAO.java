@@ -510,8 +510,10 @@ public class parametroDAO {
 			}
 
 		} catch (SQLException e) {
-
-		} finally {
+		} catch (ArrayIndexOutOfBoundsException array) {
+		} catch (ClassCastException ex) {
+		}
+		finally {
 			conexao.desconecta();
 		}
 	}

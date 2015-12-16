@@ -45,6 +45,31 @@ public class TelaInicialAdm extends JFrame {
 		mnCadastrarAmostra.setHorizontalAlignment(SwingConstants.LEFT);
 
 		mnCadastro.add(mnCadastrarAmostra);
+		
+		JMenuItem mntmDefinirParmetros = new JMenuItem("Definir Par\u00E2metros");
+		mntmDefinirParmetros.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				TelaDefinirParametro p = new TelaDefinirParametro();
+				p.setVisible(true);
+				p.setLocationRelativeTo(null);
+				
+			}
+		});
+		mntmDefinirParmetros.setHorizontalAlignment(SwingConstants.LEFT);
+		mnCadastro.add(mntmDefinirParmetros);
+		
+		JMenuItem mntmDefinirDataDa = new JMenuItem("Definir Datas de Coleta");
+		mntmDefinirDataDa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				TelaDefinirDataColeta p = new TelaDefinirDataColeta();
+				p.setVisible(true);
+				p.setLocationRelativeTo(null);
+			}
+		});
+		mntmDefinirDataDa.setHorizontalAlignment(SwingConstants.LEFT);
+		mnCadastro.add(mntmDefinirDataDa);
 
 		JMenu mnCalendario = new JMenu("Calend\u00E1rio de Coletas");
 		menuBar.add(mnCalendario);

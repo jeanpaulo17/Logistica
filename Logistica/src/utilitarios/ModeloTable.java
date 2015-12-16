@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-	public class ModeloTable<E> extends AbstractTableModel{
+	public class ModeloTable<E> extends AbstractTableModel {
 	private ArrayList linhas = null;
 	private String[] colunas = null;
 		
