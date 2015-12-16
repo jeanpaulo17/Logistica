@@ -40,18 +40,10 @@ public class TelaDefinirParametro extends JFrame {
 	private JPanel panelParametros;
 	private JTabbedPane tabbedPane;
 	private DefaultTableModel modelo2 = new DefaultTableModel();
-	private JTable tableAmostra;
 	private JTable tableParametro = new JTable();
-	private JTable tableColeta = new JTable();
-	JScrollPane scrollPane = new JScrollPane(tableAmostra);
 	JScrollPane scrollPaneParametro = new JScrollPane(tableParametro);
-	JScrollPane scrollPaneColeta = new JScrollPane(tableColeta);
-	private ArrayList dados;
 	private ArrayList dados2;
-	private ArrayList dados3;
-	private String[] colunas;
 	private String[] colunas2;
-	private String[] colunas3;
 	private JTextField txtProposta_Amostra;
 	private JTextField txtEmpresa_Parametro;
 	private int index;
@@ -104,10 +96,17 @@ public class TelaDefinirParametro extends JFrame {
 		cbParametro.setBounds(176, 152, 431, 20);
 		panelParametros.add(cbParametro);
 		parametroDAO p = new parametroDAO();
+		
+		try{
 		dados2 = p.obterDados();
-
-		for (int i = 0; i < dados2.size(); i++)
+		}catch(Exception ex){
+			
+		}
+			for (int i = 0; i < dados2.size(); i++)
 			cbParametro.addItem(dados2.get(i));
+
+
+
 
 		JButton btnAdicionarParametro = new JButton("Adicionar");
 		btnAdicionarParametro.setBounds(419, 183, 89, 23);
@@ -421,27 +420,22 @@ public class TelaDefinirParametro extends JFrame {
 							"Campos Proposta/Amostra vazio(s)");
 				} else {
 
-					parametroDAO.cadastrarParametro_Amostra(Integer
-							.parseInt(amostraDAO.buscarIdAmostra(numAmostra)),
-							Integer.parseInt(amostraDAO
-									.buscarIdProposta(proposta)), codParametro);
+					parametroDAO.cadastrarParametro_Amostra(Integer.parseInt(amostraDAO.buscarIdAmostra(numAmostra)),
+							Integer.parseInt(amostraDAO.buscarIdProposta(proposta)), codParametro);
+					
 					index = cbNumeroAmostra.getSelectedIndex();
 
-				}
-				try {
 					tableParametro.removeAll();
 
-					ArrayList amostras = null;
+					ArrayList amostras;
 					parametroDAO parametroDAO1 = new parametroDAO();
-					amostras = parametroDAO1.obterAmostra(amostraDAO
-							.buscarIdProposta(txtProposta_Amostra.getText()));
-					txtEmpresa_Parametro.setText(amostraDAO
-							.buscarEmpresa(amostraDAO
-									.buscarIdProposta(txtProposta_Amostra
-											.getText())));
-
-					for (int i = 0; i <= amostras.size() - 1; i++)
-						cbNumeroAmostra.addItem(amostras.get(i));
+					amostras = parametroDAO1.obterAmostra(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()));
+					txtEmpresa_Parametro.setText(amostraDAO.buscarEmpresa(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText())));
+				
+					//for (int i = 0; i <= amostras.size() - 1; i++)
+					//	cbNumeroAmostra.addItem(amostras.get(i));
+					
+					cbNumeroAmostra.setSelectedIndex(index);
 
 					parametroDAO1
 							.PreencherTabelaParametro(
@@ -526,10 +520,9 @@ public class TelaDefinirParametro extends JFrame {
 									return this;
 								}
 							});
-				} finally {
 				}
 
-				cbNumeroAmostra.setSelectedIndex(index);
+				
 			}
 		});
 
