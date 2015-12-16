@@ -1,4 +1,4 @@
- package face;
+package face;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -61,7 +61,7 @@ public class TelaCadastroAmostra extends JFrame {
 	private JTable tableColeta = new JTable();
 	JScrollPane scrollPane = new JScrollPane(tableAmostra);
 	JScrollPane scrollPaneParametro = new JScrollPane(tableParametro);
-	JScrollPane scrollPaneColeta = new JScrollPane(tableColeta);	
+	JScrollPane scrollPaneColeta = new JScrollPane(tableColeta);
 	private ArrayList dados;
 	private ArrayList dados2;
 	private ArrayList dados3;
@@ -88,13 +88,13 @@ public class TelaCadastroAmostra extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Cadastro de Amostras",
 				TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		
+
 		contentPane.setLayout(null);
-		
+
 		tabbedPane = new JTabbedPane();
-		
+
 		getContentPane().add(tabbedPane);
-		
+
 		JLabel lblNProposta = new JLabel("N\u00BA Proposta / Ano: ");
 		lblNProposta.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNProposta.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -113,7 +113,7 @@ public class TelaCadastroAmostra extends JFrame {
 				}
 			}
 		});
-		
+
 		txtProposta.setForeground(Color.GRAY);
 		txtProposta.setHorizontalAlignment(SwingConstants.CENTER);
 		txtProposta.setBounds(176, 32, 309, 20);
@@ -203,7 +203,8 @@ public class TelaCadastroAmostra extends JFrame {
 
 		final JScrollPane ScrolPaneDashBoard = new JScrollPane();
 		ScrolPaneDashBoard.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		ScrolPaneDashBoard.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		ScrolPaneDashBoard
+				.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		ScrolPaneDashBoard.setBounds(10, 296, 1056, 327);
 		contentPane.add(ScrolPaneDashBoard);
 
@@ -228,17 +229,17 @@ public class TelaCadastroAmostra extends JFrame {
 		lblQuantidade.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		lblQuantidade.setBounds(27, 220, 139, 20);
 		contentPane.add(lblQuantidade);
-		
+
 		tabbedPane.add("Amostra", contentPane);
-		
+
 		final JSpinner spinner = new JSpinner();
 		spinner.setBounds(177, 220, 51, 20);
 		contentPane.add(spinner);
-		
+
 		JButton brnPesquisar = new JButton("Pesquisar");
 		brnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				txtEmpresa.setText(amostraDAO.buscarEmpresa(amostraDAO.buscarIdProposta(txtProposta.getText())));
 
 				try {
@@ -246,7 +247,8 @@ public class TelaCadastroAmostra extends JFrame {
 					amostraDAO.PreencherTabela(
 							"select p.numero_proposta PROPOSTA ,a.numero_amostra AMOSTRA ,a.ponto PONTO, a.periodicidade PERIODO "
 									+ "from proposta as p , amostra as a where p.idproposta = a.proposta and p.numero_proposta='"
-									+ txtProposta.getText() + "'",dados);
+									+ txtProposta.getText() + "'",
+							dados);
 
 					tableAmostra.setSurrendersFocusOnKeystroke(true);
 					tableAmostra.setFocusTraversalPolicyProvider(true);
@@ -342,8 +344,9 @@ public class TelaCadastroAmostra extends JFrame {
 					amostraDAO.PreencherTabela(
 							"select p.numero_proposta PROPOSTA ,a.numero_amostra AMOSTRA ,a.ponto PONTO, a.periodicidade PERIODO "
 									+ "from proposta as p , amostra as a where p.idproposta = a.proposta and p.idproposta="
-									+ amostraDAO.buscarIdProposta(txtProposta.getText()),dados);
-					
+									+ amostraDAO.buscarIdProposta(txtProposta.getText()),
+							dados);
+
 					tableAmostra.setSurrendersFocusOnKeystroke(true);
 					tableAmostra.setFocusTraversalPolicyProvider(true);
 					tableAmostra.setFocusCycleRoot(true);
@@ -352,7 +355,7 @@ public class TelaCadastroAmostra extends JFrame {
 					tableAmostra.setFillsViewportHeight(true);
 					tableAmostra.setSelectionBackground(new Color(135, 206, 235));
 					tableAmostra.setAutoCreateRowSorter(true);
-					
+
 					ScrolPaneDashBoard.setViewportView(tableAmostra);
 
 					tableAmostra.getColumnModel().getColumn(0).setPreferredWidth(100);
@@ -375,23 +378,23 @@ public class TelaCadastroAmostra extends JFrame {
 						}
 					});
 				} finally {
-					
+
 					;
 				}
 			}
 		});
 
-		//ATÉ AQUI TA CERTO!
+		// ATÉ AQUI TA CERTO!
 
 		panelParametros = new JPanel();
-		
+
 		panelParametros.setBorder(new TitledBorder(null, "Cadastro de Param\u00EAtros", TitledBorder.CENTER,
-		TitledBorder.TOP, null, null));
+				TitledBorder.TOP, null, null));
 
 		panelParametros.setLayout(null);
-		
+
 		tabbedPane.add("Parâmetros", panelParametros);
-		
+
 		JLabel lblNumAmostra = new JLabel("N\u00BA Amostra / Ano: ");
 		lblNumAmostra.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNumAmostra.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -540,20 +543,22 @@ public class TelaCadastroAmostra extends JFrame {
 		lblParam.setIcon(new ImageIcon(TelaCadastroAmostra.class.getResource("/face/parametros2.png")));
 		lblParam.setBounds(617, 11, 449, 195);
 		panelParametros.add(lblParam);
-		
+
 		JButton brnPesquisarParametro = new JButton("Pesquisar");
 		brnPesquisarParametro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				try{
+
+				try {
 					if (amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) != null) {
 
 						cbNumeroAmostra.removeAllItems();
 
 						ArrayList amostras;
 						parametroDAO parametroDAO = new parametroDAO();
-						amostras = parametroDAO.obterAmostra(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()));
-						txtEmpresa_Parametro.setText(amostraDAO.buscarEmpresa(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText())));
+						amostras = parametroDAO
+								.obterAmostra(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()));
+						txtEmpresa_Parametro.setText(
+								amostraDAO.buscarEmpresa(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText())));
 						cbNumeroAmostra.getSelectedIndex();
 
 						for (int i = 0; i <= amostras.size() - 1; i++)
@@ -609,7 +614,8 @@ public class TelaCadastroAmostra extends JFrame {
 
 								public Component getTableCellRendererComponent(JTable table, Object value,
 										boolean isSelected, boolean hasFocus, int row, int column) {
-									super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+									super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
+											column);
 									this.setHorizontalAlignment(CENTER);
 									return this;
 								}
@@ -617,39 +623,35 @@ public class TelaCadastroAmostra extends JFrame {
 						} finally {
 						}
 					}
-				}catch(NullPointerException exx){
-					
-				}
-					finally {
+				} catch (NullPointerException exx) {
+
+				} finally {
 				}
 			}
 		});
 		brnPesquisarParametro.setBounds(507, 28, 100, 22);
 		panelParametros.add(brnPesquisarParametro);
 
-		
-
 		JPanel panelDatas = new JPanel();
 		panelDatas.setLayout(null);
 		panelDatas.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Definir Datas",
 				TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		tabbedPane.addTab("New tab", null, panelDatas, null);
-		
+
 		tabbedPane.add("Definir Datas", panelDatas);
-		
 
 		JLabel label_1 = new JLabel("N\u00BA Amostra / Ano: ");
 		label_1.setHorizontalAlignment(SwingConstants.CENTER);
 		label_1.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		label_1.setBounds(296, 26, 139, 20);
 		panelDatas.add(label_1);
-		
+
 		dados3 = new ArrayList();
-		colunas3 = new String[] {"PROPOSTA", "AMOSTRA", "ORDEM", "COLETOR", "DATACOLETA"};
+		colunas3 = new String[] { "PROPOSTA", "AMOSTRA", "ORDEM", "COLETOR", "DATACOLETA" };
 
 		ModeloTable modelo3 = new ModeloTable(dados3, colunas3);
 		tableColeta.setModel(modelo3);
-		
+
 		JButton btnDatasPesquisar = new JButton("Pesquisar");
 		btnDatasPesquisar.setBounds(604, 28, 102, 23);
 		panelDatas.add(btnDatasPesquisar);
@@ -657,7 +659,7 @@ public class TelaCadastroAmostra extends JFrame {
 		JSeparator separator_2 = new JSeparator();
 		separator_2.setBounds(10, 187, 1056, 2);
 		panelDatas.add(separator_2);
-                    
+
 		final JScrollPane scrollPaneColeta = new JScrollPane();
 		scrollPaneColeta.setViewportBorder(new TitledBorder(null, "",
 
@@ -713,13 +715,13 @@ public class TelaCadastroAmostra extends JFrame {
 				}
 			}
 		});
-		
+
 		JLabel label_2 = new JLabel("N\u00BA Proposta:");
 		label_2.setHorizontalAlignment(SwingConstants.CENTER);
 		label_2.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		label_2.setBounds(10, 74, 139, 20);
 		panelDatas.add(label_2);
-		
+
 		txtPropostaAuto = new JTextField();
 		txtPropostaAuto.setEditable(false);
 		txtPropostaAuto.setHorizontalAlignment(SwingConstants.CENTER);
@@ -729,13 +731,13 @@ public class TelaCadastroAmostra extends JFrame {
 		txtPropostaAuto.setBackground(Color.WHITE);
 		txtPropostaAuto.setBounds(147, 77, 139, 20);
 		panelDatas.add(txtPropostaAuto);
-		
+
 		JLabel label_3 = new JLabel("N\u00BA Amostra / Ano: ");
 		label_3.setHorizontalAlignment(SwingConstants.CENTER);
 		label_3.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		label_3.setBounds(10, 105, 139, 20);
 		panelDatas.add(label_3);
-		
+
 		txtAmostraAuto = new JTextField();
 		txtAmostraAuto.setEditable(false);
 		txtAmostraAuto.setHorizontalAlignment(SwingConstants.CENTER);
@@ -745,13 +747,13 @@ public class TelaCadastroAmostra extends JFrame {
 		txtAmostraAuto.setBackground(Color.WHITE);
 		txtAmostraAuto.setBounds(147, 108, 139, 20);
 		panelDatas.add(txtAmostraAuto);
-		
+
 		JLabel lblOrdem = new JLabel("Ordem");
 		lblOrdem.setHorizontalAlignment(SwingConstants.CENTER);
 		lblOrdem.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		lblOrdem.setBounds(10, 136, 139, 20);
 		panelDatas.add(lblOrdem);
-		
+
 		txtOrdemAuto = new JTextField();
 		txtOrdemAuto.setEditable(false);
 		txtOrdemAuto.setHorizontalAlignment(SwingConstants.CENTER);
@@ -761,13 +763,13 @@ public class TelaCadastroAmostra extends JFrame {
 		txtOrdemAuto.setBackground(Color.WHITE);
 		txtOrdemAuto.setBounds(147, 136, 139, 20);
 		panelDatas.add(txtOrdemAuto);
-		
+
 		JLabel DataColeta = new JLabel("Data da Coleta:");
 		DataColeta.setHorizontalAlignment(SwingConstants.CENTER);
 		DataColeta.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		DataColeta.setBounds(296, 74, 139, 20);
 		panelDatas.add(DataColeta);
-		
+
 		txtColetor = new JTextField();
 		txtColetor.setHorizontalAlignment(SwingConstants.CENTER);
 		txtColetor.setForeground(Color.BLACK);
@@ -776,84 +778,91 @@ public class TelaCadastroAmostra extends JFrame {
 		txtColetor.setBackground(Color.WHITE);
 		txtColetor.setBounds(446, 108, 138, 20);
 		panelDatas.add(txtColetor);
-		
+
 		JLabel Coletor = new JLabel("Coletor:");
 		Coletor.setHorizontalAlignment(SwingConstants.CENTER);
 		Coletor.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		Coletor.setBounds(296, 105, 139, 20);
 		panelDatas.add(Coletor);
-		
+
 		final JDateChooser txtDataCol = new JDateChooser();
 		txtDataCol.setBounds(445, 74, 160, 20);
 		panelDatas.add(txtDataCol);
-		
-	
+
 		JButton btnDefinir = new JButton("Definir");
 		btnDefinir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-			String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());
-			
-			try {
-				amostraDAO.DefinirDataColetor(
-				Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
-				Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
-				Integer.valueOf(txtOrdemAuto.getText()),
-				datacoleta,
-				txtColetor.getText());
-			} catch (NumberFormatException e) {
-			} catch (ParseException e) {
-			}
-			
-			try {
 
-				amostraDAO.PreencherTabelaColeta("SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor, os.datacoleta "
-						+ "from proposta as pr, amostra as am, amostra_os as os where os.proposta = " + amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + ""
-						+ "and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem", dados3);
-				
-					
-				scrollPaneColeta.setViewportView(tableColeta);
-				
-				tableColeta.setSurrendersFocusOnKeystroke(true);
-				tableColeta.setFocusTraversalPolicyProvider(true);
-				tableColeta.setFocusCycleRoot(true);
-				tableColeta.setForeground(new Color(0, 0, 0));
-				tableColeta.setSelectionForeground(new Color(0, 0, 0));
-				tableColeta.setFillsViewportHeight(true);
-				tableColeta.setSelectionBackground(new Color(135, 206, 235));
-				tableColeta.setAutoCreateRowSorter(true);
-				
-				tableColeta.getColumnModel().getColumn(0).setPreferredWidth(130);
-				tableColeta.getColumnModel().getColumn(1).setPreferredWidth(200);
-				tableColeta.getColumnModel().getColumn(2).setPreferredWidth(130);
-				tableColeta.getColumnModel().getColumn(3).setPreferredWidth(200);
-				tableColeta.getColumnModel().getColumn(4).setPreferredWidth(400);
-				tableColeta.getTableHeader().setReorderingAllowed(false);
-				tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-				tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				
-				
-				tableColeta.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+				String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());
 
-					public Component getTableCellRendererComponent(JTable table, Object value,
-							boolean isSelected, boolean hasFocus, int row, int column) {
-						super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-						this.setHorizontalAlignment(CENTER);
-						return this;
-					}
-				});
-				
-			}catch(Exception ex){
-				JOptionPane.showMessageDialog(null, "ERRO"+ex.getMessage());
-			}finally {
-				tableColeta.requestFocus();
-					}
+				try {
+					amostraDAO.DefinirDataColetor(
+							Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
+							Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
+							Integer.valueOf(txtOrdemAuto.getText()), datacoleta, txtColetor.getText());
+				} catch (NumberFormatException e) {
+				} catch (ParseException e) {
 				}
-			});
-		
+
+				try {
+
+					if (txtDatasAmostra.getText().isEmpty() || !txtDatasProposta.getText().isEmpty()) {
+						amostraDAO.PreencherTabelaColeta(
+								"SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor, os.datacoleta "
+										+ "from proposta as pr, amostra as am, amostra_os as os where os.proposta = "
+										+ amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + ""
+										+ "and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem",
+								dados3);
+					}
+					if (!txtDatasAmostra.getText().isEmpty() || txtDatasProposta.getText().isEmpty()) {
+						amostraDAO.PreencherTabelaColeta(
+								"SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor, os.datacoleta "
+								+ "from proposta as pr, amostra as am, amostra_os as os where os.amostra= "+amostraDAO.buscarIdAmostra(txtDatasAmostra.getText())+""
+								+ " and os.amostra = am.idamostra order by proposta, amostra, ordem",
+								dados);
+					}
+
+					scrollPaneColeta.setViewportView(tableColeta);
+
+					tableColeta.setSurrendersFocusOnKeystroke(true);
+					tableColeta.setFocusTraversalPolicyProvider(true);
+					tableColeta.setFocusCycleRoot(true);
+					tableColeta.setForeground(new Color(0, 0, 0));
+					tableColeta.setSelectionForeground(new Color(0, 0, 0));
+					tableColeta.setFillsViewportHeight(true);
+					tableColeta.setSelectionBackground(new Color(135, 206, 235));
+					tableColeta.setAutoCreateRowSorter(true);
+
+					tableColeta.getColumnModel().getColumn(0).setPreferredWidth(130);
+					tableColeta.getColumnModel().getColumn(1).setPreferredWidth(200);
+					tableColeta.getColumnModel().getColumn(2).setPreferredWidth(130);
+					tableColeta.getColumnModel().getColumn(3).setPreferredWidth(200);
+					tableColeta.getColumnModel().getColumn(4).setPreferredWidth(400);
+					tableColeta.getTableHeader().setReorderingAllowed(false);
+					tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+					tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+					tableColeta.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+
+						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+								boolean hasFocus, int row, int column) {
+							super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+							this.setHorizontalAlignment(CENTER);
+							return this;
+						}
+					});
+
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "ERRO" + ex.getMessage());
+				} finally {
+					tableColeta.requestFocus();
+				}
+			}
+		});
+
 		btnDefinir.setBounds(446, 141, 138, 23);
 		panelDatas.add(btnDefinir);
-		
+
 		colunas2 = new String[] { "PROPOSTA", "EMPRESA", "AMOSTRA", "PONTO", "PARAMETRO", "FRASCO", "PRESERVACAO",
 				"VOLUME", "UNIDADE DE MEDIDA", "TIPO DE AMOSTRA" };
 
@@ -955,77 +964,78 @@ public class TelaCadastroAmostra extends JFrame {
 			}
 		});
 
-	btnDatasPesquisar.addActionListener(new ActionListener() {
-			
+		btnDatasPesquisar.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent arg0) {
-				
-					try {
 
-						amostraDAO.PreencherTabelaColeta("SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor, os.datacoleta "
-								+ "from proposta as pr, amostra as am, amostra_os as os where os.proposta = " + amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + ""
+				try {
 
-								+ "and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem", dados3);
-						
-						
-						scrollPaneColeta.setViewportView(tableColeta);
+					amostraDAO.PreencherTabelaColeta(
+							"SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor, os.datacoleta "
+									+ "from proposta as pr, amostra as am, amostra_os as os where os.proposta = "
+									+ amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + ""
 
-						tableColeta.setSurrendersFocusOnKeystroke(true);
-						tableColeta.setFocusTraversalPolicyProvider(true);
-						tableColeta.setFocusCycleRoot(true);
-						tableColeta.setForeground(new Color(0, 0, 0));
-						tableColeta.setSelectionForeground(new Color(0, 0, 0));
-						tableColeta.setFillsViewportHeight(true);
-						tableColeta.setSelectionBackground(new Color(135, 206, 235));
-						tableColeta.setAutoCreateRowSorter(true);
-						
-						tableColeta.getColumnModel().getColumn(0).setPreferredWidth(130);
-						tableColeta.getColumnModel().getColumn(1).setPreferredWidth(200);
-						tableColeta.getColumnModel().getColumn(2).setPreferredWidth(130);
-						tableColeta.getColumnModel().getColumn(3).setPreferredWidth(200);
-						tableColeta.getColumnModel().getColumn(4).setPreferredWidth(400);
-						tableColeta.getTableHeader().setReorderingAllowed(false);
-						tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-						tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-						
-						
-						tableColeta.addMouseListener(new MouseAdapter() {
-							@Override
-							public void mouseClicked(MouseEvent e) {
+									+ "and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem",
+							dados3);
+
+					scrollPaneColeta.setViewportView(tableColeta);
+
+					tableColeta.setSurrendersFocusOnKeystroke(true);
+					tableColeta.setFocusTraversalPolicyProvider(true);
+					tableColeta.setFocusCycleRoot(true);
+					tableColeta.setForeground(new Color(0, 0, 0));
+					tableColeta.setSelectionForeground(new Color(0, 0, 0));
+					tableColeta.setFillsViewportHeight(true);
+					tableColeta.setSelectionBackground(new Color(135, 206, 235));
+					tableColeta.setAutoCreateRowSorter(true);
+
+					tableColeta.getColumnModel().getColumn(0).setPreferredWidth(130);
+					tableColeta.getColumnModel().getColumn(1).setPreferredWidth(200);
+					tableColeta.getColumnModel().getColumn(2).setPreferredWidth(130);
+					tableColeta.getColumnModel().getColumn(3).setPreferredWidth(200);
+					tableColeta.getColumnModel().getColumn(4).setPreferredWidth(400);
+					tableColeta.getTableHeader().setReorderingAllowed(false);
+					tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+					tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+					tableColeta.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
 
 							txtAmostraAuto.setText("");
 							txtPropostaAuto.setText("");
 							txtOrdemAuto.setText("");
-								
+
 							int linha = tableColeta.getSelectedRow();
 							String proposta = (String) tableColeta.getValueAt(linha, 0);
 							String amostra = (String) tableColeta.getValueAt(linha, 1);
 							int ordem = (Integer) tableColeta.getValueAt(linha, 2);
-							
+
 							txtAmostraAuto.setText(amostra);
 							txtPropostaAuto.setText(proposta);
 							txtOrdemAuto.setText(String.valueOf(ordem));
-							
-							}
-						});
 
-						tableColeta.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+						}
+					});
 
-							public Component getTableCellRendererComponent(JTable table, Object value,
-									boolean isSelected, boolean hasFocus, int row, int column) {
-								super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-								this.setHorizontalAlignment(CENTER);
-								return this;
-							}
-						});
-						
-					}catch(Exception ex){
-						JOptionPane.showMessageDialog(null, "ERRO"+ex.getMessage());
-					}finally {
-						tableColeta.requestFocus();
-					}
+					tableColeta.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+
+						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+								boolean hasFocus, int row, int column) {
+							super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+							this.setHorizontalAlignment(CENTER);
+							return this;
+						}
+					});
+
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "ERRO" + ex.getMessage());
+				} finally {
+					tableColeta.requestFocus();
 				}
-			
+			}
+
 		});
-	
+
 	}
 }
