@@ -471,6 +471,9 @@ public class parametroDAO {
 							conexao.rs.getObject("parametro") });
 
 				} while (conexao.rs.next());
+			}else{
+				
+				
 			}
 
 		} catch (SQLException e) {
@@ -507,7 +510,10 @@ public class parametroDAO {
 					});
 
 				} while (conexao.rs.next());
+			}else{
+				dados.removeAll(dados);
 			}
+				
 
 		} catch (SQLException e) {
 		} catch (ArrayIndexOutOfBoundsException array) {

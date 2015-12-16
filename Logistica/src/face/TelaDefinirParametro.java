@@ -148,13 +148,6 @@ public class TelaDefinirParametro extends JFrame {
 		brnPesquisarParametro.setBounds(507, 28, 100, 22);
 		panelParametros.add(brnPesquisarParametro);
 
-		colunas2 = new String[] { "PROPOSTA", "EMPRESA", "AMOSTRA", "PONTO",
-				"PARAMETRO", "FRASCO", "PRESERVACAO", "VOLUME",
-				"UNIDADE DE MEDIDA", "TIPO DE AMOSTRA" };
-
-		ModeloTable modelo2 = new ModeloTable(dados2, colunas2);
-		tableParametro.setModel(modelo2);
-
 		final JComboBox cbNumeroAmostra = new JComboBox();
 		cbNumeroAmostra.setBounds(176, 114, 431, 20);
 		panelParametros.add(cbNumeroAmostra);
@@ -194,6 +187,13 @@ public class TelaDefinirParametro extends JFrame {
 		});
 
 		// FUNCIONA!
+		
+		colunas2 = new String[] { "PROPOSTA", "EMPRESA", "AMOSTRA", "PONTO",
+				"PARAMETRO", "FRASCO", "PRESERVACAO", "VOLUME",
+				"UNIDADE DE MEDIDA", "TIPO DE AMOSTRA" };
+
+		ModeloTable modelo2 = new ModeloTable(dados2, colunas2);
+		tableParametro.setModel(modelo2);
 
 		cbNumeroAmostra.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
@@ -275,7 +275,7 @@ public class TelaDefinirParametro extends JFrame {
 				} catch (Exception ex) {
 
 					JOptionPane.showMessageDialog(null,
-							"Ainda não possui nenhum parametro adicionado!");
+							ex.getClass());
 					tableParametro.removeAll();
 				} finally {
 				}
@@ -284,21 +284,15 @@ public class TelaDefinirParametro extends JFrame {
 
 		brnPesquisarParametro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+					cbNumeroAmostra.removeAllItems();
 
-				try {
-					if (amostraDAO.buscarIdProposta(txtProposta_Amostra
-							.getText()) != null) {
-
-						cbNumeroAmostra.removeAllItems();
+					if (amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) != null) {
 
 						ArrayList amostras;
 						parametroDAO parametroDAO = new parametroDAO();
-						amostras = parametroDAO.obterAmostra(amostraDAO
-								.buscarIdProposta(txtProposta_Amostra.getText()));
-						txtEmpresa_Parametro.setText(amostraDAO
-								.buscarEmpresa(amostraDAO
-										.buscarIdProposta(txtProposta_Amostra
-												.getText())));
+						amostras = parametroDAO.obterAmostra(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()));
+						txtEmpresa_Parametro.setText(amostraDAO.buscarEmpresa(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText())));
 						cbNumeroAmostra.getSelectedIndex();
 
 						for (int i = 0; i <= amostras.size() - 1; i++)
@@ -308,26 +302,13 @@ public class TelaDefinirParametro extends JFrame {
 							tableParametro.removeAll();
 							parametroDAO
 									.PreencherTabelaParametro(
-											"select  pr.numero_proposta as proposta , am.numero_amostra as amostra, pr.empresa, am.ponto , pa.descricao as parametro, fr.descricao as frasco, "
-													+ " pre.descricao as preservacao, vol.volume as volume, uni.unidade_medida as uni, tip.descricao as tipoamostra from unidade_medida as uni, amostra_parametro as ap, "
+											"select  pr.numero_proposta as PROPOSTA , am.numero_amostra as AMOSTRA, pr.empresa as EMPRESA, am.ponto as PONTO, pa.descricao as PARAMETRO, fr.descricao as FRASCO, "
+													+ " pre.descricao as PRESERVACAO, vol.volume as VOLUME, uni.unidade_medida as UNI, tip.descricao as TIPOAMOSTRA from unidade_medida as uni, amostra_parametro as ap, "
 													+ " proposta as pr , amostra as am , parametro as pa, frasco as fr, preservacao as pre, volume as vol, tipoamostra as tip "
-													+ " where ap.proposta="
-													+ amostraDAO
-															.buscarIdProposta(txtProposta_Amostra
-																	.getText())
-													+ " and pr.idproposta="
-													+ amostraDAO
-															.buscarIdProposta(txtProposta_Amostra
-																	.getText())
-													+ " and am.proposta="
-													+ amostraDAO
-															.buscarIdProposta(txtProposta_Amostra
-																	.getText())
-													+ " and ap.amostra = "
-													+ amostraDAO
-															.buscarIdAmostra(String
-																	.valueOf(cbNumeroAmostra
-																			.getSelectedItem()))
+													+ " where ap.proposta="+Integer.valueOf(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()))
+													+ " and pr.idproposta="+Integer.valueOf(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()))
+													+ " and am.proposta="+ amostraDAO.buscarIdProposta(txtProposta_Amostra.getText())
+													+ " and ap.amostra = "+ Integer.valueOf(amostraDAO.buscarIdAmostra((String) cbNumeroAmostra.getSelectedItem()))
 													+ " and am.idamostra = ap.amostra and ap.parametro = pa.idparametro and pr.idproposta = ap.proposta "
 													+ " and fr.id_frasco = pa.frasco and pre.id_preservacao = pa.preservacao and vol.id_volume = pa.volume "
 													+ " and tip.idtipoamostra = pa.tipoamostra and uni.id_unidade_medida = vol.id_unidade_medida",
@@ -346,36 +327,22 @@ public class TelaDefinirParametro extends JFrame {
 							tableParametro.setAutoCreateRowSorter(true);
 							scrollPaneParametro.setViewportView(tableParametro);
 
-							tableParametro.getColumnModel().getColumn(0)
-									.setPreferredWidth(130);
-							tableParametro.getColumnModel().getColumn(1)
-									.setPreferredWidth(200);
-							tableParametro.getColumnModel().getColumn(2)
-									.setPreferredWidth(130);
-							tableParametro.getColumnModel().getColumn(3)
-									.setPreferredWidth(200);
-							tableParametro.getColumnModel().getColumn(4)
-									.setPreferredWidth(400);
-							tableParametro.getColumnModel().getColumn(5)
-									.setPreferredWidth(200);
-							tableParametro.getColumnModel().getColumn(6)
-									.setPreferredWidth(200);
-							tableParametro.getColumnModel().getColumn(7)
-									.setPreferredWidth(100);
-							tableParametro.getColumnModel().getColumn(8)
-									.setPreferredWidth(70);
-							tableParametro.getColumnModel().getColumn(9)
-									.setPreferredWidth(120);
+							tableParametro.getColumnModel().getColumn(0).setPreferredWidth(130);
+							tableParametro.getColumnModel().getColumn(1).setPreferredWidth(200);
+							tableParametro.getColumnModel().getColumn(2).setPreferredWidth(130);
+							tableParametro.getColumnModel().getColumn(3).setPreferredWidth(200);
+							tableParametro.getColumnModel().getColumn(4).setPreferredWidth(400);
+							tableParametro.getColumnModel().getColumn(5).setPreferredWidth(200);
+							tableParametro.getColumnModel().getColumn(6).setPreferredWidth(200);
+							tableParametro.getColumnModel().getColumn(7).setPreferredWidth(100);
+							tableParametro.getColumnModel().getColumn(8).setPreferredWidth(70);
+							tableParametro.getColumnModel().getColumn(9).setPreferredWidth(120);
 
-							tableParametro.getTableHeader()
-									.setReorderingAllowed(false);
-							tableParametro
-									.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-							tableParametro
-									.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+							tableParametro.getTableHeader().setReorderingAllowed(false);
+							tableParametro.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+							tableParametro.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-							tableParametro.setDefaultRenderer(Object.class,
-									new DefaultTableCellRenderer() {
+							tableParametro.setDefaultRenderer(Object.class,new DefaultTableCellRenderer() {
 
 										public Component getTableCellRendererComponent(
 												JTable table, Object value,
@@ -389,11 +356,12 @@ public class TelaDefinirParametro extends JFrame {
 											return this;
 										}
 									});
-						} finally {
+						}catch(Exception ex){
+						JOptionPane.showMessageDialog(null, ex.getClass());	
+						}finally {
 						}
-					}
-				} finally {
-				}
+							
+						}
 			}
 		});
 

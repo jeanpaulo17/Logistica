@@ -177,6 +177,8 @@ public class amostraDAO {
 					});
 
 				} while (conexao.rs.next());
+			}else{
+				dados.clear();
 			}
 
 		} catch (SQLException e) {
@@ -203,6 +205,8 @@ public class amostraDAO {
 					});
 
 				} while (conexao.rs.next());
+			}else{
+				dados.clear();
 			}
 
 		} catch (SQLException e) {
