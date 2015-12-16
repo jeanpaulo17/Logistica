@@ -98,7 +98,7 @@ public class TelaCadastroProposta extends JFrame {
 		contentPane.add(lblQtdAmostras);
 		
 		final JSpinner txtQuantidade = new JSpinner();
-		txtQuantidade.setModel(new SpinnerNumberModel(new Integer(1), new Integer(0), null, new Integer(1)));
+		txtQuantidade.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		txtQuantidade.setBounds(200, 131, 109, 20);
 		contentPane.add(txtQuantidade);
 		

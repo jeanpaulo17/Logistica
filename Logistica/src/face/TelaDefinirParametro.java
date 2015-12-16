@@ -50,8 +50,7 @@ public class TelaDefinirParametro extends JFrame {
 
 	public TelaDefinirParametro() {
 
-		setIconImage(Toolkit.getDefaultToolkit().getImage(
-				TelaDefinirParametro.class.getResource("/face/vidro.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaDefinirParametro.class.getResource("/face/vidro.png")));
 		setTitle("Cadastro de Amostras");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1097, 700);
@@ -65,15 +64,13 @@ public class TelaDefinirParametro extends JFrame {
 		BasicComboBoxRenderer.UIResource UIResource = new BasicComboBoxRenderer.UIResource();
 		UIResource.setHorizontalAlignment(SwingConstants.CENTER);
 
-		String[] periodo = new String[] { "SEMANAL", "QUINZENAL", "MENSAL",
-				"TRIMESTRAL" };
+		String[] periodo = new String[] { "SEMANAL", "QUINZENAL", "MENSAL", "TRIMESTRAL" };
 
 		// ATÉ AQUI TA CERTO!
 
 		panelParametros = new JPanel();
 
-		panelParametros.setBorder(new TitledBorder(null,
-				"Cadastro de Param\u00EAtros", TitledBorder.CENTER,
+		panelParametros.setBorder(new TitledBorder(null, "Cadastro de Param\u00EAtros", TitledBorder.CENTER,
 				TitledBorder.TOP, null, null));
 
 		panelParametros.setLayout(null);
@@ -96,17 +93,14 @@ public class TelaDefinirParametro extends JFrame {
 		cbParametro.setBounds(176, 152, 431, 20);
 		panelParametros.add(cbParametro);
 		parametroDAO p = new parametroDAO();
-		
-		try{
-		dados2 = p.obterDados();
-		}catch(Exception ex){
-			
+
+		try {
+			dados2 = p.obterDados();
+		} catch (Exception ex) {
+
 		}
-			for (int i = 0; i < dados2.size(); i++)
+		for (int i = 0; i < dados2.size(); i++)
 			cbParametro.addItem(dados2.get(i));
-
-
-
 
 		JButton btnAdicionarParametro = new JButton("Adicionar");
 		btnAdicionarParametro.setBounds(419, 183, 89, 23);
@@ -121,10 +115,9 @@ public class TelaDefinirParametro extends JFrame {
 		panelParametros.add(separator_1);
 
 		final JScrollPane scrollPaneParametro = new JScrollPane();
-		scrollPaneParametro.setViewportBorder(new TitledBorder(null, "",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollPaneParametro
-				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+				.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		scrollPaneParametro.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPaneParametro.setBounds(10, 222, 1056, 401);
 		panelParametros.add(scrollPaneParametro);
 
@@ -153,8 +146,7 @@ public class TelaDefinirParametro extends JFrame {
 		panelParametros.add(cbNumeroAmostra);
 
 		JLabel lblParam = new JLabel("");
-		lblParam.setIcon(new ImageIcon(TelaDefinirParametro.class
-				.getResource("/face/parametros2.png")));
+		lblParam.setIcon(new ImageIcon(TelaDefinirParametro.class.getResource("/face/parametros2.png")));
 		lblParam.setBounds(617, 11, 449, 195);
 		panelParametros.add(lblParam);
 
@@ -187,10 +179,9 @@ public class TelaDefinirParametro extends JFrame {
 		});
 
 		// FUNCIONA!
-		
-		colunas2 = new String[] { "PROPOSTA", "EMPRESA", "AMOSTRA", "PONTO",
-				"PARAMETRO", "FRASCO", "PRESERVACAO", "VOLUME",
-				"UNIDADE DE MEDIDA", "TIPO DE AMOSTRA" };
+
+		colunas2 = new String[] { "PROPOSTA", "EMPRESA", "AMOSTRA", "PONTO", "PARAMETRO", "FRASCO", "PRESERVACAO",
+				"VOLUME", "UNIDADE DE MEDIDA", "TIPO DE AMOSTRA" };
 
 		ModeloTable modelo2 = new ModeloTable(dados2, colunas2);
 		tableParametro.setModel(modelo2);
@@ -204,21 +195,23 @@ public class TelaDefinirParametro extends JFrame {
 					// cbNumeroAmostra.getSelectedItem();
 					parametroDAO
 							.PreencherTabelaParametro(
-									"select pr.numero_proposta as proposta, am.numero_amostra as amostra, pr.empresa, am.ponto , pa.descricao as parametro, fr.descricao as frasco, pre.descricao as preservacao, vol.volume as volume, uni.unidade_medida as uni, tip.descricao as tipoamostra from amostra_parametro as ap, proposta as pr , amostra as am , parametro as pa, frasco as fr, preservacao as pre, volume as vol, tipoamostra as tip, unidade_medida as uni where ap.amostra="
-											+ amostraDAO
-													.buscarIdAmostra(String
-															.valueOf(cbNumeroAmostra
-																	.getSelectedItem()))
-											+ " and pr.idproposta="
-											+ amostraDAO
-													.buscarIdProposta(txtProposta_Amostra
-															.getText())
-											+ " and am.proposta="
-											+ amostraDAO
-													.buscarIdProposta(txtProposta_Amostra
-															.getText())
-											+ " and am.idamostra = ap.amostra and ap.parametro = pa.idparametro and pr.idproposta = ap.proposta and fr.id_frasco = pa.frasco and pre.id_preservacao = pa.preservacao and vol.id_volume = pa.volume and tip.idtipoamostra = pa.tipoamostra and uni.id_unidade_medida = vol.id_unidade_medida",
-									dados2);
+									"select pr.numero_proposta as proposta, am.numero_amostra as amostra, pr.empresa, am.ponto , "
+									+ "pa.descricao as parametro, fr.descricao as frasco, pre.descricao as preservacao, vol.volume as volume, "
+									+ "uni.unidade_medida as uni, tip.descricao as tipoamostra "
+									+ "from amostra_parametro as ap, proposta as pr , amostra as am , parametro as pa, frasco as fr, "
+									+ "preservacao as pre, volume as vol, tipoamostra as tip, unidade_medida as uni where ap.proposta="
+										+ Integer.valueOf(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()))
+										+ " and pr.idproposta="
+										+ Integer.valueOf(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()))
+										+ " and am.proposta="
+										+ Integer.valueOf(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()))
+										+ " and ap.amostra = "
+										+ Integer.valueOf(
+												amostraDAO.buscarIdAmostra((String) cbNumeroAmostra.getSelectedItem()))
+									+ " and am.idamostra = ap.amostra and ap.parametro = pa.idparametro and pr.idproposta = ap.proposta and "
+									+ "fr.id_frasco = pa.frasco and pre.id_preservacao = pa.preservacao and vol.id_volume = pa.volume and "
+									+ "tip.idtipoamostra = pa.tipoamostra and uni.id_unidade_medida = vol.id_unidade_medida",
+							dados2);
 
 					tableParametro.setSurrendersFocusOnKeystroke(true);
 					tableParametro.setFocusTraversalPolicyProvider(true);
@@ -226,56 +219,37 @@ public class TelaDefinirParametro extends JFrame {
 					tableParametro.setForeground(new Color(0, 0, 0));
 					tableParametro.setSelectionForeground(new Color(0, 0, 0));
 					tableParametro.setFillsViewportHeight(true);
-					tableParametro.setSelectionBackground(new Color(135, 206,
-							235));
+					tableParametro.setSelectionBackground(new Color(135, 206, 235));
 					tableParametro.setAutoCreateRowSorter(true);
 					scrollPaneParametro.setViewportView(tableParametro);
 
-					tableParametro.getColumnModel().getColumn(0)
-							.setPreferredWidth(130);
-					tableParametro.getColumnModel().getColumn(1)
-							.setPreferredWidth(200);
-					tableParametro.getColumnModel().getColumn(2)
-							.setPreferredWidth(130);
-					tableParametro.getColumnModel().getColumn(3)
-							.setPreferredWidth(200);
-					tableParametro.getColumnModel().getColumn(4)
-							.setPreferredWidth(400);
-					tableParametro.getColumnModel().getColumn(5)
-							.setPreferredWidth(200);
-					tableParametro.getColumnModel().getColumn(6)
-							.setPreferredWidth(200);
-					tableParametro.getColumnModel().getColumn(7)
-							.setPreferredWidth(100);
-					tableParametro.getColumnModel().getColumn(8)
-							.setPreferredWidth(70);
-					tableParametro.getColumnModel().getColumn(9)
-							.setPreferredWidth(120);
+					tableParametro.getColumnModel().getColumn(0).setPreferredWidth(130);
+					tableParametro.getColumnModel().getColumn(1).setPreferredWidth(200);
+					tableParametro.getColumnModel().getColumn(2).setPreferredWidth(130);
+					tableParametro.getColumnModel().getColumn(3).setPreferredWidth(200);
+					tableParametro.getColumnModel().getColumn(4).setPreferredWidth(400);
+					tableParametro.getColumnModel().getColumn(5).setPreferredWidth(200);
+					tableParametro.getColumnModel().getColumn(6).setPreferredWidth(200);
+					tableParametro.getColumnModel().getColumn(7).setPreferredWidth(100);
+					tableParametro.getColumnModel().getColumn(8).setPreferredWidth(70);
+					tableParametro.getColumnModel().getColumn(9).setPreferredWidth(120);
 
 					tableParametro.getTableHeader().setReorderingAllowed(false);
-					tableParametro
-							.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-					tableParametro
-							.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-					tableParametro.setDefaultRenderer(Object.class,
-							new DefaultTableCellRenderer() {
+					tableParametro.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+					tableParametro.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+					tableParametro.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 
-								public Component getTableCellRendererComponent(
-										JTable table, Object value,
-										boolean isSelected, boolean hasFocus,
-										int row, int column) {
-									super.getTableCellRendererComponent(table,
-											value, isSelected, hasFocus, row,
-											column);
-									this.setHorizontalAlignment(CENTER);
-									return this;
-								}
-							});
+						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+								boolean hasFocus, int row, int column) {
+							super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+							this.setHorizontalAlignment(CENTER);
+							return this;
+						}
+					});
 
 				} catch (Exception ex) {
 
-					JOptionPane.showMessageDialog(null,
-							ex.getClass());
+					JOptionPane.showMessageDialog(null, ex.getClass());
 					tableParametro.removeAll();
 				} finally {
 				}
@@ -284,84 +258,81 @@ public class TelaDefinirParametro extends JFrame {
 
 		brnPesquisarParametro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-					cbNumeroAmostra.removeAllItems();
 
-					if (amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) != null) {
+				cbNumeroAmostra.removeAllItems();
 
-						ArrayList amostras;
-						parametroDAO parametroDAO = new parametroDAO();
-						amostras = parametroDAO.obterAmostra(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()));
-						txtEmpresa_Parametro.setText(amostraDAO.buscarEmpresa(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText())));
-						cbNumeroAmostra.getSelectedIndex();
+				if (amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) != null) {
 
-						for (int i = 0; i <= amostras.size() - 1; i++)
-							cbNumeroAmostra.addItem(amostras.get(i));
+					ArrayList amostras;
+					parametroDAO parametroDAO = new parametroDAO();
+					amostras = parametroDAO.obterAmostra(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()));
+					txtEmpresa_Parametro.setText(
+							amostraDAO.buscarEmpresa(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText())));
+					cbNumeroAmostra.getSelectedIndex();
 
-						try {
-							tableParametro.removeAll();
-							parametroDAO
-									.PreencherTabelaParametro(
-											"select  pr.numero_proposta as PROPOSTA , am.numero_amostra as AMOSTRA, pr.empresa as EMPRESA, am.ponto as PONTO, pa.descricao as PARAMETRO, fr.descricao as FRASCO, "
-													+ " pre.descricao as PRESERVACAO, vol.volume as VOLUME, uni.unidade_medida as UNI, tip.descricao as TIPOAMOSTRA from unidade_medida as uni, amostra_parametro as ap, "
-													+ " proposta as pr , amostra as am , parametro as pa, frasco as fr, preservacao as pre, volume as vol, tipoamostra as tip "
-													+ " where ap.proposta="+Integer.valueOf(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()))
-													+ " and pr.idproposta="+Integer.valueOf(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()))
-													+ " and am.proposta="+ amostraDAO.buscarIdProposta(txtProposta_Amostra.getText())
-													+ " and ap.amostra = "+ Integer.valueOf(amostraDAO.buscarIdAmostra((String) cbNumeroAmostra.getSelectedItem()))
-													+ " and am.idamostra = ap.amostra and ap.parametro = pa.idparametro and pr.idproposta = ap.proposta "
-													+ " and fr.id_frasco = pa.frasco and pre.id_preservacao = pa.preservacao and vol.id_volume = pa.volume "
-													+ " and tip.idtipoamostra = pa.tipoamostra and uni.id_unidade_medida = vol.id_unidade_medida",
-											dados2);
+					for (int i = 0; i <= amostras.size() - 1; i++)
+						cbNumeroAmostra.addItem(amostras.get(i));
 
-							tableParametro.setSurrendersFocusOnKeystroke(true);
-							tableParametro
-									.setFocusTraversalPolicyProvider(true);
-							tableParametro.setFocusCycleRoot(true);
-							tableParametro.setForeground(new Color(0, 0, 0));
-							tableParametro.setSelectionForeground(new Color(0,
-									0, 0));
-							tableParametro.setFillsViewportHeight(true);
-							tableParametro.setSelectionBackground(new Color(
-									135, 206, 235));
-							tableParametro.setAutoCreateRowSorter(true);
-							scrollPaneParametro.setViewportView(tableParametro);
+					try {
+						tableParametro.removeAll();
+						parametroDAO.PreencherTabelaParametro(
+								"select  pr.numero_proposta as PROPOSTA , am.numero_amostra as AMOSTRA, pr.empresa as EMPRESA, am.ponto as PONTO, pa.descricao as PARAMETRO, fr.descricao as FRASCO, "
+										+ " pre.descricao as PRESERVACAO, vol.volume as VOLUME, uni.unidade_medida as UNI, tip.descricao as TIPOAMOSTRA from unidade_medida as uni, amostra_parametro as ap, "
+										+ " proposta as pr , amostra as am , parametro as pa, frasco as fr, preservacao as pre, volume as vol, tipoamostra as tip "
+										+ " where ap.proposta="
+										+ Integer.valueOf(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()))
+										+ " and pr.idproposta="
+										+ Integer.valueOf(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()))
+										+ " and ap.proposta="
+										+ Integer.valueOf(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()))
+										+ " and ap.amostra = "
+										+ Integer.valueOf(
+												amostraDAO.buscarIdAmostra((String) cbNumeroAmostra.getSelectedItem()))
+										+ " and am.idamostra = ap.amostra and ap.parametro = pa.idparametro and pr.idproposta = ap.proposta "
+										+ " and fr.id_frasco = pa.frasco and pre.id_preservacao = pa.preservacao and vol.id_volume = pa.volume "
+										+ " and tip.idtipoamostra = pa.tipoamostra and uni.id_unidade_medida = vol.id_unidade_medida",
+								dados2);
 
-							tableParametro.getColumnModel().getColumn(0).setPreferredWidth(130);
-							tableParametro.getColumnModel().getColumn(1).setPreferredWidth(200);
-							tableParametro.getColumnModel().getColumn(2).setPreferredWidth(130);
-							tableParametro.getColumnModel().getColumn(3).setPreferredWidth(200);
-							tableParametro.getColumnModel().getColumn(4).setPreferredWidth(400);
-							tableParametro.getColumnModel().getColumn(5).setPreferredWidth(200);
-							tableParametro.getColumnModel().getColumn(6).setPreferredWidth(200);
-							tableParametro.getColumnModel().getColumn(7).setPreferredWidth(100);
-							tableParametro.getColumnModel().getColumn(8).setPreferredWidth(70);
-							tableParametro.getColumnModel().getColumn(9).setPreferredWidth(120);
+						tableParametro.setSurrendersFocusOnKeystroke(true);
+						tableParametro.setFocusTraversalPolicyProvider(true);
+						tableParametro.setFocusCycleRoot(true);
+						tableParametro.setForeground(new Color(0, 0, 0));
+						tableParametro.setSelectionForeground(new Color(0, 0, 0));
+						tableParametro.setFillsViewportHeight(true);
+						tableParametro.setSelectionBackground(new Color(135, 206, 235));
+						tableParametro.setAutoCreateRowSorter(true);
+						scrollPaneParametro.setViewportView(tableParametro);
 
-							tableParametro.getTableHeader().setReorderingAllowed(false);
-							tableParametro.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-							tableParametro.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+						tableParametro.getColumnModel().getColumn(0).setPreferredWidth(130);
+						tableParametro.getColumnModel().getColumn(1).setPreferredWidth(200);
+						tableParametro.getColumnModel().getColumn(2).setPreferredWidth(130);
+						tableParametro.getColumnModel().getColumn(3).setPreferredWidth(200);
+						tableParametro.getColumnModel().getColumn(4).setPreferredWidth(400);
+						tableParametro.getColumnModel().getColumn(5).setPreferredWidth(200);
+						tableParametro.getColumnModel().getColumn(6).setPreferredWidth(200);
+						tableParametro.getColumnModel().getColumn(7).setPreferredWidth(100);
+						tableParametro.getColumnModel().getColumn(8).setPreferredWidth(70);
+						tableParametro.getColumnModel().getColumn(9).setPreferredWidth(120);
 
-							tableParametro.setDefaultRenderer(Object.class,new DefaultTableCellRenderer() {
+						tableParametro.getTableHeader().setReorderingAllowed(false);
+						tableParametro.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+						tableParametro.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-										public Component getTableCellRendererComponent(
-												JTable table, Object value,
-												boolean isSelected,
-												boolean hasFocus, int row,
-												int column) {
-											super.getTableCellRendererComponent(
-													table, value, isSelected,
-													hasFocus, row, column);
-											this.setHorizontalAlignment(CENTER);
-											return this;
-										}
-									});
-						}catch(Exception ex){
-						JOptionPane.showMessageDialog(null, ex.getClass());	
-						}finally {
-						}
-							
-						}
+						tableParametro.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+
+							public Component getTableCellRendererComponent(JTable table, Object value,
+									boolean isSelected, boolean hasFocus, int row, int column) {
+								super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+								this.setHorizontalAlignment(CENTER);
+								return this;
+							}
+						});
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(null, ex.getClass());
+					} finally {
+					}
+
+				}
 			}
 		});
 
@@ -373,24 +344,18 @@ public class TelaDefinirParametro extends JFrame {
 
 				parametroDAO parametroDAO = new DAO.parametroDAO();
 
-				int codParametro = parametroDAO.obterCodigoParametro(String
-						.valueOf(cbParametro.getSelectedItem()));
+				int codParametro = parametroDAO.obterCodigoParametro(String.valueOf(cbParametro.getSelectedItem()));
 
-				if (parametroDAO.verificaCadastroParametro(Integer
-						.parseInt(amostraDAO.buscarIdAmostra(numAmostra)),
-						codParametro, Integer.parseInt(amostraDAO
-								.buscarIdProposta(proposta))) == "false") {
-					JOptionPane.showMessageDialog(null,
-							"Parametro ja cadastrada antes!");
-				} else if (txtProposta_Amostra.getText().isEmpty()
-						|| cbNumeroAmostra.getItemCount() == 0) {
-					JOptionPane.showMessageDialog(null,
-							"Campos Proposta/Amostra vazio(s)");
+				if (parametroDAO.verificaCadastroParametro(Integer.parseInt(amostraDAO.buscarIdAmostra(numAmostra)),
+						codParametro, Integer.parseInt(amostraDAO.buscarIdProposta(proposta))) == "false") {
+					JOptionPane.showMessageDialog(null, "Parametro ja cadastrada antes!");
+				} else if (txtProposta_Amostra.getText().isEmpty() || cbNumeroAmostra.getItemCount() == 0) {
+					JOptionPane.showMessageDialog(null, "Campos Proposta/Amostra vazio(s)");
 				} else {
-
+			
 					parametroDAO.cadastrarParametro_Amostra(Integer.parseInt(amostraDAO.buscarIdAmostra(numAmostra)),
 							Integer.parseInt(amostraDAO.buscarIdProposta(proposta)), codParametro);
-					
+
 					index = cbNumeroAmostra.getSelectedIndex();
 
 					tableParametro.removeAll();
@@ -398,11 +363,12 @@ public class TelaDefinirParametro extends JFrame {
 					ArrayList amostras;
 					parametroDAO parametroDAO1 = new parametroDAO();
 					amostras = parametroDAO1.obterAmostra(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()));
-					txtEmpresa_Parametro.setText(amostraDAO.buscarEmpresa(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText())));
-				
-					//for (int i = 0; i <= amostras.size() - 1; i++)
-					//	cbNumeroAmostra.addItem(amostras.get(i));
-					
+					txtEmpresa_Parametro.setText(
+							amostraDAO.buscarEmpresa(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText())));
+
+					// for (int i = 0; i <= amostras.size() - 1; i++)
+					// cbNumeroAmostra.addItem(amostras.get(i));
+
 					cbNumeroAmostra.setSelectedIndex(index);
 
 					parametroDAO1
@@ -411,25 +377,14 @@ public class TelaDefinirParametro extends JFrame {
 											+ " pre.descricao as preservacao, vol.volume as volume, uni.unidade_medida as uni, tip.descricao as tipoamostra from unidade_medida as uni, amostra_parametro as ap, "
 											+ " proposta as pr , amostra as am , parametro as pa, frasco as fr, preservacao as pre, volume as vol, tipoamostra as tip "
 											+ " where ap.proposta="
-											+ amostraDAO
-													.buscarIdProposta(txtProposta_Amostra
-															.getText())
-											+ ""
+											+ amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) + ""
 											+ " and pr.idproposta= "
-											+ amostraDAO
-													.buscarIdProposta(txtProposta_Amostra
-															.getText())
-											+ ""
-											+ " and am.proposta="
-											+ amostraDAO
-													.buscarIdProposta(txtProposta_Amostra
-															.getText())
-											+ ""
+											+ amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) + ""
+											+ " and ap.proposta="
+											+ amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) + ""
 											+ " and ap.amostra = "
-											+ amostraDAO
-													.buscarIdAmostra(String
-															.valueOf(cbNumeroAmostra
-																	.getSelectedItem()))
+											+ amostraDAO.buscarIdAmostra(
+													String.valueOf(cbNumeroAmostra.getSelectedItem()))
 											+ ""
 											+ " and am.idamostra = ap.amostra and ap.parametro = pa.idparametro and pr.idproposta = ap.proposta "
 											+ " and fr.id_frasco = pa.frasco and pre.id_preservacao = pa.preservacao and vol.id_volume = pa.volume "
@@ -442,55 +397,36 @@ public class TelaDefinirParametro extends JFrame {
 					tableParametro.setForeground(new Color(0, 0, 0));
 					tableParametro.setSelectionForeground(new Color(0, 0, 0));
 					tableParametro.setFillsViewportHeight(true);
-					tableParametro.setSelectionBackground(new Color(135, 206,
-							235));
+					tableParametro.setSelectionBackground(new Color(135, 206, 235));
 					tableParametro.setAutoCreateRowSorter(true);
 					scrollPaneParametro.setViewportView(tableParametro);
 
-					tableParametro.getColumnModel().getColumn(0)
-							.setPreferredWidth(130);
-					tableParametro.getColumnModel().getColumn(1)
-							.setPreferredWidth(200);
-					tableParametro.getColumnModel().getColumn(2)
-							.setPreferredWidth(130);
-					tableParametro.getColumnModel().getColumn(3)
-							.setPreferredWidth(200);
-					tableParametro.getColumnModel().getColumn(4)
-							.setPreferredWidth(400);
-					tableParametro.getColumnModel().getColumn(5)
-							.setPreferredWidth(200);
-					tableParametro.getColumnModel().getColumn(6)
-							.setPreferredWidth(200);
-					tableParametro.getColumnModel().getColumn(7)
-							.setPreferredWidth(100);
-					tableParametro.getColumnModel().getColumn(8)
-							.setPreferredWidth(70);
-					tableParametro.getColumnModel().getColumn(9)
-							.setPreferredWidth(120);
+					tableParametro.getColumnModel().getColumn(0).setPreferredWidth(130);
+					tableParametro.getColumnModel().getColumn(1).setPreferredWidth(200);
+					tableParametro.getColumnModel().getColumn(2).setPreferredWidth(130);
+					tableParametro.getColumnModel().getColumn(3).setPreferredWidth(200);
+					tableParametro.getColumnModel().getColumn(4).setPreferredWidth(400);
+					tableParametro.getColumnModel().getColumn(5).setPreferredWidth(200);
+					tableParametro.getColumnModel().getColumn(6).setPreferredWidth(200);
+					tableParametro.getColumnModel().getColumn(7).setPreferredWidth(100);
+					tableParametro.getColumnModel().getColumn(8).setPreferredWidth(70);
+					tableParametro.getColumnModel().getColumn(9).setPreferredWidth(120);
 
 					tableParametro.getTableHeader().setReorderingAllowed(false);
-					tableParametro
-							.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-					tableParametro
-							.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+					tableParametro.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+					tableParametro.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-					tableParametro.setDefaultRenderer(Object.class,
-							new DefaultTableCellRenderer() {
+					tableParametro.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 
-								public Component getTableCellRendererComponent(
-										JTable table, Object value,
-										boolean isSelected, boolean hasFocus,
-										int row, int column) {
-									super.getTableCellRendererComponent(table,
-											value, isSelected, hasFocus, row,
-											column);
-									this.setHorizontalAlignment(CENTER);
-									return this;
-								}
-							});
+						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+								boolean hasFocus, int row, int column) {
+							super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+							this.setHorizontalAlignment(CENTER);
+							return this;
+						}
+					});
 				}
 
-				
 			}
 		});
 

@@ -44,6 +44,7 @@ import DAO.amostraDAO;
 import DAO.parametroDAO;
 
 import com.toedter.calendar.JDateChooser;
+import javax.swing.SpinnerNumberModel;
 
 public class TelaCadastroAmostra extends JFrame {
 
@@ -214,6 +215,7 @@ public class TelaCadastroAmostra extends JFrame {
 		tabbedPane.add("Amostra", contentPane);
 
 		final JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		spinner.setBounds(177, 220, 51, 20);
 		contentPane.add(spinner);
 
@@ -305,11 +307,13 @@ public class TelaCadastroAmostra extends JFrame {
 
 				amostraDAO amostraDAO = new DAO.amostraDAO();
 
-				if (amostraDAO.verificaCadastroAmostra(amostra, proposta) == "false") {
+				boolean existe = amostraDAO.verificaExistenciaAmostra(txtAmostra.getText());
+				
+				if (amostraDAO.verificaCadastroAmostra(amostra, proposta) == "false" || existe == true) {
 					JOptionPane.showMessageDialog(null, "Amostra ja cadastrada antes!");
 				} else {
 
-					if (amostraDAO.verificaQtdAmostras(qtd, proposta) == true) {
+					if (amostraDAO.verificaQtdAmostras(qtd, proposta) == true ) {
 
 						amostraDAO.cadastrarAmostra(amostra, periodicidade, ponto, proposta);
 						Integer idamostra = Integer.parseInt(amostraDAO.buscarIdAmostra(txtAmostra.getText()));

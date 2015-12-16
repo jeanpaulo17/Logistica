@@ -134,6 +134,33 @@ public class amostraDAO {
 		}
 
 	}
+	
+public boolean verificaExistenciaAmostra(String amostra){
+		
+		conexao.conexao();
+		
+		boolean ok= false;
+		
+		try {
+			
+			PreparedStatement pst = conexao.conn.prepareStatement("Select numero_amostra from amostra where numero_amostra = ?");
+			pst.setString(1, amostra);
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()){
+				ok = true;
+			return ok;
+			}
+			else{
+				ok = false;
+				return ok;
+			}
+		} catch (SQLException e) {
+		}
+		finally{
+			conexao.desconecta();
+		}
+		return ok;
+	}
 
 	public String cadastrarAmostra(String amostra, String periodicidade, String ponto, int proposta) {
 

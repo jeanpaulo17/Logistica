@@ -126,6 +126,7 @@ public class parametroDAO {
 	public String cadastrarParametro_Amostra(int amostra, int proposta,
 			int parametro) {
 
+		
 		try {
 
 			conexao.conexao();
@@ -148,6 +149,8 @@ public class parametroDAO {
 		return null;
 
 	}
+	
+
 
 	public int obterIdFrasco(String frasco) {
 
@@ -485,7 +488,7 @@ public class parametroDAO {
 		}
 	}
 
-	public void PreencherTabelaParametro(String sql, ArrayList dados) {
+	public void PreencherTabelaParametro(String sql, ArrayList<Object[]> dados) {
 
 		conexao.conexao();
 		conexao.executaSQL(sql);
@@ -511,7 +514,7 @@ public class parametroDAO {
 
 				} while (conexao.rs.next());
 			}else{
-				dados.removeAll(dados);
+				dados.clear();
 			}
 				
 
