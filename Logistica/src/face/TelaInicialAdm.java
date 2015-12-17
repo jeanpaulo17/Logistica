@@ -141,6 +141,10 @@ public class TelaInicialAdm extends JFrame {
 		// BOTAO DASHBOARD
 		mntmListarTodosOs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				TelaCalendario a = new TelaCalendario();
+				a.setVisible(true);
+				a.setLocationRelativeTo(null);
 
 			}
 		});

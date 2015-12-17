@@ -58,7 +58,6 @@ public class TelaDefinirDataColeta extends JFrame {
 	private JTextField txtPropostaAuto;
 	private JTextField txtAmostraAuto;
 	private JTextField txtOrdemAuto;
-	private JTextField txtColetor;
 
 	public TelaDefinirDataColeta() {
 
@@ -190,15 +189,6 @@ public class TelaDefinirDataColeta extends JFrame {
 		DataColeta.setBounds(296, 74, 139, 20);
 		panelDatas.add(DataColeta);
 
-		txtColetor = new JTextField();
-		txtColetor.setHorizontalAlignment(SwingConstants.CENTER);
-		txtColetor.setForeground(Color.BLACK);
-		txtColetor.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		txtColetor.setColumns(10);
-		txtColetor.setBackground(Color.WHITE);
-		txtColetor.setBounds(446, 108, 138, 20);
-		panelDatas.add(txtColetor);
-
 		JLabel Coletor = new JLabel("Coletor:");
 		Coletor.setHorizontalAlignment(SwingConstants.CENTER);
 		Coletor.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -208,38 +198,56 @@ public class TelaDefinirDataColeta extends JFrame {
 		final JDateChooser txtDataCol = new JDateChooser();
 		txtDataCol.setBounds(445, 74, 160, 20);
 		panelDatas.add(txtDataCol);
+		
+		
+		
+		final JComboBox cbcoletor = new JComboBox();
+		cbcoletor.setBounds(445, 108, 139, 20);
+		panelDatas.add(cbcoletor);
+		
 
 		JButton btnDefinir = new JButton("Definir");
+		btnDefinir.setBounds(446, 141, 138, 23);
+		panelDatas.add(btnDefinir);
 		btnDefinir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
 				String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());
 				String sql;
+				
+				int prop = Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText()));
+				int amost = Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText()));
 
 				try {
+				boolean ok = amostraDAO.verificarDiasIguais(datacoleta, prop, amost);
+				
+				if(ok == false){
+				
 				amostraDAO.DefinirDataColetor(
 				Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
 				Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
-				Integer.valueOf(txtOrdemAuto.getText()), datacoleta, txtColetor.getText());
-				} catch (NumberFormatException e) {
-				} catch (ParseException e) {
+				Integer.valueOf(txtOrdemAuto.getText()), datacoleta, Integer.valueOf(amostraDAO.buscarIdColetor(cbcoletor.getSelectedItem().toString())));
 				}
+				}catch (NumberFormatException e) {
+				} catch (ParseException e) {
+				}				
+				
 
 				
 				if(!txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty()){
 					
-					sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor, os.datacoleta"
-					+ " FROM proposta as pr, amostra as am, amostra_os as os "
-					+ " WHERE os.proposta = "+amostraDAO.buscarIdProposta(txtDatasProposta.getText())+" and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem";
+					sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , co.nome as coletor, os.datacoleta"
+					+ " FROM proposta as pr, amostra as am, amostra_os as os, coletor as co  "
+					+ " WHERE os.proposta = "+amostraDAO.buscarIdProposta(txtDatasProposta.getText())+" and os.proposta = pr.idproposta and os.amostra = am.idamostra and co.idcoletor = os.coletor order by amostra,ordem";
 					
 					amostraDAO.PreencherTabelaColeta(sql,dados3);
 					
 					}
 				
 				if(txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()){
-					sql =      "SELECT pr.numero_proposta as PROPOSTA, am.numero_amostra as AMOSTRA, os.ordem , os.coletor, os.datacoleta"
-							+ "	FROM  amostra_os as os, amostra as am, proposta as pr"
-							+ " WHERE am.numero_amostra='"+txtDatasAmostra.getText()+"' and  os.amostra = am.idamostra and os.proposta = pr.idproposta"
+					sql =      "SELECT pr.numero_proposta as PROPOSTA, am.numero_amostra as AMOSTRA, os.ordem , co.nome as coletor, os.datacoleta"
+							+ "	FROM  amostra_os as os, amostra as am, proposta as pr, coletor as co"
+							+ " WHERE am.numero_amostra='"+txtDatasAmostra.getText()+"' and  os.amostra = am.idamostra and os.proposta = pr.idproposta and co.idcoletor = os.coletor"
 							+ " ORDER BY proposta, amostra, ordem";
 						
 					amostraDAO.PreencherTabelaColeta(sql,dados3);
@@ -248,10 +256,10 @@ public class TelaDefinirDataColeta extends JFrame {
 				
 				if(!txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()){
 					
-					sql = " SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor, os.datacoleta "
-						+ " FROM proposta as pr, amostra as am, amostra_os as os "
+					sql = " SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , co.nome as coletor os.datacoleta "
+						+ " FROM proposta as pr, amostra as am, amostra_os as os, coletor as co"
 						+ " WHERE os.proposta = "+amostraDAO.buscarIdProposta(txtDatasProposta.getText())+" and os.amostra= "+amostraDAO.buscarIdAmostra(txtDatasAmostra.getText())+""
-						+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta ORDER BY proposta, amostra, ordem";
+						+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta  co.idcoletor = os.coletor ORDER BY proposta, amostra, ordem";
 					
 					amostraDAO.PreencherTabelaColeta(sql,dados3);
 					
@@ -298,8 +306,12 @@ public class TelaDefinirDataColeta extends JFrame {
 			}
 		});
 
-		btnDefinir.setBounds(446, 141, 138, 23);
-		panelDatas.add(btnDefinir);
+	
+		
+		ArrayList<String> dados = amostraDAO.obterColetores();
+		
+		for (int i = 0; i <= dados.size() - 1; i++)
+			cbcoletor.addItem(dados.get(i));
 
 		btnDatasPesquisar.addActionListener(new ActionListener() {
 
@@ -313,18 +325,18 @@ public class TelaDefinirDataColeta extends JFrame {
 				
 			if(!txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty()){
 				
-				sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor, os.datacoleta"
-				+ " FROM proposta as pr, amostra as am, amostra_os as os "
-				+ " WHERE os.proposta = "+amostraDAO.buscarIdProposta(txtDatasProposta.getText())+" and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem";
+				sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , co.nome as coletor, os.datacoleta"
+				+ " FROM proposta as pr, amostra as am, amostra_os as os, coletor as co "
+				+ " WHERE os.proposta = "+amostraDAO.buscarIdProposta(txtDatasProposta.getText())+" and os.proposta = pr.idproposta and os.amostra = am.idamostra and co.idcoletor = os.coletor order by amostra,ordem";
 				
 				amostraDAO.PreencherTabelaColeta(sql,dados3);
 				
 				}
 			
 			if(txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()){
-				sql =      "SELECT pr.numero_proposta as PROPOSTA, am.numero_amostra as AMOSTRA, os.ordem , os.coletor, os.datacoleta"
-						+ "	FROM  amostra_os as os, amostra as am, proposta as pr"
-						+ " WHERE am.numero_amostra='"+txtDatasAmostra.getText()+"' and  os.amostra = am.idamostra and os.proposta = pr.idproposta"
+				sql =      "SELECT pr.numero_proposta as PROPOSTA, am.numero_amostra as AMOSTRA, os.ordem , co.nome as coletor, os.datacoleta"
+						+ "	FROM  amostra_os as os, amostra as am, proposta as pr, coletor as co"
+						+ " WHERE am.numero_amostra='"+txtDatasAmostra.getText()+"' and  os.amostra = am.idamostra and os.proposta = pr.idproposta and co.idcoletor = os.coletor "
 						+ " ORDER BY proposta, amostra, ordem";
 					
 				amostraDAO.PreencherTabelaColeta(sql,dados3);
@@ -333,10 +345,10 @@ public class TelaDefinirDataColeta extends JFrame {
 			
 			if(!txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()){
 				
-				sql = " SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor, os.datacoleta "
-					+ " FROM proposta as pr, amostra as am, amostra_os as os "
+				sql = " SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , co.nome as coletor, os.datacoleta "
+					+ " FROM proposta as pr, amostra as am, amostra_os as os, coletor as co "
 					+ " WHERE os.proposta = "+amostraDAO.buscarIdProposta(txtDatasProposta.getText())+" and os.amostra= "+amostraDAO.buscarIdAmostra(txtDatasAmostra.getText())+""
-					+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta ORDER BY proposta, amostra, ordem";
+					+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta and co.idcoletor = os.coletor ORDER BY proposta, amostra, ordem";
 				
 				amostraDAO.PreencherTabelaColeta(sql,dados3);
 				

@@ -101,6 +101,53 @@ public class amostraDAO {
 			return msg;
 		}
 	}
+	
+	public String buscarIdColetor(String nome) {
+		String msg = "";
+
+		try {
+
+			conexao.conexao();
+
+			Statement stm = conexao.conn.createStatement();
+			ResultSet rs = stm
+					.executeQuery("select idColetor from coletor where nome='" + nome + "';");
+
+			if (rs.next()) {
+				msg = rs.getString(1);
+				return msg;
+			}
+
+		} catch (SQLException e1) {
+		} finally {
+			conexao.desconecta();
+			return msg;
+		}
+	}
+	
+	public ArrayList<String> obterColetores(){
+		conexao.conexao();
+		ArrayList<String> dados = new ArrayList<String>();
+		
+		try {
+			Statement stm = conexao.conn.createStatement();
+			ResultSet rs = stm
+					.executeQuery("SELECT nome FROM coletor;");
+
+			while (rs.next()) {
+				dados.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,
+					"Erro ao obter os dados. (obterColetores)" + e.getMessage());
+		} finally {
+			conexao.desconecta();
+		}
+
+		return dados;
+		
+	}
+
 
 	public String verificaCadastroAmostra(String amostra, int proposta) {
 
@@ -283,7 +330,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 	}
 	
 	
-	public void DefinirDataColetor(int idproposta, int idamostra, int ordem, String datacoleta, String coletor) throws ParseException {
+	public void DefinirDataColetor(int idproposta, int idamostra, int ordem, String datacoleta, int coletor) throws ParseException {
 		try {
 			
 			 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -297,7 +344,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 			conexao.conexao();
 			PreparedStatement pst = conexao.conn.prepareStatement("UPDATE amostra_os SET coletor=?, datacoleta=? where proposta=? and amostra=? and ordem=? ");
 			
-			pst.setString(1, coletor);
+			pst.setInt(1, coletor);
 			pst.setString(2, datacoleta);
 			pst.setInt(3, idproposta);
 			pst.setInt(4, idamostra);
@@ -371,6 +418,34 @@ public boolean verificaExistenciaAmostra(String amostra){
 		}
 		return ok;
 
+	}
+	
+	public boolean verificarDiasIguais(String data, int idproposta, int idamostra){
+		boolean ok=false;
+		
+		conexao.conexao();
+		try{
+		PreparedStatement pst = conexao.conn.prepareStatement("Select * from amostra_os where datacoleta=? and  proposta=? and  amostra=?");
+		
+		pst.setString(1, data);
+		pst.setInt(2, idproposta);
+		pst.setInt(3, idamostra);
+		
+		ResultSet rs = pst.executeQuery();
+		
+		if(rs.next()){
+			ok = true;
+			JOptionPane.showMessageDialog(null, "Você não pode alocar 2 ou mais amostras da mesma proposta no mesmo dia!");
+			return ok;
+		}else{
+			ok = false;
+			return ok;
+		}
+		}catch(SQLException ex){
+		}finally{
+			conexao.desconecta();
+		}
+		return ok; 
 	}
 
 }
