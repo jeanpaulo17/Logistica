@@ -330,7 +330,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 	}
 	
 	
-	public void DefinirDataColetor(int idproposta, int idamostra, int ordem, String datacoleta, int coletor) throws ParseException {
+	public void DefinirDataColetor(int idproposta, int idamostra, int ordem, String datacoleta, String coletor) throws ParseException {
 		try {
 			
 			 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -344,7 +344,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 			conexao.conexao();
 			PreparedStatement pst = conexao.conn.prepareStatement("UPDATE amostra_os SET coletor=?, datacoleta=? where proposta=? and amostra=? and ordem=? ");
 			
-			pst.setInt(1, coletor);
+			pst.setString(1, coletor);
 			pst.setString(2, datacoleta);
 			pst.setInt(3, idproposta);
 			pst.setInt(4, idamostra);
