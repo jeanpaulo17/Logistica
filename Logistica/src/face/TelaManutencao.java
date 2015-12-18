@@ -35,6 +35,7 @@ public class TelaManutencao extends JFrame {
 	private JTextField txtPreservacao;
 	private JTextField txtTipoAmostra;
 	private JTextField txtCodigo;
+	private JTextField txtLegislacao;
 
 	public TelaManutencao() {
 		setTitle("Adicionar Dados");
@@ -305,5 +306,118 @@ public class TelaManutencao extends JFrame {
 		});
 		btnTipoAmostra.setBounds(368, 211, 109, 23);
 		panelFrasco.add(btnTipoAmostra);
+		
+		JPanel panelLegislacao = new JPanel();
+		panelLegislacao.setBorder(new TitledBorder(null, "Legisla\u00E7\u00E3o", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		tabbedPaneCadastro.addTab("Legislação", null, panelLegislacao, null);
+		panelLegislacao.setLayout(null);
+		
+		JLabel lblNovaLegislao = new JLabel("Nova Legisla\u00E7\u00E3o:");
+		lblNovaLegislao.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNovaLegislao.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNovaLegislao.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNovaLegislao.setBounds(0, 27, 508, 20);
+		panelLegislacao.add(lblNovaLegislao);
+		
+		txtLegislacao = new JTextField();
+		txtLegislacao.setBounds(10, 58, 372, 20);
+		panelLegislacao.add(txtLegislacao);
+		txtLegislacao.setColumns(10);
+		
+		JButton btnCadastrar = new JButton("Cadastrar");
+		
+		btnCadastrar.setBounds(392, 57, 106, 23);
+		panelLegislacao.add(btnCadastrar);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(10, 103, 488, 2);
+		panelLegislacao.add(separator_1);
+		
+		JLabel lblLegislao = new JLabel("Legisla\u00E7\u00E3o: ");
+		lblLegislao.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblLegislao.setBounds(10, 161, 79, 14);
+		panelLegislacao.add(lblLegislao);
+		
+		final JComboBox cbLegislacao = new JComboBox();
+		cbLegislacao.setBounds(88, 158, 410, 20);
+		panelLegislacao.add(cbLegislacao);
+		
+		JLabel lblParametros = new JLabel("Parametros:");
+		lblParametros.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblParametros.setBounds(10, 192, 79, 14);
+		panelLegislacao.add(lblParametros);
+		
+		final JComboBox cbParametro_legislacao = new JComboBox();
+		cbParametro_legislacao.setBounds(88, 189, 410, 20);
+		panelLegislacao.add(cbParametro_legislacao);
+		
+		JButton btnVerLegislacao = new JButton("Ver Legisla\u00E7\u00E3o");
+		btnVerLegislacao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+				
+			}
+		});
+		btnVerLegislacao.setBounds(89, 220, 119, 23);
+		panelLegislacao.add(btnVerLegislacao);
+		
+		JButton btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				
+			
+			p.cadastrarParametroLegislacao((String)cbLegislacao.getSelectedItem(),(String)cbParametro_legislacao.getSelectedItem() );		
+			}
+		});
+		btnAdicionar.setBounds(298, 220, 95, 23);
+		panelLegislacao.add(btnAdicionar);
+		
+		JButton btnCancelarLegislacao = new JButton("Cancelar");
+		btnCancelarLegislacao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnCancelarLegislacao.setBounds(403, 220, 95, 23);
+		panelLegislacao.add(btnCancelarLegislacao);
+		
+		JLabel lblAdicionarParmetroNa = new JLabel("Adicionar Par\u00E2metro na Legisla\u00E7\u00E3o");
+		lblAdicionarParmetroNa.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblAdicionarParmetroNa.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAdicionarParmetroNa.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblAdicionarParmetroNa.setBounds(0, 123, 508, 17);
+		panelLegislacao.add(lblAdicionarParmetroNa);
+		ArrayList<String> dados2 = null;
+		ArrayList<String> dados3 = null;
+		try {
+		dados2 = p.obterDados();
+		dados3 =  p.obterLegislacao();
+		} catch (Exception ex) {
+
+		}
+		for (int i = 0; i < dados2.size(); i++)
+			cbParametro_legislacao.addItem(dados2.get(i));
+		
+		for (int i = 0; i < dados3.size(); i++)
+			cbLegislacao.addItem(dados3.get(i));
+		
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			p.cadastrarLegislacao(txtLegislacao.getText());
+			
+			cbLegislacao.removeAllItems();
+			ArrayList dados3 =  p.obterLegislacao();
+			
+			for (int i = 0; i < dados3.size(); i++)
+				cbLegislacao.addItem(dados3.get(i));
+				
+			}
+		});
+	
 	}
+
 }

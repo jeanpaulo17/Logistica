@@ -107,6 +107,11 @@ public class TelaDefinirParametro extends JFrame {
 		panelParametros.add(btnAdicionarParametro);
 
 		JButton btnCancelarParametro = new JButton("Cancelar");
+		btnCancelarParametro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
 		btnCancelarParametro.setBounds(518, 183, 89, 23);
 		panelParametros.add(btnCancelarParametro);
 

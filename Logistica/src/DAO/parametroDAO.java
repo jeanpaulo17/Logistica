@@ -40,6 +40,30 @@ public class parametroDAO {
 		return dados;
 	}
 
+	
+	
+
+	public ArrayList<String> obterLegislacao() {
+
+		conexao.conexao();
+		ArrayList<String> dados = new ArrayList<String>();
+
+		try {
+			Statement stm = conexao.conn.createStatement();
+			ResultSet rs = stm.executeQuery("SELECT descricao FROM legislacao");
+
+			while (rs.next()) {
+				dados.add(rs.getString(1));
+			}
+		}catch(SQLException ex){
+			JOptionPane.showMessageDialog(null,	"ERRO ao buscar Legislação"+ex.getClass());
+		} finally {
+			conexao.desconecta();
+		}
+
+		return dados;
+	}
+	
 	public ArrayList<String> obterAmostra(String proposta) {
 
 		conexao.conexao();
@@ -150,7 +174,30 @@ public class parametroDAO {
 
 	}
 	
+	public String cadastrarLegislacao(String legislacao) {
 
+		
+		try {
+
+			conexao.conexao();
+			PreparedStatement pst = conexao.conn
+					.prepareStatement("INSERT INTO legislacao (descricao) VALUES (?)");
+			pst.setString(1, legislacao);
+
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Legislação incluida!");
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,
+					"Erro ao obter os dados" + e.getMessage());
+		} finally {
+			conexao.desconecta();
+		}
+
+		return null;
+
+	}
+	
 
 	public int obterIdFrasco(String frasco) {
 
@@ -205,6 +252,34 @@ public class parametroDAO {
 
 		return idPreservacao;
 	}
+	
+	public int obterIdLegislacao(String legislacao) {
+
+		int idlegislacao = 0;
+
+		try {
+
+			conexao.conexao();
+			PreparedStatement pst = conexao.conn
+					.prepareStatement("select idlegislacao from legislacao where descricao = ?");
+			pst.setString(1, legislacao);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next())
+				idlegislacao = rs.getInt(1);
+
+			return idlegislacao;
+		}
+
+		catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,
+					"Erro ao obter os dados. (OBTER ID LEGISLACAO)" + e.getMessage());
+		} finally {
+			conexao.desconecta();
+		}
+
+		return idlegislacao;
+	}
+
 
 	public int obterIdVolume(double volume) {
 
@@ -276,6 +351,35 @@ public class parametroDAO {
 			pst.setInt(4, preservacao1);
 			pst.setInt(5, volume1);
 			pst.setInt(6, tipoAmostra1);
+
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Parâmetro incluido!");
+
+		}
+
+		catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,
+					"Erro ao cadastrar Parametro" + e.getMessage());
+		} finally {
+			conexao.desconecta();
+		}
+
+	}
+	
+	public void cadastrarParametroLegislacao(String legislacao, String parametro) {
+
+		int legislacao1 = obterIdLegislacao(legislacao);
+		int parametro1 = obterCodigoParametro(parametro);
+
+		try {
+
+			conexao.conexao();
+			PreparedStatement pst = conexao.conn
+					.prepareStatement("insert into legislacao_parametro(legislacao, parametro)values (?, ?)");
+
+			pst.setInt(1, legislacao1);
+			pst.setInt(2, parametro1);
+		
 
 			pst.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Parâmetro incluido!");
@@ -482,6 +586,35 @@ public class parametroDAO {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null,
 					"Erro ao obter os dados.(PreencherTabela1)" + e.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+	
+	public void PreencherTabelaLegislacao(String sql, ArrayList dados) {
+
+		conexao.conexao();
+		conexao.executaSQL(sql);
+		try {
+
+			if (conexao.rs.first()) {
+				dados.clear();
+				do {
+					dados.add(new Object[] {
+
+					conexao.rs.getObject("legislacao"),
+					conexao.rs.getObject("parametro") });
+
+				} while (conexao.rs.next());
+			}else{
+				
+				
+			}
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,
+					"Erro ao obter os dados.(PreencherTabelaLegislacao)" + e.getMessage());
 
 		} finally {
 			conexao.desconecta();
