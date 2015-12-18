@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
@@ -36,10 +37,11 @@ public class TelaManutencao extends JFrame {
 	private JTextField txtTipoAmostra;
 	private JTextField txtCodigo;
 	private JTextField txtLegislacao;
+	public	static int leg ;
 
 	public TelaManutencao() {
 		setTitle("Adicionar Dados");
-		setBounds(100, 100, 529, 319);
+		setBounds(100, 100, 530, 320);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -355,8 +357,8 @@ public class TelaManutencao extends JFrame {
 		btnVerLegislacao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				
-				
+				leg = p.obterIdLegislacao(String.valueOf(cbLegislacao.getSelectedItem()));
+				p.abrirTelaVerLegislacao();
 				
 			}
 		});

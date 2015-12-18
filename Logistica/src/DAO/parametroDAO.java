@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import face.TelaVerLegislacao;
 import utilitarios.ConectaBanco;
 
 public class parametroDAO {
@@ -16,6 +17,12 @@ public class parametroDAO {
 	}
 
 	final ConectaBanco conexao = new ConectaBanco();
+	
+	public void abrirTelaVerLegislacao(){
+		TelaVerLegislacao t = new TelaVerLegislacao();
+		t.setVisible(true);
+		t.setLocationRelativeTo(null);;
+	}
 
 	public ArrayList<String> obterDados() {
 
@@ -603,8 +610,7 @@ public class parametroDAO {
 				do {
 					dados.add(new Object[] {
 
-					conexao.rs.getObject("legislacao"),
-					conexao.rs.getObject("parametro") });
+					conexao.rs.getObject("descricao") });
 
 				} while (conexao.rs.next());
 			}else{
