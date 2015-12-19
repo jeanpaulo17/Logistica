@@ -422,18 +422,11 @@ public class TelaDefinirParametro extends JFrame {
 					}else {
 						
 					amostraDAO am = new amostraDAO();	
-					int legislacao = p.obterIdLegislacao((String) cbLegislacao.getSelectedItem());	
+					int legislacao = Integer.valueOf(p.obterIdLegislacao((String) cbLegislacao.getSelectedItem()));	
 					int idamostra = Integer.valueOf(am.buscarIdAmostra((String) cbNumeroAmostra.getSelectedItem()));
 					int idproposta = Integer.parseInt(amostraDAO.buscarIdProposta((String)txtProposta_Amostra.getText()));
 					int idParametro = Integer.valueOf(p.obterCodigoParametro( (String) cbParametro.getSelectedItem()));
 					
-					
-					JOptionPane.showMessageDialog(null, legislacao);
-					JOptionPane.showMessageDialog(null, idamostra);
-					JOptionPane.showMessageDialog(null,idproposta);
-					JOptionPane.showMessageDialog(null, idParametro);
-					
-						
 					p.cadastrarLegislacaoNaAmostra(legislacao, idamostra, idproposta, idParametro);
 													
 						}

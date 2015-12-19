@@ -23,6 +23,37 @@ public class parametroDAO {
 		t.setVisible(true);
 		t.setLocationRelativeTo(null);;
 	}
+	
+public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, int parametro){
+		
+		conexao.conexao();
+		
+		boolean ok= false;
+		
+		try {
+			
+			PreparedStatement pst5 = conexao.conn.prepareStatement("Select proposta,amostra,parametro from amostra_parametro where amostra = ? and proposta=? and parametro=?");
+			pst5.setInt(1, proposta);
+			pst5.setInt(2, amostra);
+			pst5.setInt(3, parametro);
+			
+			ResultSet rs = pst5.executeQuery();
+			if(rs.next()){
+				ok = true;
+			return ok;
+			}
+			else{
+				ok = false;
+				return ok;
+			}
+		} catch (SQLException e) {
+		}
+		finally{
+			conexao.desconecta();
+		}
+		return ok;
+	}
+
 
 	public ArrayList<String> obterDados() {
 
@@ -84,31 +115,32 @@ public class parametroDAO {
 		
 			pst2.setInt(1, legislacao);
 			
-			ResultSet rs2 = pst.executeQuery();
+			ResultSet rs2 = pst2.executeQuery();
 			
 			while (rs2.next()) {
 				idParametros.add(rs2.getString(1));
 			}
 			
-			for(i=0; i<idParametros.size();i++){
-				JOptionPane.showMessageDialog(null, idamostra);
-				JOptionPane.showMessageDialog(null, idproposta);
-				JOptionPane.showMessageDialog(null,(Integer) idParametros.get(i));
-				
-				
-				
 			pst.setInt(1, idamostra);
 			pst.setInt(2, idproposta);
-			pst.setInt(3, (Integer) idParametros.get(i));
 			
+			for(i=0; i<idParametros.size();i++){
+				parametroDAO dao = new parametroDAO();
+				
+				if(dao.verificaExistenciaParametroNaAmostra(idproposta, idamostra, idparametro) == true){
+				pst.setInt(3, Integer.valueOf((String) idParametros.get(i)));
+				pst.executeUpdate();
+				}else{
+					JOptionPane.showMessageDialog(null, "Parametro já cadastrado!");
+				}
 			
-			pst.executeUpdate();
 			}
 			
 			JOptionPane.showMessageDialog(null, "Legislacao incluida!");
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getClass());
+			JOptionPane.showMessageDialog(null, e.getMessage());
 			
 		}finally{
 			conexao.desconecta();
