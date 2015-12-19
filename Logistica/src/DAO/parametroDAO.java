@@ -47,17 +47,82 @@ public class parametroDAO {
 		return dados;
 	}
 
+	public int contarParametrosLegislacao(int legislacao){
+		int qtd = 0;
+		
+		conexao.conexao();
 	
+		try{
+		PreparedStatement pst = conexao.conn.prepareStatement("Select Count(parametro) from legislacao_parametro where legislacao="+legislacao);
+		ResultSet rs = pst.executeQuery();
+		
+		if(rs.next()){
+			qtd = rs.getInt(1);
+			return qtd;
+		}
+		
+		}catch(SQLException ex){
+		
+		}finally{
+		conexao.desconecta();
+		}
+		
+		return qtd;
+	}
 	
+	public void cadastrarLegislacaoNaAmostra(int legislacao, int idamostra, int idproposta, int idparametro){
+	
+		int i;
+		ArrayList idParametros = new ArrayList();
+		conexao.conexao();
 
-	public ArrayList<String> obterLegislacao() {
+
+		try {
+			
+			PreparedStatement pst = conexao.conn.prepareStatement("INSERT INTO amostra_parametro (amostra,proposta,parametro) VALUES (?,?,?)");
+			PreparedStatement pst2 = conexao.conn.prepareStatement("select parametro from legislacao_parametro where legislacao=?");
+		
+			pst2.setInt(1, legislacao);
+			
+			ResultSet rs2 = pst.executeQuery();
+			
+			while (rs2.next()) {
+				idParametros.add(rs2.getString(1));
+			}
+			
+			for(i=0; i<idParametros.size();i++){
+				JOptionPane.showMessageDialog(null, idamostra);
+				JOptionPane.showMessageDialog(null, idproposta);
+				JOptionPane.showMessageDialog(null,(Integer) idParametros.get(i));
+				
+				
+				
+			pst.setInt(1, idamostra);
+			pst.setInt(2, idproposta);
+			pst.setInt(3, (Integer) idParametros.get(i));
+			
+			
+			pst.executeUpdate();
+			}
+			
+			JOptionPane.showMessageDialog(null, "Legislacao incluida!");
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getClass());
+			
+		}finally{
+			conexao.desconecta();
+		}
+		}
+		
+		public ArrayList<String> obterLegislacao() {
 
 		conexao.conexao();
 		ArrayList<String> dados = new ArrayList<String>();
 
 		try {
 			Statement stm = conexao.conn.createStatement();
-			ResultSet rs = stm.executeQuery("SELECT descricao FROM legislacao");
+			ResultSet rs = stm.executeQuery("SELECT descricao FROM legislacao order by descricao");
 
 			while (rs.next()) {
 				dados.add(rs.getString(1));
