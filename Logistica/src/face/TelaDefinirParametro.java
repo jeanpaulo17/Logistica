@@ -48,6 +48,12 @@ public class TelaDefinirParametro extends JFrame {
 	private JTextField txtProposta_Amostra;
 	private JTextField txtEmpresa_Parametro;
 	private int index;
+	
+	private int linha;
+	private String propostaTable;
+	private String amostraTable;
+	private String parametroTable;
+
 
 	public TelaDefinirParametro() {
 
@@ -101,25 +107,17 @@ public class TelaDefinirParametro extends JFrame {
 		panelParametros.add(cbParametro);
 		
 		final parametroDAO p = new parametroDAO();
-		
-		try {
-			dados2 = p.obterDados();
-			
-			dados3 =  p.obterLegislacao();
-			
-		} catch (Exception ex) {
+		dados2 = p.obterDados();
+		dados3 =  p.obterLegislacao();
 
-		}
-		
 		for (int i = 0; i < dados2.size(); i++)
 			cbParametro.addItem(dados2.get(i));
 		
 		for (int i = 0; i < dados3.size(); i++)
 			cbLegislacao.addItem(dados3.get(i));
 
-
 		JButton btnAdicionarParametro = new JButton("Adicionar");
-		btnAdicionarParametro.setBounds(419, 224, 89, 23);
+		btnAdicionarParametro.setBounds(518, 224, 89, 23);
 		panelParametros.add(btnAdicionarParametro);
 
 		JButton btnCancelarParametro = new JButton("Cancelar");
@@ -128,7 +126,7 @@ public class TelaDefinirParametro extends JFrame {
 				dispose();
 			}
 		});
-		btnCancelarParametro.setBounds(518, 224, 89, 23);
+		btnCancelarParametro.setBounds(320, 224, 89, 23);
 		panelParametros.add(btnCancelarParametro);
 
 		JSeparator separator_1 = new JSeparator();
@@ -193,6 +191,24 @@ public class TelaDefinirParametro extends JFrame {
 		lblLegislacao.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		lblLegislacao.setBounds(27, 186, 139, 20);
 		panelParametros.add(lblLegislacao);
+		
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setBounds(419, 224, 89, 23);
+		panelParametros.add(btnExcluir);
+		
+		
+		
+		tableParametro.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				linha = tableParametro.getSelectedRow();
+				propostaTable = (String) tableParametro.getValueAt(linha, 0);
+				amostraTable = (String) tableParametro.getValueAt(linha, 2);
+				parametroTable = (String) tableParametro.getValueAt(linha, 4);
+				
+			}
+		});
 		
 		txtProposta_Amostra.addMouseListener(new MouseAdapter() {
 			@Override
@@ -295,7 +311,7 @@ public class TelaDefinirParametro extends JFrame {
 							amostraDAO.buscarEmpresa(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText())));
 					cbNumeroAmostra.getSelectedIndex();
 
-					for (int i = 0; i <= amostras.size() - 1; i++)
+					for (int i = 0; i <= amostras.size() -1; i++)
 						cbNumeroAmostra.addItem(amostras.get(i));
 
 					try {
@@ -366,13 +382,11 @@ public class TelaDefinirParametro extends JFrame {
 				String numAmostra = (String) cbNumeroAmostra.getSelectedItem();
 				String proposta = txtProposta_Amostra.getText();
 
-				parametroDAO parametroDAO = new DAO.parametroDAO();
-
-				int codParametro = parametroDAO.obterCodigoParametro(String.valueOf(cbParametro.getSelectedItem()));
+				int codParametro = p.obterCodigoParametro(String.valueOf(cbParametro.getSelectedItem()));
 
 				if(!String.valueOf(cbLegislacao.getSelectedItem()).equals(" ") && !String.valueOf(cbParametro.getSelectedItem()).equals(" ")){
 					JOptionPane.showMessageDialog(null, "Você não pode cadastrar um parametro e uma legislação ao mesmo tempo!");
-				}else if (parametroDAO.verificaCadastroParametro(Integer.parseInt(amostraDAO.buscarIdAmostra(numAmostra)),
+				}else if (p.verificaCadastroParametro(Integer.parseInt(amostraDAO.buscarIdAmostra(numAmostra)),
 						codParametro, Integer.parseInt(amostraDAO.buscarIdProposta(proposta))) == "false") {
 					JOptionPane.showMessageDialog(null, "Parametro ja cadastrada antes!");
 				} else if (txtProposta_Amostra.getText().isEmpty() || cbNumeroAmostra.getItemCount() == 0) {
@@ -381,8 +395,8 @@ public class TelaDefinirParametro extends JFrame {
 					
 					if(String.valueOf(cbLegislacao.getSelectedItem()).equals(" ") && !String.valueOf(cbParametro.getSelectedItem()).equals(" ")){
 			
-					parametroDAO.cadastrarParametro_Amostra(Integer.parseInt(amostraDAO.buscarIdAmostra(numAmostra)),
-							Integer.parseInt(amostraDAO.buscarIdProposta(proposta)), codParametro);
+					p.cadastrarParametro_Amostra(Integer.parseInt(amostraDAO.buscarIdAmostra(numAmostra)),
+					Integer.parseInt(amostraDAO.buscarIdProposta(proposta)), codParametro);
 
 					index = cbNumeroAmostra.getSelectedIndex();
 
@@ -427,12 +441,17 @@ public class TelaDefinirParametro extends JFrame {
 					int idproposta = Integer.parseInt(amostraDAO.buscarIdProposta((String)txtProposta_Amostra.getText()));
 					int idParametro = Integer.valueOf(p.obterCodigoParametro( (String) cbParametro.getSelectedItem()));
 					
+					
+					JOptionPane.showMessageDialog(null, "legislacao "+legislacao);
+					JOptionPane.showMessageDialog(null, "idamostra "+idamostra);
+					JOptionPane.showMessageDialog(null, "idproposta "+idproposta);
+					JOptionPane.showMessageDialog(null, "idParametro "+idParametro);
+					
+					
 					p.cadastrarLegislacaoNaAmostra(legislacao, idamostra, idproposta, idParametro);
 													
 						}
 				
-						index = cbNumeroAmostra.getSelectedIndex();
-
 						tableParametro.removeAll();
 
 						ArrayList amostras;
@@ -443,8 +462,6 @@ public class TelaDefinirParametro extends JFrame {
 
 						// for (int i = 0; i <= amostras.size() - 1; i++)
 						// cbNumeroAmostra.addItem(amostras.get(i));
-
-						cbNumeroAmostra.setSelectedIndex(index);
 
 						parametroDAO1
 								.PreencherTabelaParametro(
@@ -504,9 +521,79 @@ public class TelaDefinirParametro extends JFrame {
 						}
 					});
 				}
+			
+			
 
 			
 		});
+		
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			
+				p.ExcluirParametro(Integer.valueOf(amostraDAO.buscarIdProposta(propostaTable)), Integer.valueOf(amostraDAO.buscarIdAmostra(amostraTable)), Integer.valueOf(p.obterCodigoParametro(parametroTable)));
 
+				p.verificaExistenciaParametroNaAmostra(Integer.valueOf(amostraDAO.buscarIdProposta(propostaTable)),
+						Integer.valueOf(amostraDAO.buscarIdAmostra(amostraTable)),
+						Integer.valueOf(p.obterCodigoParametro(parametroTable)));
+		try {
+				
+					p.PreencherTabelaParametro(
+							"select pr.numero_proposta as proposta , am.numero_amostra as amostra, pr.empresa, am.ponto , pa.descricao as parametro, fr.descricao as frasco, "
+									+ " pre.descricao as preservacao, vol.volume as volume, uni.unidade_medida as uni, tip.descricao as tipoamostra from unidade_medida as uni, amostra_parametro as ap, "
+									+ " proposta as pr , amostra as am , parametro as pa, frasco as fr, preservacao as pre, volume as vol, tipoamostra as tip "
+									+ " where ap.proposta="
+									+ amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) + ""
+									+ " and pr.idproposta= "
+									+ amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) + ""
+									+ " and ap.proposta="
+									+ amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) + ""
+									+ " and ap.amostra = "
+									+ amostraDAO.buscarIdAmostra(
+											String.valueOf(cbNumeroAmostra.getSelectedItem()))
+									+ ""
+									+ " and am.idamostra = ap.amostra and ap.parametro = pa.idparametro and pr.idproposta = ap.proposta "
+									+ " and fr.id_frasco = pa.frasco and pre.id_preservacao = pa.preservacao and vol.id_volume = pa.volume "
+									+ " and tip.idtipoamostra = pa.tipoamostra and uni.id_unidade_medida = vol.id_unidade_medida",
+							dados2);
+					tableParametro.setSurrendersFocusOnKeystroke(true);
+					tableParametro.setFocusTraversalPolicyProvider(true);
+					tableParametro.setFocusCycleRoot(true);
+					tableParametro.setForeground(new Color(0, 0, 0));
+					tableParametro.setSelectionForeground(new Color(0, 0, 0));
+					tableParametro.setFillsViewportHeight(true);
+					tableParametro.setSelectionBackground(new Color(135, 206, 235));
+					tableParametro.setAutoCreateRowSorter(true);
+					scrollPaneParametro.setViewportView(tableParametro);
+
+					tableParametro.getColumnModel().getColumn(0).setPreferredWidth(130);
+					tableParametro.getColumnModel().getColumn(1).setPreferredWidth(200);
+					tableParametro.getColumnModel().getColumn(2).setPreferredWidth(130);
+					tableParametro.getColumnModel().getColumn(3).setPreferredWidth(200);
+					tableParametro.getColumnModel().getColumn(4).setPreferredWidth(400);
+					tableParametro.getColumnModel().getColumn(5).setPreferredWidth(200);
+					tableParametro.getColumnModel().getColumn(6).setPreferredWidth(200);
+					tableParametro.getColumnModel().getColumn(7).setPreferredWidth(100);
+					tableParametro.getColumnModel().getColumn(8).setPreferredWidth(70);
+					tableParametro.getColumnModel().getColumn(9).setPreferredWidth(120);
+
+					tableParametro.getTableHeader().setReorderingAllowed(false);
+					tableParametro.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+					tableParametro.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+					tableParametro.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+
+						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+								boolean hasFocus, int row, int column) {
+							super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+							this.setHorizontalAlignment(CENTER);
+							return this;
+						}
+					});
+						} finally {
+						}
+				
+			}
+		});
+		
 	}
 }

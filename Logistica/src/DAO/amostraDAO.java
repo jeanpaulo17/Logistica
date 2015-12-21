@@ -18,6 +18,8 @@ import face.TelaManutencao;
 
 public class amostraDAO {
 	final ConectaBanco conexao = new ConectaBanco();
+	PreparedStatement pst;
+	Statement stm;
 
 	public amostraDAO() {
 
@@ -30,9 +32,14 @@ public class amostraDAO {
 	}
 
 	public void abrirManutencao() {
-		TelaManutencao t = new TelaManutencao();
-		t.setVisible(true);
-		t.setLocationRelativeTo(null);
+		TelaManutencao t;
+		try {
+			t = new TelaManutencao();
+			t.setVisible(true);
+			t.setLocationRelativeTo(null);
+		} catch (SQLException e) {
+		}
+		
 	}
 
 	public String buscarEmpresa(String proposta) {
@@ -42,7 +49,7 @@ public class amostraDAO {
 
 			conexao.conexao();
 
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm.executeQuery("select empresa from proposta where idproposta='" + proposta + "'");
 
 			if (rs.next()) {
@@ -64,7 +71,7 @@ public class amostraDAO {
 
 			conexao.conexao();
 
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm.executeQuery("select idamostra from amostra where numero_amostra='" + string + "';");
 
 			if (rs.next()) {
@@ -86,7 +93,7 @@ public class amostraDAO {
 
 			conexao.conexao();
 
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
 					.executeQuery("select idproposta from proposta where numero_proposta='" + numero_proposta + "';");
 
@@ -109,7 +116,7 @@ public class amostraDAO {
 
 			conexao.conexao();
 
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
 					.executeQuery("select idColetor from coletor where nome='" + nome + "';");
 
@@ -130,7 +137,7 @@ public class amostraDAO {
 		ArrayList<String> dados = new ArrayList<String>();
 		
 		try {
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
 					.executeQuery("SELECT nome FROM coletor;");
 
@@ -157,7 +164,7 @@ public class amostraDAO {
 
 		try {
 
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm.executeQuery("select numero_amostra, proposta from amostra where numero_amostra='"
 					+ amostra + "' and proposta='" + proposta + "'");
 
@@ -190,7 +197,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 		
 		try {
 			
-			PreparedStatement pst = conexao.conn.prepareStatement("Select numero_amostra from amostra where numero_amostra = ?");
+			pst = conexao.conn.prepareStatement("Select numero_amostra from amostra where numero_amostra = ?");
 			pst.setString(1, amostra);
 			ResultSet rs = pst.executeQuery();
 			if(rs.next()){
@@ -214,7 +221,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 		try {
 
 			conexao.conexao();
-			PreparedStatement pst = conexao.conn.prepareStatement(
+			pst = conexao.conn.prepareStatement(
 					"INSERT INTO amostra (numero_amostra,periodicidade,ponto,proposta) VALUES (?,?,?,?)");
 			pst.setString(1, amostra);
 			pst.setString(2, periodicidade);
@@ -295,7 +302,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 		String sql = "INSERT INTO tipoamostra (descricao) VALUES (?);";
 		try {
 			conexao.conexao();
-			PreparedStatement pst = conexao.conn.prepareStatement(sql);
+			pst = conexao.conn.prepareStatement(sql);
 			pst.setString(1, tipo);
 			pst.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Tipo de Amostra cadastrada com sucesso!");
@@ -310,7 +317,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 	public void cadastrarAmostra_OS(int idproposta, int idamostra, int qtd) {
 		try {
 			conexao.conexao();
-			PreparedStatement pst = conexao.conn
+			pst = conexao.conn
 					.prepareStatement("INSERT INTO amostra_os (proposta, amostra, ordem) VALUES (?,?,?)");
 			int ordem = 0;
 
@@ -342,7 +349,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 	         
 	        if(diaDaSemana != 1){ 
 			conexao.conexao();
-			PreparedStatement pst = conexao.conn.prepareStatement("UPDATE amostra_os SET coletor=?, datacoleta=? where proposta=? and amostra=? and ordem=? ");
+			pst = conexao.conn.prepareStatement("UPDATE amostra_os SET coletor=?, datacoleta=? where proposta=? and amostra=? and ordem=? ");
 			
 			pst.setString(1, coletor);
 			pst.setString(2, datacoleta);
@@ -369,7 +376,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 
 		try {
 
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm.executeQuery("select quantidadedeamostras from proposta where idproposta=" + idproposta);
 
 			if (rs.next()) {
@@ -389,7 +396,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 
 		try {
 
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm.executeQuery("select count(proposta) from amostra_os where proposta=" + idproposta);
 
 			if (rs.next()) {
@@ -425,7 +432,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 		
 		conexao.conexao();
 		try{
-		PreparedStatement pst = conexao.conn.prepareStatement("Select * from amostra_os where datacoleta=? and  proposta=? and  amostra=?");
+		pst = conexao.conn.prepareStatement("Select * from amostra_os where datacoleta=? and  proposta=? and  amostra=?");
 		
 		pst.setString(1, data);
 		pst.setInt(2, idproposta);
@@ -446,6 +453,25 @@ public boolean verificaExistenciaAmostra(String amostra){
 			conexao.desconecta();
 		}
 		return ok; 
+	}
+	
+	public void ExcluirAmostra(int proposta, String amostra) {
+
+		try {
+			conexao.conexao();
+
+			pst = conexao.conn.prepareStatement("DELETE FROM amostra WHERE proposta=? and numero_amostra=?");
+			pst.setInt(1, proposta);
+			pst.setString(2, amostra);
+			
+			if(pst.executeUpdate() == 1){
+				JOptionPane.showMessageDialog(null, "Sucesso!");
+			}
+
+		} catch (SQLException e1) {
+		} finally {
+			conexao.desconecta();
+		}
 	}
 
 }

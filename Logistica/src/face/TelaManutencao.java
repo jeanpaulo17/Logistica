@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -25,6 +26,7 @@ import DAO.frascoDAO;
 import DAO.parametroDAO;
 import DAO.preservacaoDAO;
 import DAO.volumeDAO;
+
 import javax.swing.border.TitledBorder;
 
 public class TelaManutencao extends JFrame {
@@ -39,7 +41,7 @@ public class TelaManutencao extends JFrame {
 	private JTextField txtLegislacao;
 	public	static int leg ;
 
-	public TelaManutencao() {
+	public TelaManutencao() throws SQLException {
 		setTitle("Adicionar Dados");
 		setBounds(100, 100, 530, 320);
 		contentPane = new JPanel();
@@ -169,7 +171,6 @@ public class TelaManutencao extends JFrame {
 						cbVolume.addItem(dados3.get(i));
 					}
 				}
-
 			}
 		});
 
@@ -184,8 +185,7 @@ public class TelaManutencao extends JFrame {
 				String preservacao = (String) cbPreservacao.getSelectedItem();
 				String tipoAmostra = (String) cbTipoAmostra.getSelectedItem();
 
-				p.cadastrarParametro(parametro, codigo, frasco, volume, preservacao, tipoAmostra);
-
+					p.cadastrarParametro(parametro, codigo, frasco, volume, preservacao, tipoAmostra);
 			}
 		});
 
@@ -368,10 +368,7 @@ public class TelaManutencao extends JFrame {
 		JButton btnAdicionar = new JButton("Adicionar");
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				
-			
-			p.cadastrarParametroLegislacao((String)cbLegislacao.getSelectedItem(),(String)cbParametro_legislacao.getSelectedItem() );		
+				p.cadastrarParametroLegislacao((String)cbLegislacao.getSelectedItem(),(String)cbParametro_legislacao.getSelectedItem() );
 			}
 		});
 		btnAdicionar.setBounds(298, 220, 95, 23);
@@ -394,12 +391,9 @@ public class TelaManutencao extends JFrame {
 		panelLegislacao.add(lblAdicionarParmetroNa);
 		ArrayList<String> dados2 = null;
 		ArrayList<String> dados3 = null;
-		try {
 		dados2 = p.obterDados();
 		dados3 =  p.obterLegislacao();
-		} catch (Exception ex) {
 
-		}
 		for (int i = 0; i < dados2.size(); i++)
 			cbParametro_legislacao.addItem(dados2.get(i));
 		
@@ -409,14 +403,14 @@ public class TelaManutencao extends JFrame {
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-			p.cadastrarLegislacao(txtLegislacao.getText());
+				p.cadastrarLegislacao(txtLegislacao.getText());
 			
 			cbLegislacao.removeAllItems();
-			ArrayList dados3 =  p.obterLegislacao();
-			
-			for (int i = 0; i < dados3.size(); i++)
+			ArrayList dados3;
+				dados3 = p.obterLegislacao();
+				for (int i = 0; i < dados3.size(); i++)
 				cbLegislacao.addItem(dados3.get(i));
-				
+		
 			}
 		});
 	

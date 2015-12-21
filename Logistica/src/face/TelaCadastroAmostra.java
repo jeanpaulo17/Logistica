@@ -44,6 +44,7 @@ import DAO.amostraDAO;
 import DAO.parametroDAO;
 
 import com.toedter.calendar.JDateChooser;
+
 import javax.swing.SpinnerNumberModel;
 
 public class TelaCadastroAmostra extends JFrame {
@@ -60,6 +61,10 @@ public class TelaCadastroAmostra extends JFrame {
 	private String[] colunas;
 	private JTextField txtPonto;
 	private int index;
+	
+	private int linha;
+	private String propostaTable;
+	private String amostraTable;
 
 	public TelaCadastroAmostra() {
 
@@ -126,7 +131,7 @@ public class TelaCadastroAmostra extends JFrame {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(516, 249, 89, 23);
+		btnCancelar.setBounds(401, 253, 89, 23);
 		contentPane.add(btnCancelar);
 
 		JLabel lblEmpresa = new JLabel("Empresa");
@@ -266,6 +271,10 @@ public class TelaCadastroAmostra extends JFrame {
 		});
 		brnPesquisar.setBounds(505, 31, 100, 22);
 		contentPane.add(brnPesquisar);
+		
+		final JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setBounds(516, 253, 89, 23);
+		contentPane.add(btnExcluir);
 
 		txtProposta.addKeyListener(new KeyAdapter() {
 			@Override
@@ -364,10 +373,75 @@ public class TelaCadastroAmostra extends JFrame {
 					});
 				} finally {
 
-					;
 				}
 			}
 		});
+		
+		
+		tableAmostra.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				linha = tableAmostra.getSelectedRow();
+				propostaTable = (String) tableAmostra.getValueAt(linha, 0);
+				amostraTable = (String) tableAmostra.getValueAt(linha, 1);
+				
+			//	JOptionPane.showMessageDialog(null, "linha: "+linha);
+			//	JOptionPane.showMessageDialog(null, "proposta: "+propostaTable);
+			//	JOptionPane.showMessageDialog(null, "amostra: "+amostraTable);
+				
+			}
+		});
+		
+		
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				amostraDAO.ExcluirAmostra(Integer.valueOf(amostraDAO.buscarIdProposta(propostaTable)), amostraTable);
+				amostraDAO.contaQuantidadeDeAmostrasNaProposta(Integer.valueOf(amostraDAO.buscarIdProposta(propostaTable)));
+				
+				try {
+					amostraDAO.PreencherTabela(
+							"select p.numero_proposta PROPOSTA ,a.numero_amostra AMOSTRA ,a.ponto PONTO, a.periodicidade PERIODO "
+									+ "from proposta as p , amostra as a where p.idproposta = a.proposta and p.idproposta="
+									+ amostraDAO.buscarIdProposta(txtProposta.getText()),
+							dados);
+
+					tableAmostra.setSurrendersFocusOnKeystroke(true);
+					tableAmostra.setFocusTraversalPolicyProvider(true);
+					tableAmostra.setFocusCycleRoot(true);
+					tableAmostra.setForeground(new Color(0, 0, 0));
+					tableAmostra.setSelectionForeground(new Color(0, 0, 0));
+					tableAmostra.setFillsViewportHeight(true);
+					tableAmostra.setSelectionBackground(new Color(135, 206, 235));
+					tableAmostra.setAutoCreateRowSorter(true);
+
+					ScrolPaneDashBoard.setViewportView(tableAmostra);
+
+					tableAmostra.getColumnModel().getColumn(0).setPreferredWidth(100);
+					tableAmostra.getColumnModel().getColumn(1).setPreferredWidth(100);
+					tableAmostra.getColumnModel().getColumn(2).setPreferredWidth(400);
+					tableAmostra.getColumnModel().getColumn(3).setPreferredWidth(150);
+
+					tableAmostra.getTableHeader().setReorderingAllowed(false);
+					tableAmostra.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+					tableAmostra.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+					tableAmostra.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+
+						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+								boolean hasFocus, int row, int column) {
+							super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+							this.setHorizontalAlignment(CENTER);
+
+							return this;
+						}
+					});
+				} finally {
+
+				}
+			}
+		});
+
 
 	}
 }

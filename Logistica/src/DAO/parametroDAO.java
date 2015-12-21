@@ -12,11 +12,14 @@ import face.TelaVerLegislacao;
 import utilitarios.ConectaBanco;
 
 public class parametroDAO {
+	
+	final private ConectaBanco conexao = new ConectaBanco();
+	private PreparedStatement pst; 
+	private Statement stm;
 	public parametroDAO() {
 
 	}
 
-	final ConectaBanco conexao = new ConectaBanco();
 	
 	public void abrirTelaVerLegislacao(){
 		TelaVerLegislacao t = new TelaVerLegislacao();
@@ -32,12 +35,12 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 		
 		try {
 			
-			PreparedStatement pst5 = conexao.conn.prepareStatement("Select proposta,amostra,parametro from amostra_parametro where amostra = ? and proposta=? and parametro=?");
-			pst5.setInt(1, proposta);
-			pst5.setInt(2, amostra);
-			pst5.setInt(3, parametro);
+			pst = conexao.conn.prepareStatement("Select proposta,amostra,parametro from amostra_parametro where amostra = ? and proposta=? and parametro=?");
+			pst.setInt(1, proposta);
+			pst.setInt(2, amostra);
+			pst.setInt(3, parametro);
 			
-			ResultSet rs = pst5.executeQuery();
+			ResultSet rs = pst.executeQuery();
 			if(rs.next()){
 				ok = true;
 			return ok;
@@ -50,20 +53,19 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 		}
 		finally{
 			conexao.desconecta();
-		}
+			}
 		return ok;
 	}
 
 
-	public ArrayList<String> obterDados() {
+	public ArrayList<String> obterDados()   {
 
 		conexao.conexao();
 		ArrayList<String> dados = new ArrayList<String>();
 
 		try {
-			Statement stm = conexao.conn.createStatement();
-			ResultSet rs = stm
-					.executeQuery("SELECT codigo, descricao FROM parametro ORDER BY descricao;");
+			stm = conexao.conn.createStatement();
+			ResultSet rs = stm.executeQuery("SELECT codigo, descricao FROM parametro ORDER BY descricao;");
 
 			while (rs.next()) {
 				dados.add(rs.getString(2));
@@ -73,18 +75,19 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 					"Erro ao obter os dados. (obterDados)" + e.getMessage());
 		} finally {
 			conexao.desconecta();
+			
 		}
 
 		return dados;
 	}
 
-	public int contarParametrosLegislacao(int legislacao){
+	public int contarParametrosLegislacao(int legislacao)  {
 		int qtd = 0;
 		
 		conexao.conexao();
 	
 		try{
-		PreparedStatement pst = conexao.conn.prepareStatement("Select Count(parametro) from legislacao_parametro where legislacao="+legislacao);
+		pst = conexao.conn.prepareStatement("Select Count(parametro) from legislacao_parametro where legislacao="+legislacao);
 		ResultSet rs = pst.executeQuery();
 		
 		if(rs.next()){
@@ -96,25 +99,24 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 		
 		}finally{
 		conexao.desconecta();
+		
 		}
 		
 		return qtd;
 	}
 	
-	public void cadastrarLegislacaoNaAmostra(int legislacao, int idamostra, int idproposta, int idparametro){
+	public void cadastrarLegislacaoNaAmostra(int legislacao, int idamostra, int idproposta, int idparametro)  {
 	
 		int i;
 		ArrayList idParametros = new ArrayList();
 		conexao.conexao();
 
-
 		try {
 			
-			PreparedStatement pst = conexao.conn.prepareStatement("INSERT INTO amostra_parametro (amostra,proposta,parametro) VALUES (?,?,?)");
+			pst = conexao.conn.prepareStatement("INSERT INTO amostra_parametro (amostra,proposta,parametro) VALUES (?,?,?)");
 			PreparedStatement pst2 = conexao.conn.prepareStatement("select parametro from legislacao_parametro where legislacao=?");
 		
 			pst2.setInt(1, legislacao);
-			
 			ResultSet rs2 = pst2.executeQuery();
 			
 			while (rs2.next()) {
@@ -127,7 +129,7 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 			for(i=0; i<idParametros.size();i++){
 				parametroDAO dao = new parametroDAO();
 				
-				if(dao.verificaExistenciaParametroNaAmostra(idproposta, idamostra, idparametro) == true){
+				if(dao.verificaExistenciaParametroNaAmostra(idproposta, idamostra, idparametro) == false){
 				pst.setInt(3, Integer.valueOf((String) idParametros.get(i)));
 				pst.executeUpdate();
 				}else{
@@ -144,16 +146,17 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 			
 		}finally{
 			conexao.desconecta();
+					
 		}
 		}
 		
-		public ArrayList<String> obterLegislacao() {
+		public ArrayList<String> obterLegislacao()   {
 
 		conexao.conexao();
 		ArrayList<String> dados = new ArrayList<String>();
 
 		try {
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm.executeQuery("SELECT descricao FROM legislacao order by descricao");
 
 			while (rs.next()) {
@@ -163,18 +166,19 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 			JOptionPane.showMessageDialog(null,	"ERRO ao buscar Legislação"+ex.getClass());
 		} finally {
 			conexao.desconecta();
+			
 		}
 
 		return dados;
 	}
 	
-	public ArrayList<String> obterAmostra(String proposta) {
+	public ArrayList<String> obterAmostra(String proposta)   {
 
 		conexao.conexao();
 		ArrayList<String> dados = new ArrayList<String>();
 
 		try {
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm.executeQuery("SELECT numero_amostra FROM amostra where proposta='"+proposta+"'");
 
 			while (rs.next()) {
@@ -186,18 +190,19 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 			JOptionPane.showMessageDialog(null,	"ERRO!"+ex.getClass());
 		} finally {
 			conexao.desconecta();
+			
 		}
 
 		return dados;
 	}
 
-	public int obterCodigoParametro(String descricao) {
+	public int obterCodigoParametro(String descricao)   {
 
 		conexao.conexao();
 		int dados = 0;
 
 		try {
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
 					.executeQuery("SELECT idparametro FROM parametro where descricao = '"
 							+ descricao + "';");
@@ -210,13 +215,14 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 					"Erro ao obter os dados. (obterCodigoParametro)" + e.getMessage());
 		} finally {
 			conexao.desconecta();
+			
 		}
 
 		return dados;
 	}
 
 	public String verificaCadastroParametro(int amostra, int parametro,
-			int proposta) {
+			int proposta)   {
 
 		String status = "";
 
@@ -224,7 +230,7 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 
 		try {
 
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
 					.executeQuery("select amostra, parametro from amostra_parametro where amostra='"
 							+ amostra
@@ -252,13 +258,13 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 	}
 
 	public String cadastrarParametro_Amostra(int amostra, int proposta,
-			int parametro) {
+			int parametro)   {
 
 		
 		try {
 
 			conexao.conexao();
-			PreparedStatement pst = conexao.conn
+			pst = conexao.conn
 					.prepareStatement("INSERT INTO amostra_parametro (amostra,proposta,parametro) VALUES (?,?,?)");
 			pst.setInt(1, amostra);
 			pst.setInt(2, proposta);
@@ -272,19 +278,20 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 					"Erro ao obter os dados. (CADASTRAR PARAMETRO_AMOSTRA)" + e.getMessage());
 		} finally {
 			conexao.desconecta();
+			
 		}
 
 		return null;
 
 	}
 	
-	public String cadastrarLegislacao(String legislacao) {
+	public String cadastrarLegislacao(String legislacao)   {
 
 		
 		try {
 
 			conexao.conexao();
-			PreparedStatement pst = conexao.conn
+			pst = conexao.conn
 					.prepareStatement("INSERT INTO legislacao (descricao) VALUES (?)");
 			pst.setString(1, legislacao);
 
@@ -296,6 +303,7 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 					"Erro ao obter os dados" + e.getMessage());
 		} finally {
 			conexao.desconecta();
+		
 		}
 
 		return null;
@@ -303,14 +311,14 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 	}
 	
 
-	public int obterIdFrasco(String frasco) {
+	public int obterIdFrasco(String frasco)   {
 
 		int idfrasco = 0;
 
 		try {
 
 			conexao.conexao();
-			PreparedStatement pst = conexao.conn
+			pst = conexao.conn
 					.prepareStatement("select id_frasco from frasco where descricao = ? ;");
 			pst.setString(1, frasco);
 			ResultSet rs = pst.executeQuery();
@@ -326,18 +334,18 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 					"Erro ao obter os dados. (OBTER ID FRASCO)" + e.getMessage());
 		} finally {
 			conexao.desconecta();
-		}
+			}
 		return idfrasco;
 	}
 
-	public int obterIdPreservacao(String preservacao) {
+	public int obterIdPreservacao(String preservacao)   {
 
 		int idPreservacao = 0;
 
 		try {
 
 			conexao.conexao();
-			PreparedStatement pst = conexao.conn
+			pst = conexao.conn
 					.prepareStatement("select id_preservacao from preservacao where descricao = ?");
 			pst.setString(1, preservacao);
 			ResultSet rs = pst.executeQuery();
@@ -352,19 +360,20 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 					"Erro ao obter os dados. (OBTER ID PRESERVACAO)" + e.getMessage());
 		} finally {
 			conexao.desconecta();
+			
 		}
 
 		return idPreservacao;
 	}
 	
-	public int obterIdLegislacao(String legislacao) {
+	public int obterIdLegislacao(String legislacao)   {
 
 		int idlegislacao = 0;
 
 		try {
 
 			conexao.conexao();
-			PreparedStatement pst = conexao.conn
+			pst = conexao.conn
 					.prepareStatement("select idlegislacao from legislacao where descricao = ?");
 			pst.setString(1, legislacao);
 			ResultSet rs = pst.executeQuery();
@@ -379,20 +388,22 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 					"Erro ao obter os dados. (OBTER ID LEGISLACAO)" + e.getMessage());
 		} finally {
 			conexao.desconecta();
+			
 		}
+		
 
 		return idlegislacao;
 	}
 
 
-	public int obterIdVolume(double volume) {
+	public int obterIdVolume(double volume)   {
 
 		int idVolume = 0;
 
 		try {
 
 			conexao.conexao();
-			PreparedStatement pst = conexao.conn
+			pst = conexao.conn
 					.prepareStatement("select id_volume from volume where volume = ?");
 			pst.setDouble(1, volume);
 			ResultSet rs = pst.executeQuery();
@@ -407,17 +418,18 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 					"Erro ao obter os dados. (OBTER ID VOLUME)" + e.getMessage());
 		} finally {
 			conexao.desconecta();
+			
 		}
 		return idVolume;
 	}
 
-	public int obterIdTipoAmostra(String tipoAmostra) {
+	public int obterIdTipoAmostra(String tipoAmostra)   {
 
 		int idTipoAmostra = 0;
 		try {
 
 			conexao.conexao();
-			PreparedStatement pst = conexao.conn
+			 pst = conexao.conn
 					.prepareStatement("select idtipoAmostra from tipoAmostra where descricao = ?");
 			pst.setString(1, tipoAmostra);
 			ResultSet rs = pst.executeQuery();
@@ -432,12 +444,13 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 					"Erro ao obter os dados. (OBTER TIPO AMOSTRA)" + e.getMessage());
 		} finally {
 			conexao.desconecta();
+			 
 		}
 		return idTipoAmostra;
 	}
 
 	public void cadastrarParametro(String parametro, String codigo,
-			String frasco, double volume, String preservacao, String tipoAmostra) {
+			String frasco, double volume, String preservacao, String tipoAmostra)   {
 
 		int frasco1 = obterIdFrasco(frasco);
 		int volume1 = obterIdVolume(volume);
@@ -447,7 +460,7 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 		try {
 
 			conexao.conexao();
-			PreparedStatement pst = conexao.conn
+			 pst = conexao.conn
 					.prepareStatement("insert into parametro(descricao, frasco, codigo, preservacao, volume, tipoAmostra) values (?, ?, ?, ?, ?, ?)");
 			pst.setString(1, parametro);
 			pst.setInt(2, frasco1);
@@ -470,7 +483,7 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 
 	}
 	
-	public void cadastrarParametroLegislacao(String legislacao, String parametro) {
+	public void cadastrarParametroLegislacao(String legislacao, String parametro)   {
 
 		int legislacao1 = obterIdLegislacao(legislacao);
 		int parametro1 = obterCodigoParametro(parametro);
@@ -478,7 +491,7 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 		try {
 
 			conexao.conexao();
-			PreparedStatement pst = conexao.conn
+			pst = conexao.conn
 					.prepareStatement("insert into legislacao_parametro(legislacao, parametro)values (?, ?)");
 
 			pst.setInt(1, legislacao1);
@@ -495,16 +508,17 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 					"Erro ao cadastrar Parametro" + e.getMessage());
 		} finally {
 			conexao.desconecta();
+			 
 		}
 
 	}
 
-	public ArrayList<String> obterListaDeFrasco() {
+	public ArrayList<String> obterListaDeFrasco()   {
 		conexao.conexao();
 		ArrayList<String> dados = new ArrayList<String>();
 
 		try {
-			Statement stm = conexao.conn.createStatement();
+			 stm = conexao.conn.createStatement();
 			ResultSet rs = stm.executeQuery("select descricao FROM frasco ");
 
 			while (rs.next()) {
@@ -517,17 +531,18 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 					"Erro ao obter os dados. (obterListaDeFrasco)" + e.getMessage());
 		} finally {
 			conexao.desconecta();
+			 
 		}
 
 		return dados;
 	}
 
-	public ArrayList<String> obterListaDePreservacao() {
+	public ArrayList<String> obterListaDePreservacao()   {
 		conexao.conexao();
 		ArrayList<String> dados = new ArrayList<String>();
 
 		try {
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
 					.executeQuery("select descricao FROM preservacao ");
 
@@ -541,17 +556,18 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 					"Erro ao obter os dados. (obterListaDePreservacao)" + e.getMessage());
 		} finally {
 			conexao.desconecta();
+			 
 		}
 
 		return dados;
 	}
 
-	public ArrayList<String> obterListaDeVolumeML() {
+	public ArrayList<String> obterListaDeVolumeML()   {
 		conexao.conexao();
 		ArrayList<String> dados = new ArrayList<String>();
 
 		try {
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
 					.executeQuery("select volume FROM volume where id_unidade_medida=3");
 
@@ -565,17 +581,18 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 					"Erro ao obter os dados. (obterListaDeVolumeML)" + e.getMessage());
 		} finally {
 			conexao.desconecta();
+			 
 		}
 
 		return dados;
 	}
 
-	public ArrayList<String> obterListaDeVolumeND() {
+	public ArrayList<String> obterListaDeVolumeND()   {
 		conexao.conexao();
 		ArrayList<String> dados = new ArrayList<String>();
 
 		try {
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
 					.executeQuery("select volume FROM volume where id_unidade_medida=1");
 
@@ -589,17 +606,18 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 					"Erro ao obter os dados. (obterListaDeVolumeND)" + e.getMessage());
 		} finally {
 			conexao.desconecta();
+			 
 		}
 
 		return dados;
 	}
 
-	public ArrayList<String> obterListaDeVolumeG() {
+	public ArrayList<String> obterListaDeVolumeG()   {
 		conexao.conexao();
 		ArrayList<String> dados = new ArrayList<String>();
 
 		try {
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
 					.executeQuery("select volume FROM volume where id_unidade_medida=2");
 
@@ -613,17 +631,18 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 					"Erro ao obter os dados.(obterListaDeVolumeG)" + e.getMessage());
 		} finally {
 			conexao.desconecta();
+			 
 		}
 
 		return dados;
 	}
 
-	public ArrayList<String> obterListaDeTipoAmostra() {
+	public ArrayList<String> obterListaDeTipoAmostra()   {
 		conexao.conexao();
 		ArrayList<String> dados = new ArrayList<String>();
 
 		try {
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
 					.executeQuery("select descricao FROM tipoAmostra order by idtipoamostra");
 
@@ -637,17 +656,18 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 					"Erro ao obter os dados. (obterListaDeTipoAmostra)" + e.getMessage());
 		} finally {
 			conexao.desconecta();
+			 
 		}
 
 		return dados;
 	}
 
-	public ArrayList<String> obterListaDeCodigo() {
+	public ArrayList<String> obterListaDeCodigo()   {
 		conexao.conexao();
 		ArrayList<String> dados = new ArrayList<String>();
 
 		try {
-			Statement stm = conexao.conn.createStatement();
+			stm = conexao.conn.createStatement();
 			ResultSet rs = stm.executeQuery("select codigo FROM parametro ");
 
 			while (rs.next()) {
@@ -659,6 +679,7 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 			JOptionPane.showMessageDialog(null,	"Erro ao obter os dados. (obterListaDeCodigo)");
 		} finally {
 			conexao.desconecta();
+			 
 		}
 
 		return dados;
@@ -675,7 +696,7 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 				do {
 					dados.add(new Object[] {
 
-					conexao.rs.getObject("proposta"),
+							conexao.rs.getObject("proposta"),
 							conexao.rs.getObject("empresa"),
 							conexao.rs.getObject("amostra"),
 							conexao.rs.getObject("ponto"),
@@ -760,6 +781,29 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 		}
 		finally {
 			conexao.desconecta();
+		}
+	}
+	
+	
+	public void ExcluirParametro(int proposta, int amostra, int parametro)   {
+
+		try {
+			conexao.conexao();
+
+			pst = conexao.conn.prepareStatement("DELETE FROM amostra_parametro WHERE proposta=? and amostra=? and parametro=?");
+			pst.setInt(1, proposta);
+			pst.setInt(2, amostra);
+			pst.setInt(3, parametro);
+			
+			if(pst.executeUpdate() == 1){
+				JOptionPane.showMessageDialog(null, "Sucesso!");
+			}
+
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1.getMessage());
+		} finally {
+			conexao.desconecta();
+			 
 		}
 	}
 
