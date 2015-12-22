@@ -139,7 +139,7 @@ public class amostraDAO {
 		try {
 			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
-					.executeQuery("SELECT nome FROM coletor;");
+					.executeQuery("SELECT nome FROM coletor order by idcoletor ;");
 
 			while (rs.next()) {
 				dados.add(rs.getString(1));
@@ -268,6 +268,46 @@ public boolean verificaExistenciaAmostra(String amostra){
 			conexao.desconecta();
 	}
 	}
+	
+	
+	public void PreencherTabelaCalendario(String sql, ArrayList dados) {
+
+		conexao.conexao();
+		conexao.executaSQL(sql);
+		try {
+
+			if (conexao.rs.first()) {
+				dados.clear();
+				do {
+					dados.add(new Object[] {
+
+							conexao.rs.getObject("PROPOSTA"),
+							conexao.rs.getObject("EMPRESA"),
+							conexao.rs.getObject("AMOSTRA"),
+							conexao.rs.getObject("PERIODICIDADE"),
+							conexao.rs.getObject("ORDEM"),
+							conexao.rs.getObject("PARAMETRO"),
+							conexao.rs.getObject("FRASCO"),
+							conexao.rs.getObject("VOLUME"),
+							conexao.rs.getObject("UNIDADE_MEDIDA"),
+							conexao.rs.getObject("PRESERVACAO"),
+							conexao.rs.getObject("DATACOLETA"),
+							conexao.rs.getObject("COLETOR"),
+					});
+
+				} while (conexao.rs.next());
+			}else{
+				dados.clear();
+			}
+
+		} catch (SQLException e) {
+
+		} finally {
+			conexao.desconecta();
+	}
+	}
+	
+	
 	public void PreencherTabelaColeta(String sql, ArrayList dados) {
 
 		conexao.conexao();

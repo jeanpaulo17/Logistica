@@ -36,7 +36,7 @@ public class propostaDAO {
 			JOptionPane.showMessageDialog(null, "Proposta incluida!");
 
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Proposta já existe!" + e.getMessage());
+			JOptionPane.showMessageDialog(null, "Proposta já existe!");
 		} finally {
 			conexao.desconecta();
 		}

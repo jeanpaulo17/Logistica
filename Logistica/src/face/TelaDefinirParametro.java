@@ -53,6 +53,7 @@ public class TelaDefinirParametro extends JFrame {
 	private String propostaTable;
 	private String amostraTable;
 	private String parametroTable;
+	private parametroDAO p = new parametroDAO();
 
 
 	public TelaDefinirParametro() {
@@ -98,15 +99,14 @@ public class TelaDefinirParametro extends JFrame {
 		
 		final JComboBox cbLegislacao = new JComboBox();
 		cbLegislacao.setSelectedIndex(-1);
-		cbLegislacao.setBounds(176, 189, 431, 20);
+		cbLegislacao.setBounds(176, 189, 267, 20);
 		panelParametros.add(cbLegislacao);
 
 		final JComboBox cbParametro = new JComboBox();
 		cbParametro.setSelectedIndex(-1);
-		cbParametro.setBounds(176, 152, 431, 20);
+		cbParametro.setBounds(176, 152, 267, 20);
 		panelParametros.add(cbParametro);
 		
-		final parametroDAO p = new parametroDAO();
 		dados2 = p.obterDados();
 		dados3 =  p.obterLegislacao();
 
@@ -116,8 +116,8 @@ public class TelaDefinirParametro extends JFrame {
 		for (int i = 0; i < dados3.size(); i++)
 			cbLegislacao.addItem(dados3.get(i));
 
-		JButton btnAdicionarParametro = new JButton("Adicionar");
-		btnAdicionarParametro.setBounds(518, 224, 89, 23);
+		JButton btnAdicionarParametro = new JButton("Adicionar Parametro");
+		btnAdicionarParametro.setBounds(453, 151, 154, 23);
 		panelParametros.add(btnAdicionarParametro);
 
 		JButton btnCancelarParametro = new JButton("Cancelar");
@@ -126,7 +126,7 @@ public class TelaDefinirParametro extends JFrame {
 				dispose();
 			}
 		});
-		btnCancelarParametro.setBounds(320, 224, 89, 23);
+		btnCancelarParametro.setBounds(354, 224, 89, 23);
 		panelParametros.add(btnCancelarParametro);
 
 		JSeparator separator_1 = new JSeparator();
@@ -192,8 +192,8 @@ public class TelaDefinirParametro extends JFrame {
 		lblLegislacao.setBounds(27, 186, 139, 20);
 		panelParametros.add(lblLegislacao);
 		
-		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.setBounds(419, 224, 89, 23);
+		JButton btnExcluir = new JButton("Excluir Parametro");
+		btnExcluir.setBounds(453, 224, 154, 23);
 		panelParametros.add(btnExcluir);
 		
 		
@@ -231,12 +231,10 @@ public class TelaDefinirParametro extends JFrame {
 
 		cbNumeroAmostra.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				parametroDAO parametroDAO = new parametroDAO();
-
 				try {
 					tableParametro.removeAll();
 					// cbNumeroAmostra.getSelectedItem();
-					parametroDAO
+					p
 							.PreencherTabelaParametro(
 									"select pr.numero_proposta as proposta, am.numero_amostra as amostra, pr.empresa, am.ponto , "
 									+ "pa.descricao as parametro, fr.descricao as frasco, pre.descricao as preservacao, vol.volume as volume, "
@@ -305,8 +303,7 @@ public class TelaDefinirParametro extends JFrame {
 				if (amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) != null) {
 
 					ArrayList amostras;
-					parametroDAO parametroDAO = new parametroDAO();
-					amostras = parametroDAO.obterAmostra(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()));
+					amostras = p.obterAmostra(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()));
 					txtEmpresa_Parametro.setText(
 							amostraDAO.buscarEmpresa(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText())));
 					cbNumeroAmostra.getSelectedIndex();
@@ -316,7 +313,7 @@ public class TelaDefinirParametro extends JFrame {
 
 					try {
 						tableParametro.removeAll();
-						parametroDAO.PreencherTabelaParametro(
+						p.PreencherTabelaParametro(
 								"select  pr.numero_proposta as PROPOSTA , am.numero_amostra as AMOSTRA, pr.empresa as EMPRESA, am.ponto as PONTO, pa.descricao as PARAMETRO, fr.descricao as FRASCO, "
 										+ " pre.descricao as PRESERVACAO, vol.volume as VOLUME, uni.unidade_medida as UNI, tip.descricao as TIPOAMOSTRA from unidade_medida as uni, amostra_parametro as ap, "
 										+ " proposta as pr , amostra as am , parametro as pa, frasco as fr, preservacao as pre, volume as vol, tipoamostra as tip "
@@ -387,7 +384,7 @@ public class TelaDefinirParametro extends JFrame {
 				if(!String.valueOf(cbLegislacao.getSelectedItem()).equals(" ") && !String.valueOf(cbParametro.getSelectedItem()).equals(" ")){
 					JOptionPane.showMessageDialog(null, "Você não pode cadastrar um parametro e uma legislação ao mesmo tempo!");
 				}else if (p.verificaCadastroParametro(Integer.parseInt(amostraDAO.buscarIdAmostra(numAmostra)),
-						codParametro, Integer.parseInt(amostraDAO.buscarIdProposta(proposta))) == "false") {
+						codParametro, Integer.parseInt(amostraDAO.buscarIdProposta(proposta))) == false) {
 					JOptionPane.showMessageDialog(null, "Parametro ja cadastrada antes!");
 				} else if (txtProposta_Amostra.getText().isEmpty() || cbNumeroAmostra.getItemCount() == 0) {
 					JOptionPane.showMessageDialog(null, "Campos Proposta/Amostra vazio(s)");
@@ -403,8 +400,7 @@ public class TelaDefinirParametro extends JFrame {
 					tableParametro.removeAll();
 
 					ArrayList amostras;
-					parametroDAO parametroDAO1 = new parametroDAO();
-					amostras = parametroDAO1.obterAmostra(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()));
+					amostras = p.obterAmostra(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()));
 					txtEmpresa_Parametro.setText(
 							amostraDAO.buscarEmpresa(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText())));
 
@@ -413,7 +409,7 @@ public class TelaDefinirParametro extends JFrame {
 
 					cbNumeroAmostra.setSelectedIndex(index);
 
-					parametroDAO1
+					p
 							.PreencherTabelaParametro(
 									"select pr.numero_proposta as proposta , am.numero_amostra as amostra, pr.empresa, am.ponto , pa.descricao as parametro, fr.descricao as frasco, "
 											+ " pre.descricao as preservacao, vol.volume as volume, uni.unidade_medida as uni, tip.descricao as tipoamostra from unidade_medida as uni, amostra_parametro as ap, "
@@ -433,57 +429,8 @@ public class TelaDefinirParametro extends JFrame {
 											+ " and tip.idtipoamostra = pa.tipoamostra and uni.id_unidade_medida = vol.id_unidade_medida",
 									dados2);
 
-					}else {
-						
-					amostraDAO am = new amostraDAO();	
-					int legislacao = Integer.valueOf(p.obterIdLegislacao((String) cbLegislacao.getSelectedItem()));	
-					int idamostra = Integer.valueOf(am.buscarIdAmostra((String) cbNumeroAmostra.getSelectedItem()));
-					int idproposta = Integer.parseInt(amostraDAO.buscarIdProposta((String)txtProposta_Amostra.getText()));
-					int idParametro = Integer.valueOf(p.obterCodigoParametro( (String) cbParametro.getSelectedItem()));
-					
-					
-					JOptionPane.showMessageDialog(null, "legislacao "+legislacao);
-					JOptionPane.showMessageDialog(null, "idamostra "+idamostra);
-					JOptionPane.showMessageDialog(null, "idproposta "+idproposta);
-					JOptionPane.showMessageDialog(null, "idParametro "+idParametro);
-					
-					
-					p.cadastrarLegislacaoNaAmostra(legislacao, idamostra, idproposta, idParametro);
-													
-						}
-				
-						tableParametro.removeAll();
-
-						ArrayList amostras;
-						parametroDAO parametroDAO1 = new parametroDAO();
-						amostras = parametroDAO1.obterAmostra(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()));
-						txtEmpresa_Parametro.setText(
-								amostraDAO.buscarEmpresa(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText())));
-
-						// for (int i = 0; i <= amostras.size() - 1; i++)
-						// cbNumeroAmostra.addItem(amostras.get(i));
-
-						parametroDAO1
-								.PreencherTabelaParametro(
-										"select pr.numero_proposta as proposta , am.numero_amostra as amostra, pr.empresa, am.ponto , pa.descricao as parametro, fr.descricao as frasco, "
-												+ " pre.descricao as preservacao, vol.volume as volume, uni.unidade_medida as uni, tip.descricao as tipoamostra from unidade_medida as uni, amostra_parametro as ap, "
-												+ " proposta as pr , amostra as am , parametro as pa, frasco as fr, preservacao as pre, volume as vol, tipoamostra as tip "
-												+ " where ap.proposta="
-												+ amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) + ""
-												+ " and pr.idproposta= "
-												+ amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) + ""
-												+ " and ap.proposta="
-												+ amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) + ""
-												+ " and ap.amostra = "
-												+ amostraDAO.buscarIdAmostra(
-														String.valueOf(cbNumeroAmostra.getSelectedItem()))
-												+ ""
-												+ " and am.idamostra = ap.amostra and ap.parametro = pa.idparametro and pr.idproposta = ap.proposta "
-												+ " and fr.id_frasco = pa.frasco and pre.id_preservacao = pa.preservacao and vol.id_volume = pa.volume "
-												+ " and tip.idtipoamostra = pa.tipoamostra and uni.id_unidade_medida = vol.id_unidade_medida",
-										dados2);
-						
 					}
+						
 					
 					
 					tableParametro.setSurrendersFocusOnKeystroke(true);
@@ -525,14 +472,14 @@ public class TelaDefinirParametro extends JFrame {
 			
 
 			
-		});
+			}});
 		
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			
 				p.ExcluirParametro(Integer.valueOf(amostraDAO.buscarIdProposta(propostaTable)), Integer.valueOf(amostraDAO.buscarIdAmostra(amostraTable)), Integer.valueOf(p.obterCodigoParametro(parametroTable)));
 
-				p.verificaExistenciaParametroNaAmostra(Integer.valueOf(amostraDAO.buscarIdProposta(propostaTable)),
+				p.verificaCadastroParametro(Integer.valueOf(amostraDAO.buscarIdProposta(propostaTable)),
 						Integer.valueOf(amostraDAO.buscarIdAmostra(amostraTable)),
 						Integer.valueOf(p.obterCodigoParametro(parametroTable)));
 		try {
@@ -595,5 +542,95 @@ public class TelaDefinirParametro extends JFrame {
 			}
 		});
 		
+		
+		JButton btnAdicionarLegislacao = new JButton("Adicionar Legisla\u00E7\u00E3o");
+		btnAdicionarLegislacao.setBounds(453, 188, 154, 23);
+		panelParametros.add(btnAdicionarLegislacao);
+		btnAdicionarLegislacao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				amostraDAO am = new amostraDAO();	
+				int legislacao = Integer.valueOf(p.obterIdLegislacao((String) cbLegislacao.getSelectedItem()));	
+				int idamostra = Integer.valueOf(am.buscarIdAmostra((String) cbNumeroAmostra.getSelectedItem()));
+				int idproposta = Integer.parseInt(amostraDAO.buscarIdProposta((String)txtProposta_Amostra.getText()));
+				int idParametro = Integer.valueOf(p.obterCodigoParametro( (String) cbParametro.getSelectedItem()));
+				
+				if(String.valueOf(cbLegislacao.getSelectedItem()).equals(" "))
+					JOptionPane.showMessageDialog(null, "Escolha uma legislação!");
+				
+					p.cadastrarLegislacaoNaAmostra(legislacao, idamostra, idproposta, idParametro);
+
+					tableParametro.removeAll();
+
+					ArrayList amostras;
+					parametroDAO parametroDAO1 = new parametroDAO();
+					amostras = parametroDAO1.obterAmostra(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()));
+					txtEmpresa_Parametro.setText(
+							amostraDAO.buscarEmpresa(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText())));
+
+					parametroDAO1
+							.PreencherTabelaParametro(
+									"select pr.numero_proposta as proposta , am.numero_amostra as amostra, pr.empresa, am.ponto , pa.descricao as parametro, fr.descricao as frasco, "
+											+ " pre.descricao as preservacao, vol.volume as volume, uni.unidade_medida as uni, tip.descricao as tipoamostra from unidade_medida as uni, amostra_parametro as ap, "
+											+ " proposta as pr , amostra as am , parametro as pa, frasco as fr, preservacao as pre, volume as vol, tipoamostra as tip "
+											+ " where ap.proposta="
+											+ amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) + ""
+											+ " and pr.idproposta= "
+											+ amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) + ""
+											+ " and ap.proposta="
+											+ amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()) + ""
+											+ " and ap.amostra = "
+											+ amostraDAO.buscarIdAmostra(
+													String.valueOf(cbNumeroAmostra.getSelectedItem()))
+											+ ""
+											+ " and am.idamostra = ap.amostra and ap.parametro = pa.idparametro and pr.idproposta = ap.proposta "
+											+ " and fr.id_frasco = pa.frasco and pre.id_preservacao = pa.preservacao and vol.id_volume = pa.volume "
+											+ " and tip.idtipoamostra = pa.tipoamostra and uni.id_unidade_medida = vol.id_unidade_medida",
+									dados2);
+					
+				
+				
+				
+				tableParametro.setSurrendersFocusOnKeystroke(true);
+				tableParametro.setFocusTraversalPolicyProvider(true);
+				tableParametro.setFocusCycleRoot(true);
+				tableParametro.setForeground(new Color(0, 0, 0));
+				tableParametro.setSelectionForeground(new Color(0, 0, 0));
+				tableParametro.setFillsViewportHeight(true);
+				tableParametro.setSelectionBackground(new Color(135, 206, 235));
+				tableParametro.setAutoCreateRowSorter(true);
+				scrollPaneParametro.setViewportView(tableParametro);
+
+				tableParametro.getColumnModel().getColumn(0).setPreferredWidth(130);
+				tableParametro.getColumnModel().getColumn(1).setPreferredWidth(200);
+				tableParametro.getColumnModel().getColumn(2).setPreferredWidth(130);
+				tableParametro.getColumnModel().getColumn(3).setPreferredWidth(200);
+				tableParametro.getColumnModel().getColumn(4).setPreferredWidth(400);
+				tableParametro.getColumnModel().getColumn(5).setPreferredWidth(200);
+				tableParametro.getColumnModel().getColumn(6).setPreferredWidth(200);
+				tableParametro.getColumnModel().getColumn(7).setPreferredWidth(100);
+				tableParametro.getColumnModel().getColumn(8).setPreferredWidth(70);
+				tableParametro.getColumnModel().getColumn(9).setPreferredWidth(120);
+
+				tableParametro.getTableHeader().setReorderingAllowed(false);
+				tableParametro.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+				tableParametro.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+				tableParametro.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+
+					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+							boolean hasFocus, int row, int column) {
+						super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+						this.setHorizontalAlignment(CENTER);
+						return this;
+					}
+				});
+			}
+		
+		
+
+		
+	});
+	
 	}
-}
+};

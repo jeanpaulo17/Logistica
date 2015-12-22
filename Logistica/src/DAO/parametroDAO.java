@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import face.TelaVerLegislacao;
 import utilitarios.ConectaBanco;
+import face.TelaVerLegislacao;
 
 public class parametroDAO {
 	
@@ -27,37 +27,6 @@ public class parametroDAO {
 		t.setLocationRelativeTo(null);;
 	}
 	
-public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, int parametro){
-		
-		conexao.conexao();
-		
-		boolean ok= false;
-		
-		try {
-			
-			pst = conexao.conn.prepareStatement("Select proposta,amostra,parametro from amostra_parametro where amostra = ? and proposta=? and parametro=?");
-			pst.setInt(1, proposta);
-			pst.setInt(2, amostra);
-			pst.setInt(3, parametro);
-			
-			ResultSet rs = pst.executeQuery();
-			if(rs.next()){
-				ok = true;
-			return ok;
-			}
-			else{
-				ok = false;
-				return ok;
-			}
-		} catch (SQLException e) {
-		}
-		finally{
-			conexao.desconecta();
-			}
-		return ok;
-	}
-
-
 	public ArrayList<String> obterDados()   {
 
 		conexao.conexao();
@@ -105,51 +74,43 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 		return qtd;
 	}
 	
-	public void cadastrarLegislacaoNaAmostra(int legislacao, int idamostra, int idproposta, int idparametro)  {
 	
+	
+	public void cadastrarLegislacaoNaAmostra(int legislacao, int idamostra, int idproposta, int idparametro)  {
 		int i;
 		ArrayList idParametros = new ArrayList();
-		conexao.conexao();
-
-		try {
-			
-			pst = conexao.conn.prepareStatement("INSERT INTO amostra_parametro (amostra,proposta,parametro) VALUES (?,?,?)");
-			PreparedStatement pst2 = conexao.conn.prepareStatement("select parametro from legislacao_parametro where legislacao=?");
 		
-			pst2.setInt(1, legislacao);
-			ResultSet rs2 = pst2.executeQuery();
 			
-			while (rs2.next()) {
-				idParametros.add(rs2.getString(1));
+		try{
+			conexao.conexao();
+			PreparedStatement pst3 = conexao.conn.prepareStatement("select parametro from legislacao_parametro where legislacao=?");
+			pst3.setInt(1, legislacao);
+			ResultSet rs3 = pst3.executeQuery();
+			
+			while (rs3.next()) {
+				idParametros.add(rs3.getString(1));
 			}
 			
-			pst.setInt(1, idamostra);
-			pst.setInt(2, idproposta);
-			
-			for(i=0; i<idParametros.size();i++){
-				parametroDAO dao = new parametroDAO();
+				for(i=0; i<idParametros.size();i++){
+				try{
+				PreparedStatement pst1 = conexao.conn.prepareStatement("INSERT INTO amostra_parametro (amostra,proposta,parametro) VALUES (?,?,?)");
+				pst1.setInt(1, idamostra);
+				pst1.setInt(2, idproposta);
+				pst1.setInt(3, Integer.valueOf((String) idParametros.get(i)));
+				pst1.executeUpdate();
+				}catch(org.postgresql.util.PSQLException e){
+					
+				}//try
+				}// for
+				JOptionPane.showMessageDialog(null, "Você já possui alguns desses parametros na sua amostra... Vamos adicionar só os restantes para completar sua legislação!");
+				JOptionPane.showMessageDialog(null, "Legislacao incluida!");
 				
-				if(dao.verificaExistenciaParametroNaAmostra(idproposta, idamostra, idparametro) == false){
-				pst.setInt(3, Integer.valueOf((String) idParametros.get(i)));
-				pst.executeUpdate();
-				}else{
-					JOptionPane.showMessageDialog(null, "Parametro já cadastrado!");
-				}
-			
-			}
-			
-			JOptionPane.showMessageDialog(null, "Legislacao incluida!");
-			
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, e.getClass());
-			JOptionPane.showMessageDialog(null, e.getMessage());
-			
+				}catch(SQLException ex){
+					JOptionPane.showMessageDialog(null, ex.getMessage());
 		}finally{
 			conexao.desconecta();
-					
-		}
-		}
-		
+		} }
+  		
 		public ArrayList<String> obterLegislacao()   {
 
 		conexao.conexao();
@@ -221,40 +182,33 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 		return dados;
 	}
 
-	public String verificaCadastroParametro(int amostra, int parametro,
+	public boolean verificaCadastroParametro(int amostra, int parametro,
 			int proposta)   {
 
-		String status = "";
-
+boolean ok = false;
 		conexao.conexao();
 
 		try {
 
 			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
-					.executeQuery("select amostra, parametro from amostra_parametro where amostra='"
-							+ amostra
-							+ "' and parametro='"
-							+ parametro
-							+ "' and proposta='" + proposta + "'");
+					.executeQuery("select amostra, parametro, proposta from amostra_parametro where amostra="+amostra+" and parametro="+parametro+
+							" and proposta="+proposta);
 
 			if (rs.next()) {
+					ok = false;
 
-				status = "false";
-				return status;
 			} else {
-				status = "true";
-				return status;
+				ok = true;
 			}
 
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "erro"+e.getMessage());
 
 		} finally {
 			conexao.desconecta();
-			return status;
-
 		}
-
+		return ok;
 	}
 
 	public String cadastrarParametro_Amostra(int amostra, int proposta,
@@ -345,8 +299,7 @@ public boolean verificaExistenciaParametroNaAmostra(int proposta, int amostra, i
 		try {
 
 			conexao.conexao();
-			pst = conexao.conn
-					.prepareStatement("select id_preservacao from preservacao where descricao = ?");
+			pst = conexao.conn.prepareStatement("select id_preservacao from preservacao where descricao = ?");
 			pst.setString(1, preservacao);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next())
