@@ -65,6 +65,7 @@ public class TelaCadastroAmostra extends JFrame {
 	private int linha;
 	private String propostaTable;
 	private String amostraTable;
+	private JTextField txtEndereco;
 
 	public TelaCadastroAmostra() {
 
@@ -122,7 +123,7 @@ public class TelaCadastroAmostra extends JFrame {
 
 		JButton btnCadastar = new JButton("Adicionar");
 
-		btnCadastar.setBounds(516, 219, 89, 23);
+		btnCadastar.setBounds(516, 254, 89, 23);
 		contentPane.add(btnCadastar);
 
 		JButton btnCancelar = new JButton("Cancelar");
@@ -131,7 +132,7 @@ public class TelaCadastroAmostra extends JFrame {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(401, 253, 89, 23);
+		btnCancelar.setBounds(401, 288, 89, 23);
 		contentPane.add(btnCancelar);
 
 		JLabel lblEmpresa = new JLabel("Empresa");
@@ -168,14 +169,14 @@ public class TelaCadastroAmostra extends JFrame {
 		JLabel lblPeriodicidade = new JLabel("Periodicidade");
 		lblPeriodicidade.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPeriodicidade.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		lblPeriodicidade.setBounds(229, 221, 139, 20);
+		lblPeriodicidade.setBounds(229, 256, 139, 20);
 		contentPane.add(lblPeriodicidade);
 
 		BasicComboBoxRenderer.UIResource UIResource = new BasicComboBoxRenderer.UIResource();
 		UIResource.setHorizontalAlignment(SwingConstants.CENTER);
 
 		final JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(365, 220, 124, 20);
+		comboBox.setBounds(365, 255, 124, 20);
 		comboBox.setRenderer(UIResource);
 		contentPane.add(comboBox);
 
@@ -183,7 +184,7 @@ public class TelaCadastroAmostra extends JFrame {
 		comboBox.setModel(new DefaultComboBoxModel(periodo));
 
 		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 291, 1056, 2);
+		separator.setBounds(10, 327, 1056, 2);
 		contentPane.add(separator);
 
 		tableAmostra = new JTable();
@@ -192,7 +193,7 @@ public class TelaCadastroAmostra extends JFrame {
 		ScrolPaneDashBoard.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		ScrolPaneDashBoard
 				.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		ScrolPaneDashBoard.setBounds(10, 296, 1056, 327);
+		ScrolPaneDashBoard.setBounds(10, 327, 1056, 296);
 		contentPane.add(ScrolPaneDashBoard);
 
 		JLabel lblPonto = new JLabel("Ponto");
@@ -214,14 +215,14 @@ public class TelaCadastroAmostra extends JFrame {
 		JLabel lblQuantidade = new JLabel("Quantidade");
 		lblQuantidade.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQuantidade.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		lblQuantidade.setBounds(27, 220, 139, 20);
+		lblQuantidade.setBounds(27, 255, 139, 20);
 		contentPane.add(lblQuantidade);
 
 		tabbedPane.add("Amostra", contentPane);
 
 		final JSpinner spinner = new JSpinner();
 		spinner.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		spinner.setBounds(177, 220, 51, 20);
+		spinner.setBounds(177, 255, 51, 20);
 		contentPane.add(spinner);
 
 		JButton brnPesquisar = new JButton("Pesquisar");
@@ -273,8 +274,19 @@ public class TelaCadastroAmostra extends JFrame {
 		contentPane.add(brnPesquisar);
 		
 		final JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.setBounds(516, 253, 89, 23);
+		btnExcluir.setBounds(516, 288, 89, 23);
 		contentPane.add(btnExcluir);
+		
+		JLabel lblEndereco = new JLabel("Endere\u00E7o");
+		lblEndereco.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEndereco.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		lblEndereco.setBounds(27, 209, 139, 20);
+		contentPane.add(lblEndereco);
+		
+		txtEndereco = new JTextField();
+		txtEndereco.setBounds(176, 212, 429, 20);
+		contentPane.add(txtEndereco);
+		txtEndereco.setColumns(10);
 
 		txtProposta.addKeyListener(new KeyAdapter() {
 			@Override
@@ -299,7 +311,7 @@ public class TelaCadastroAmostra extends JFrame {
 		});
 
 		dados = new ArrayList();
-		colunas = new String[] { "PROPOSTA", "AMOSTRA", "PONTO", "PERIODICIDADE" };
+		colunas = new String[] { "PROPOSTA", "AMOSTRA", "PONTO", "PERIODICIDADE", "ENDERECO" };
 
 		ModeloTable modelo1 = new ModeloTable(dados, colunas);
 		tableAmostra.setModel(modelo1);
@@ -311,6 +323,7 @@ public class TelaCadastroAmostra extends JFrame {
 				String amostra = txtAmostra.getText();
 				String periodicidade = (String) comboBox.getSelectedItem();
 				String ponto = txtPonto.getText();
+				String endereco = txtEndereco.getText();
 				int qtd = Integer.valueOf(spinner.getValue().toString());
 				int ordem = 1;
 
@@ -324,7 +337,7 @@ public class TelaCadastroAmostra extends JFrame {
 
 					if (amostraDAO.verificaQtdAmostras(qtd, proposta) == true ) {
 
-						amostraDAO.cadastrarAmostra(amostra, periodicidade, ponto, proposta);
+						amostraDAO.cadastrarAmostra(amostra, periodicidade, ponto, proposta, endereco);
 						Integer idamostra = Integer.parseInt(amostraDAO.buscarIdAmostra(txtAmostra.getText()));
 						amostraDAO.cadastrarAmostra_OS(proposta, idamostra, qtd);
 					} else {
@@ -336,7 +349,7 @@ public class TelaCadastroAmostra extends JFrame {
 
 				try {
 					amostraDAO.PreencherTabela(
-							"select p.numero_proposta PROPOSTA ,a.numero_amostra AMOSTRA ,a.ponto PONTO, a.periodicidade PERIODO "
+							"select p.numero_proposta PROPOSTA ,a.numero_amostra AMOSTRA ,a.ponto PONTO, a.periodicidade PERIODO, a.endereco "
 									+ "from proposta as p , amostra as a where p.idproposta = a.proposta and p.idproposta="
 									+ amostraDAO.buscarIdProposta(txtProposta.getText()),
 							dados);
@@ -356,6 +369,7 @@ public class TelaCadastroAmostra extends JFrame {
 					tableAmostra.getColumnModel().getColumn(1).setPreferredWidth(100);
 					tableAmostra.getColumnModel().getColumn(2).setPreferredWidth(400);
 					tableAmostra.getColumnModel().getColumn(3).setPreferredWidth(150);
+					tableAmostra.getColumnModel().getColumn(4).setPreferredWidth(400);
 
 					tableAmostra.getTableHeader().setReorderingAllowed(false);
 					tableAmostra.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);

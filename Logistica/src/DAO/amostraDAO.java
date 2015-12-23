@@ -216,17 +216,18 @@ public boolean verificaExistenciaAmostra(String amostra){
 		return ok;
 	}
 
-	public String cadastrarAmostra(String amostra, String periodicidade, String ponto, int proposta) {
+	public String cadastrarAmostra(String amostra, String periodicidade, String ponto, int proposta, String endereco) {
 
 		try {
 
 			conexao.conexao();
 			pst = conexao.conn.prepareStatement(
-					"INSERT INTO amostra (numero_amostra,periodicidade,ponto,proposta) VALUES (?,?,?,?)");
+					"INSERT INTO amostra (numero_amostra,periodicidade,ponto,proposta, endereco) VALUES (?,?,?,?,?)");
 			pst.setString(1, amostra);
 			pst.setString(2, periodicidade);
 			pst.setString(3, ponto);
 			pst.setInt(4, proposta);
+			pst.setString(5, endereco);
 
 			pst.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Amostra incluida!");
@@ -253,7 +254,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 					dados.add(new Object[] {
 
 							conexao.rs.getObject("PROPOSTA"), conexao.rs.getObject("AMOSTRA"),
-							conexao.rs.getObject("PONTO"), conexao.rs.getObject("PERIODO"),
+							conexao.rs.getObject("PONTO"), conexao.rs.getObject("PERIODO"), conexao.rs.getObject("endereco")
 							
 					});
 

@@ -61,7 +61,7 @@ public class TelaCalendario extends JFrame {
 		TableCalendarioSoma.setRequestFocusEnabled(false);
 		
 		dados2 = new ArrayList();
-		colunas = new String[] { "PROPOSTA", "EMPRESA","AMOSTRA","PERIODICIDADE", "ORDEM", "PARAMETRO", "FRASCO", "VOLUME","UN", "PRESERVACAO","DATACOLETA","COLETOR" };
+		colunas = new String[] { "PROPOSTA", "EMPRESA","AMOSTRA","PERIODICIDADE", "ORDEM", "PARAMETRO", "FRASCO", "VOLUME","UN", "PRESERVACAO","DATACOLETA","COLETOR", "ENDERECO" };
 
 		ModeloTable modelo = new ModeloTable(dados2, colunas);
 		TableCalendario.setModel(modelo);
@@ -178,7 +178,7 @@ public class TelaCalendario extends JFrame {
 				
 					sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
 							+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME,"
-							+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR"
+							+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR, am.endereco"
 							+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, frasco as fr, volume as vol,"
 							+ " unidade_medida as un, preservacao as pre, coletor as co, amostra_parametro as ap"
 							+ " where aos.coletor='"+cbcoletor.getSelectedItem().toString()+"' and pr.idproposta = aos.proposta and aos.proposta = ap.proposta"
@@ -198,7 +198,7 @@ public class TelaCalendario extends JFrame {
 					
 					sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
 							+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME,"
-							+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR"
+							+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR, am.endereco"
 							+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, frasco as fr, volume as vol, unidade_medida as un, preservacao as pre, coletor as co, amostra_parametro as ap"
 							+ " where aos.coletor = '"+cbcoletor.getSelectedItem().toString()+"' AND aos.datacoleta = '"+data+"' and pr.idproposta = aos.proposta and aos.proposta = ap.proposta and aos.amostra = am.idamostra "
 							+ " and aos.amostra =ap.amostra and pa.idparametro = ap.parametro and fr.id_frasco = pa.frasco "
@@ -216,7 +216,8 @@ public class TelaCalendario extends JFrame {
 						+ " unidade_medida as un, coletor as co WHERE aos.datacoleta = '"+data+"' and  aos.coletor = '"+cbcoletor.getSelectedItem().toString()+"'"
 						+ " and pr.idproposta = aos.proposta and aos.proposta = ap.proposta and aos.amostra = am.idamostra and aos.amostra =ap.amostra and"
 						+ " pa.idparametro = ap.parametro and fr.id_frasco = pa.frasco and vol.id_volume = pa.volume and pre.id_preservacao = pa.preservacao and "
-						+ " un.id_unidade_medida = vol.id_unidade_medida and aos.coletor = co.nome group by fr.descricao, vol.volume, pre.descricao, un.unidade_medida";
+						+ " un.id_unidade_medida = vol.id_unidade_medida and aos.coletor = co.nome "
+						+ " group by fr.descricao, vol.volume, pre.descricao, un.unidade_medida";
 				
 				
 				calendario.PreencherTabelaSoma(sqlSoma, dadosSoma);
@@ -234,7 +235,7 @@ public class TelaCalendario extends JFrame {
 
 					sql =   "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA, "
 							+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME, "
-							+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR "
+							+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR, am.endereco "
 							+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, amostra_parametro as ap, "
 							+ " frasco as fr, volume as vol, preservacao as pre , unidade_medida as un, coletor as co "
 							+ " where aos.datacoleta = '"+data+"' and pr.idproposta = aos.proposta and aos.proposta = ap.proposta "
@@ -274,6 +275,7 @@ public class TelaCalendario extends JFrame {
 			TableCalendarioSoma.getColumnModel().getColumn(1).setPreferredWidth(400);
 			TableCalendarioSoma.getColumnModel().getColumn(2).setPreferredWidth(50);
 			TableCalendarioSoma.getColumnModel().getColumn(3).setPreferredWidth(50);
+			
 			
 			TableCalendarioSoma.getTableHeader().setReorderingAllowed(false);
 			TableCalendarioSoma.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
@@ -322,6 +324,8 @@ public class TelaCalendario extends JFrame {
 			TableCalendario.getColumnModel().getColumn(9).setPreferredWidth(100);
 			TableCalendario.getColumnModel().getColumn(10).setPreferredWidth(100);
 			TableCalendario.getColumnModel().getColumn(11).setPreferredWidth(100);
+			TableCalendario.getColumnModel().getColumn(12).setPreferredWidth(200);
+
 			
 			TableCalendario.getTableHeader().setReorderingAllowed(false);
 			TableCalendario.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
@@ -349,8 +353,8 @@ public class TelaCalendario extends JFrame {
 				String data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
 				
 				sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
-						+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME,"
-						+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR"
+						+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME, "
+						+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR, am.endereco"
 						+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, frasco as fr, volume as vol, unidade_medida as un, preservacao as pre, coletor as co, amostra_parametro as ap"
 						+ " where aos.coletor = '"+cbcoletor.getSelectedItem().toString()+"' AND aos.datacoleta = '"+data+"' and pr.idproposta = aos.proposta and aos.proposta = ap.proposta and aos.amostra = am.idamostra "
 						+ " and aos.amostra =ap.amostra and pa.idparametro = ap.parametro and fr.id_frasco = pa.frasco "
