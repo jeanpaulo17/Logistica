@@ -137,10 +137,6 @@ public class TelaCalendario extends JFrame {
 		contentPane.add(cbcoletor);
 		
 		JButton btnGerarPdf = new JButton("Gerar PDF");
-		btnGerarPdf.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		btnGerarPdf.setBounds(201, 61, 141, 23);
 		contentPane.add(btnGerarPdf);
 		
@@ -346,5 +342,31 @@ public class TelaCalendario extends JFrame {
 		} finally {
 			TableCalendario.requestFocus();
 		}
+		
+		
+		btnGerarPdf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
+				
+				sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
+						+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME,"
+						+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR"
+						+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, frasco as fr, volume as vol, unidade_medida as un, preservacao as pre, coletor as co, amostra_parametro as ap"
+						+ " where aos.coletor = '"+cbcoletor.getSelectedItem().toString()+"' AND aos.datacoleta = '"+data+"' and pr.idproposta = aos.proposta and aos.proposta = ap.proposta and aos.amostra = am.idamostra "
+						+ " and aos.amostra =ap.amostra and pa.idparametro = ap.parametro and fr.id_frasco = pa.frasco "
+						+ " and vol.id_volume = pa.volume and pre.id_preservacao = pa.preservacao and un.id_unidade_medida = vol.id_unidade_medida and aos.coletor = co.nome";
+				
+				calendario.gerarRelatorioColeta(sql);
+				
+			}
+		});
+		
+		
+		
+		
+		
+		
+		
+		
 }
 }
