@@ -30,6 +30,7 @@ import com.toedter.calendar.JDateChooser;
 import DAO.amostraDAO;
 import DAO.calendarioDAO;
 import utilitarios.ModeloTable;
+import javax.swing.JTextField;
 
 public class TelaCalendario extends JFrame {
 
@@ -42,6 +43,7 @@ public class TelaCalendario extends JFrame {
 	private ArrayList dadosSoma;
 	private String[] colunasSoma;
 	private JTable TableCalendarioSoma;
+	private JTextField txtAmostra;
 	
 	
 	public TelaCalendario() {
@@ -83,7 +85,7 @@ public class TelaCalendario extends JFrame {
 		contentPane.add(lblData);
 		
 		JScrollPane scrollCalendario = new JScrollPane();
-		scrollCalendario.setBounds(10, 114, 1062, 375);
+		scrollCalendario.setBounds(10, 128, 1062, 361);
 		contentPane.add(scrollCalendario);
 		
 		JLabel lblObservaes = new JLabel("Observa\u00E7\u00F5es:");
@@ -154,7 +156,7 @@ public class TelaCalendario extends JFrame {
 				}
 			}
 		});
-			amostraDAO dao = new amostraDAO();
+			final amostraDAO dao = new amostraDAO();
 			final ArrayList<String> dados = dao.obterColetores();
 		
 			for (int i = 0; i <= dados.size() - 1; i++)
@@ -174,6 +176,8 @@ public class TelaCalendario extends JFrame {
 				
 				if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate()== null){
 						//APENAS COLETOR
+					
+					JOptionPane.showMessageDialog(null, "APENAS COLETOR");
 				
 					sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
 							+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME,"
@@ -190,8 +194,9 @@ public class TelaCalendario extends JFrame {
 					TableCalendario.setAutoCreateRowSorter(true);
 					
 					}else 
-				if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null){
+				if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null && txtAmostra.getText().isEmpty()){
 					// COLETOR E DATA
+					JOptionPane.showMessageDialog(null, "COLETOR E DATA");
 					
 					String data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
 					
@@ -207,28 +212,12 @@ public class TelaCalendario extends JFrame {
 				
 					TableCalendario.setAutoCreateRowSorter(true);
 				
-					
-					
-					
-				String	sqlSoma = "SELECT fr.descricao as frasco, pre.descricao as preservacao, SUM(vol.volume) as soma , un.unidade_medida as un"
-						+ " FROM proposta as pr, amostra as am, amostra_os as aos, parametro as pa, amostra_parametro as ap, frasco as fr, volume as vol, preservacao as pre,"
-						+ " unidade_medida as un, coletor as co WHERE aos.datacoleta = '"+data+"' and  aos.coletor = '"+cbcoletor.getSelectedItem().toString()+"'"
-						+ " and pr.idproposta = aos.proposta and aos.proposta = ap.proposta and aos.amostra = am.idamostra and aos.amostra =ap.amostra and"
-						+ " pa.idparametro = ap.parametro and fr.id_frasco = pa.frasco and vol.id_volume = pa.volume and pre.id_preservacao = pa.preservacao and "
-						+ " un.id_unidade_medida = vol.id_unidade_medida and aos.coletor = co.nome "
-						+ " group by fr.descricao, vol.volume, pre.descricao, un.unidade_medida";
-				
-				
-				calendario.PreencherTabelaSoma(sqlSoma, dadosSoma);
-				
-				TableCalendarioSoma.setAutoCreateRowSorter(true);
-			
-					
 					}
 				
 				
 				else if(cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null){
 						//FILTRAR POR DATA
+					JOptionPane.showMessageDialog(null, "APENAS DATA");
 					
 					String data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
 
@@ -246,11 +235,48 @@ public class TelaCalendario extends JFrame {
 				
 					TableCalendario.setAutoCreateRowSorter(true);
 					
-					
-					
+						}
+				
+				else 
+					if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null && !txtAmostra.getText().isEmpty()){
+						// COLETOR E DATA AMOSTRA
+						JOptionPane.showMessageDialog(null, "COLETOR DATA E AMOSTRA");
 						
+						String data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
+						
+						sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
+						+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO,"
+						+ " vol.volume as VOLUME, un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA,"
+						+ " aos.coletor as COLETOR, am.endereco "
+						+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, frasco as fr, volume as vol, "
+						+ " unidade_medida as un, preservacao as pre, coletor as co, amostra_parametro as ap "
+						+ " where aos.coletor = '"+cbcoletor.getSelectedItem().toString()+"' AND aos.datacoleta = '"+data+"' and aos.amostra="+Integer.valueOf(dao.buscarIdAmostra(txtAmostra.getText()))+" "
+						+ " and pr.idproposta = aos.proposta and aos.proposta = ap.proposta and aos.amostra = am.idamostra "
+						+ " and aos.amostra = ap.amostra and pa.idparametro = ap.parametro and fr.id_frasco = pa.frasco "
+						+ " and vol.id_volume = pa.volume and pre.id_preservacao = pa.preservacao and un.id_unidade_medida = vol.id_unidade_medida"
+						+ " and aos.coletor = co.nome";
+;
+						
+						calendario.PreencherTabela(sql, dados2);
+					
+						TableCalendario.setAutoCreateRowSorter(true);
+						
+						String	sqlSoma = "SELECT fr.descricao as frasco, pre.descricao as preservacao, SUM(vol.volume) as soma , un.unidade_medida as un"
+								+ " FROM proposta as pr, amostra as am, amostra_os as aos, parametro as pa, amostra_parametro as ap, frasco as fr, volume as vol, preservacao as pre,"
+								+ " unidade_medida as un, coletor as co WHERE aos.datacoleta = '"+data+"' and  aos.coletor = '"+cbcoletor.getSelectedItem().toString()+"'"
+								+ " and aos.amostra="+Integer.valueOf(dao.buscarIdAmostra(txtAmostra.getText()))+" and pr.idproposta = aos.proposta and aos.proposta = ap.proposta and aos.amostra = am.idamostra and aos.amostra =ap.amostra and"
+								+ " pa.idparametro = ap.parametro and fr.id_frasco = pa.frasco and vol.id_volume = pa.volume and pre.id_preservacao = pa.preservacao and "
+								+ " un.id_unidade_medida = vol.id_unidade_medida and aos.coletor = co.nome "
+								+ " group by fr.descricao, vol.volume, pre.descricao, un.unidade_medida";
+						
+						
+						calendario.PreencherTabelaSoma(sqlSoma, dadosSoma);
+						
+						TableCalendarioSoma.setAutoCreateRowSorter(true);
+					
 						}
 				else{
+					
 						JOptionPane.showMessageDialog(null, "escolha um filtro");
 					}
 			}
@@ -329,6 +355,16 @@ public class TelaCalendario extends JFrame {
 			TableCalendario.getTableHeader().setReorderingAllowed(false);
 			TableCalendario.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 			TableCalendario.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			
+			JLabel lblAmostra = new JLabel("Amostra:");
+			lblAmostra.setFont(new Font("Tahoma", Font.PLAIN, 15));
+			lblAmostra.setBounds(20, 91, 73, 14);
+			contentPane.add(lblAmostra);
+			
+			txtAmostra = new JTextField();
+			txtAmostra.setBounds(83, 90, 108, 20);
+			contentPane.add(txtAmostra);
+			txtAmostra.setColumns(10);
 			
 			TableCalendario.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 
