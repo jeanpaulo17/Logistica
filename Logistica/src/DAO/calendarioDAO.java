@@ -1,20 +1,25 @@
 package DAO;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
-import utilitarios.ConectaBanco;
 import dominio.calendario;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import utilitarios.ConectaBanco;
 
 public class calendarioDAO {
 	ConectaBanco conexao = new ConectaBanco();
@@ -22,6 +27,7 @@ public class calendarioDAO {
 	ResultSet rs;
 	ArrayList<calendario> calendarios = new ArrayList<calendario>();
 	String msg;
+	Connection conn;
 	
 	public void PreencherTabela(String sql, ArrayList dados) {
 
@@ -87,12 +93,20 @@ public class calendarioDAO {
 	
 	
 	public void gerarRelatorioColeta(String sql){
-		try {
+		
+		Connection c = conexao.getConexao();
  	 		conexao.conexao();
  			conexao.executaSQL(sql);
  			
+ 			HashMap parametros = new HashMap();  
+ 			parametros.put("SUBREPORT_DIR" , "//192.168.0.8/informacoes/SISTEMAS/relatorios/") ;  
+ 			parametros.put("REPORT_CONNECTION", c) ;     
+ 			
+ 			
  	 		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
- 	 		JasperPrint jpPrint = JasperFillManager.fillReport("//192.168.0.8/informacoes/SISTEMAS/relatorios/coleta.jasper", new HashMap(), relatResul);
+ 	 		try {
+ 	 		
+ 	 		JasperPrint jpPrint = JasperFillManager.fillReport("//192.168.0.8/informacoes/SISTEMAS/relatorios/coleta.jasper",parametros, relatResul);
 			JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
 			jv.setVisible(true); // chama relatorio para visualização
 			jv.toFront(); // relatorio na frente da aplicação
@@ -103,6 +117,11 @@ public class calendarioDAO {
  		finally {
  			conexao.desconecta();
  		}
+		     
+			        
+		     
+		     
 	}
+	
 	
 }

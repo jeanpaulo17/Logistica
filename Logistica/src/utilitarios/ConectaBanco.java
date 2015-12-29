@@ -9,7 +9,9 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 
-		public class ConectaBanco {
+	public class ConectaBanco {
+			
+	public Connection conexao;
 	
 	public Statement stm; // RESPONSAVEL POR PREPARAR E REALIZAR PESQUISAS NO BANCO DE DADOS
 	
@@ -63,6 +65,46 @@ import javax.swing.JOptionPane;
 				 System.out.println(ex.getMessage());		
 				 
 			 }
+			 
+			
+		
 			
 		}
+		
+		public Connection conexaorepor(){
+			try {
+				conexao = DriverManager.getConnection(caminho,login,senha);
+				 Connection conexaorepor = conexao;
+		            return conexaorepor;
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			}
+			return conexao;
+           
+		}
+
+		public Connection getConexao()  {
+			try {
+				conexao = DriverManager.getConnection(caminho, login, senha);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return conexao;
+		}
+
+		public void setConexao(Connection conexao) {
+			this.conexao = conexao;
+		}
+
+		public String getCaminho() {
+			return caminho;
+		}
+
+		public void setCaminho(String caminho) {
+			this.caminho = caminho;
+		}
+		
+		
+		 
 		}

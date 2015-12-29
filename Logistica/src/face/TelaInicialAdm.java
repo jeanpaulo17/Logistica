@@ -74,7 +74,7 @@ public class TelaInicialAdm extends JFrame {
 		JMenu mnCalendario = new JMenu("Calend\u00E1rio de Coletas");
 		menuBar.add(mnCalendario);
 
-		JMenuItem mntmListarTodosOs = new JMenuItem("???????");
+		JMenuItem mntmListarTodosOs = new JMenuItem("Abrir Calend\u00E1rio");
 		mntmListarTodosOs.setHorizontalAlignment(SwingConstants.LEFT);
 
 		mnCalendario.add(mntmListarTodosOs);
