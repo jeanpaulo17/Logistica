@@ -61,8 +61,8 @@ public class TelaDefinirDataColeta extends JFrame {
 
 	public TelaDefinirDataColeta() {
 
-		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaDefinirDataColeta.class.getResource("/face/vidro.png")));
-		setTitle("Cadastro de Amostras");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaDefinirDataColeta.class.getResource("/face/definir-data_icon.png")));
+		setTitle("Definir Data da Coleta");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1097, 700);
 

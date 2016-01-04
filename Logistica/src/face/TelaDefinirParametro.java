@@ -58,8 +58,8 @@ public class TelaDefinirParametro extends JFrame {
 
 	public TelaDefinirParametro() {
 
-		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaDefinirParametro.class.getResource("/face/vidro.png")));
-		setTitle("Cadastro de Amostras");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaDefinirParametro.class.getResource("/face/parametros_icon.png")));
+		setTitle("Definir Parametros da Amostra");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1097, 700);
 

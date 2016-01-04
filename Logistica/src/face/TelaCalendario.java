@@ -32,6 +32,7 @@ import DAO.calendarioDAO;
 import utilitarios.ModeloTable;
 
 import javax.swing.JTextField;
+import java.awt.Toolkit;
 
 public class TelaCalendario extends JFrame {
 
@@ -48,7 +49,8 @@ public class TelaCalendario extends JFrame {
 	
 	
 	public TelaCalendario() {
-		setTitle("Calend\u00E1rio");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCalendario.class.getResource("/face/calendario-icon.png")));
+		setTitle("Calend\u00E1rio de Coletas");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1098, 700);
 		contentPane = new JPanel();
@@ -174,7 +176,6 @@ public class TelaCalendario extends JFrame {
 				if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate()== null && txtAmostra.getText().isEmpty()){
 						//APENAS COLETOR
 					
-					JOptionPane.showMessageDialog(null, "APENAS COLETOR");
 				
 					sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
 							+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME,"
@@ -200,7 +201,6 @@ public class TelaCalendario extends JFrame {
 					}else 
 				if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null && txtAmostra.getText().isEmpty()){
 					// COLETOR E DATA
-					JOptionPane.showMessageDialog(null, "COLETOR E DATA");
 					
 					String data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
 					
@@ -225,7 +225,6 @@ public class TelaCalendario extends JFrame {
 				
 				else if(cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null && txtAmostra.getText().isEmpty()){
 						//FILTRAR POR DATA
-					JOptionPane.showMessageDialog(null, "APENAS DATA");
 					
 					String data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
 
@@ -256,7 +255,6 @@ public class TelaCalendario extends JFrame {
 						
 						TableCalendarioSoma.setVisible(true);
 						
-						JOptionPane.showMessageDialog(null, "COLETOR DATA E AMOSTRA");
 						
 						String data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
 						
@@ -298,7 +296,6 @@ public class TelaCalendario extends JFrame {
 					else 
 						if(cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() == null && !txtAmostra.getText().isEmpty()){
 							// SOMENTE AMOSTRA
-							JOptionPane.showMessageDialog(null, "SOMENTE AMOSTRA");
 	
 							
 							
@@ -326,7 +323,6 @@ public class TelaCalendario extends JFrame {
 						else 
 							if(cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null && !txtAmostra.getText().isEmpty()){
 								// SOMENTE AMOSTRA
-								JOptionPane.showMessageDialog(null, "DATA E AMOSTRA");
 		
 								String data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
 
@@ -354,7 +350,6 @@ public class TelaCalendario extends JFrame {
 				if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate()== null && !txtAmostra.getText().isEmpty()){
 				
 				
-				JOptionPane.showMessageDialog(null, "COLETOR E AMOSTRA");
 			
 				sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
 						+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME,"

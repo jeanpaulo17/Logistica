@@ -69,7 +69,7 @@ public class TelaCadastroAmostra extends JFrame {
 
 	public TelaCadastroAmostra() {
 
-		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCadastroAmostra.class.getResource("/face/vidro.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCadastroAmostra.class.getResource("/face/amostra_icon.png")));
 		setTitle("Cadastro de Amostras");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1097, 700);

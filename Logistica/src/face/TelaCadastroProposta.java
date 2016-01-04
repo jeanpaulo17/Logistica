@@ -29,6 +29,7 @@ import java.awt.Choice;
 
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import java.awt.Toolkit;
 
 public class TelaCadastroProposta extends JFrame {
 
@@ -37,6 +38,8 @@ public class TelaCadastroProposta extends JFrame {
 	private JTextField txtEmpresa;
 
 	public TelaCadastroProposta() {
+		setTitle("Cadastro de Propostas");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCadastroProposta.class.getResource("/face/proposta_icon.png")));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 635, 259);
 		contentPane = new JPanel();

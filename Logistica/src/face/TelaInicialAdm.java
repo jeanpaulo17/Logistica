@@ -17,6 +17,8 @@ import javax.swing.border.EmptyBorder;
 import DAO.amostraDAO;
 import DAO.propostaDAO;
 import utilitarios.ConectaBanco;
+import java.awt.Font;
+import java.awt.Toolkit;
 
 public class TelaInicialAdm extends JFrame {
 
@@ -26,27 +28,36 @@ public class TelaInicialAdm extends JFrame {
 
 	public TelaInicialAdm() {
 		super("Tela Inicial - Controle de Estoque");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaInicialAdm.class.getResource("/face/logistica.jpg")));
 		setTitle("Tela Inicial - Logistica");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1280, 768);
 
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		setJMenuBar(menuBar);
 
 		JMenu mnCadastro = new JMenu("Cadastro");
+		mnCadastro.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		menuBar.add(mnCadastro);
 
 		JMenuItem mntmProposta = new JMenuItem("Proposta");
+		mntmProposta.setIcon(new ImageIcon(TelaInicialAdm.class.getResource("/face/proposta_icon.png")));
+		mntmProposta.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mntmProposta.setHorizontalAlignment(SwingConstants.LEFT);
 		mnCadastro.add(mntmProposta);
 
 		JMenuItem mnCadastrarAmostra = new JMenuItem("Amostra");
+		mnCadastrarAmostra.setIcon(new ImageIcon(TelaInicialAdm.class.getResource("/face/amostra_icon.png")));
+		mnCadastrarAmostra.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mnCadastrarAmostra.setHorizontalAlignment(SwingConstants.LEFT);
 
 		mnCadastro.add(mnCadastrarAmostra);
 		
 		JMenuItem mntmDefinirParmetros = new JMenuItem("Definir Par\u00E2metros");
+		mntmDefinirParmetros.setIcon(new ImageIcon(TelaInicialAdm.class.getResource("/face/parametros_icon.png")));
+		mntmDefinirParmetros.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mntmDefinirParmetros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -60,6 +71,8 @@ public class TelaInicialAdm extends JFrame {
 		mnCadastro.add(mntmDefinirParmetros);
 		
 		JMenuItem mntmDefinirDataDa = new JMenuItem("Definir Datas de Coleta");
+		mntmDefinirDataDa.setIcon(new ImageIcon(TelaInicialAdm.class.getResource("/face/definir-data_icon.png")));
+		mntmDefinirDataDa.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mntmDefinirDataDa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -72,29 +85,37 @@ public class TelaInicialAdm extends JFrame {
 		mnCadastro.add(mntmDefinirDataDa);
 
 		JMenu mnCalendario = new JMenu("Calend\u00E1rio de Coletas");
+		mnCalendario.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		menuBar.add(mnCalendario);
 
 		JMenuItem mntmListarTodosOs = new JMenuItem("Abrir Calend\u00E1rio");
-		mntmListarTodosOs.setHorizontalAlignment(SwingConstants.LEFT);
+		mntmListarTodosOs.setIcon(new ImageIcon(TelaInicialAdm.class.getResource("/face/calendario-icon.png")));
+		mntmListarTodosOs.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		mntmListarTodosOs.setHorizontalAlignment(SwingConstants.CENTER);
 
 		mnCalendario.add(mntmListarTodosOs);
 
 		JMenu mnSistema = new JMenu("Sistema");
+		mnSistema.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		menuBar.add(mnSistema);
 
-		JMenuItem menuItem = new JMenuItem("Sair");
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-		menuItem.setHorizontalAlignment(SwingConstants.LEFT);
-		mnSistema.add(menuItem);
-
 		JMenuItem mntmManutencao = new JMenuItem("Manuten\u00E7\u00E3o de Dados");
+		mntmManutencao.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		mntmManutencao.setIcon(new ImageIcon(TelaInicialAdm.class.getResource("/face/manutencao_de_dados.png")));
 		mntmManutencao.setHorizontalAlignment(SwingConstants.LEFT);
 
 		mnSistema.add(mntmManutencao);
+		
+				JMenuItem mntmSair = new JMenuItem("Sair");
+				mntmSair.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+				mntmSair.setIcon(new ImageIcon(TelaInicialAdm.class.getResource("/face/fechar_icon.png")));
+				mntmSair.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
+				mntmSair.setHorizontalAlignment(SwingConstants.LEFT);
+				mnSistema.add(mntmSair);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
