@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 
 	public class ConectaBanco {
 			
-	public Connection conexao;
+	public static Connection conexao;
 	
 	public Statement stm; // RESPONSAVEL POR PREPARAR E REALIZAR PESQUISAS NO BANCO DE DADOS
 	
@@ -74,8 +74,8 @@ import javax.swing.JOptionPane;
 		public Connection conexaorepor(){
 			try {
 				conexao = DriverManager.getConnection(caminho,login,senha);
-				 Connection conexaorepor = conexao;
-		            return conexaorepor;
+				Connection conexaorepor = conexao;
+		        return conexaorepor;
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, e.getMessage());
 			}
@@ -105,6 +105,9 @@ import javax.swing.JOptionPane;
 			this.caminho = caminho;
 		}
 		
+		public static Connection getConnection(){
+			return conexao;
+			}
 		
 		 
 		}

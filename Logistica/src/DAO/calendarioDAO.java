@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -89,48 +90,31 @@ public class calendarioDAO {
 	}
 	}
 	
-	
 	public void gerarRelatorioColeta(String sql){
 		
-		Connection c = conexao.getConexao();
- 	 		conexao.conexao();
- 			
- 	 		try {
-				Statement stmm = conexao.conn.createStatement();
-				ResultSet rs1 = stm.executeQuery(sql);
+		conexao.conexao();
+		conexao.executaSQL(sql);
 			
-				Map parametros = new HashMap();  
-	 			parametros.put("SUBREPORT_DIR" , "//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/") ;  
-	 			parametros.put("REPORT_CONNECTION",conexao);     
-	 			
-	 			
-	 	 		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
-	 	 		
-	 	 	
-	 	 		JasperPrint jpPrint;
-	 	 		
-	 	 		
-				try {
-					jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/coleta.jasper",parametros,relatResul);
-					JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
-					jv.setVisible(true); // chama relatorio para visualização
-					jv.toFront(); // relatorio na frente da aplicação
-		 	 		
-				} catch (JRException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			try {		
 				
-	 	 		
-				
- 	 		} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
- 	 		
- 	 		
- 			
- 			
+			Map<String, Object> parametros = new HashMap<String,Object>();  
+			parametros.put("SUBREPORT_DIR" , "//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/") ;  
+			parametros.put("REPORT_CONNECTION",conexao.getConexao());
 			
+	 		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
+	 		
+	 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/coleta.jasper", parametros, relatResul);
+	 		
+	 		JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
+	 		jv.setVisible(true); // chama relatorio para visualização
+	 		jv.toFront(); // relatorio na frente da aplicação
+		
+		} catch (JRException e) {
+		JOptionPane.showMessageDialog(null, "Erro ao chamar relatório!"+e.getMessage());
+	}
+		finally {
+			conexao.desconecta();
+		}
+	     
 	}	   
 }

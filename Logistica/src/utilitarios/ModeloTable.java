@@ -47,6 +47,11 @@ import javax.swing.table.AbstractTableModel;
 		return linha[numCol];
 	}
 	
+	public void limpaTabela() {   
+        linhas.clear();   
+       
+    }
+	
 	
 
 

@@ -30,6 +30,7 @@ import com.toedter.calendar.JDateChooser;
 import DAO.amostraDAO;
 import DAO.calendarioDAO;
 import utilitarios.ModeloTable;
+
 import javax.swing.JTextField;
 
 public class TelaCalendario extends JFrame {
@@ -60,6 +61,7 @@ public class TelaCalendario extends JFrame {
 		
 		TableCalendarioSoma  = new JTable();
 		TableCalendarioSoma.setRequestFocusEnabled(false);
+		TableCalendarioSoma.setVisible(false);
 		
 		dados2 = new ArrayList();
 		colunas = new String[] { "PROPOSTA", "EMPRESA","AMOSTRA","PERIODICIDADE", "ORDEM", "PARAMETRO", "FRASCO", "VOLUME","UN", "PRESERVACAO","DATACOLETA","COLETOR", "ENDERECO" };
@@ -169,12 +171,7 @@ public class TelaCalendario extends JFrame {
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				
-				
-				
-	
-				
-				if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate()== null){
+				if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate()== null && txtAmostra.getText().isEmpty()){
 						//APENAS COLETOR
 					
 					JOptionPane.showMessageDialog(null, "APENAS COLETOR");
@@ -187,11 +184,18 @@ public class TelaCalendario extends JFrame {
 							+ " where aos.coletor='"+cbcoletor.getSelectedItem().toString()+"' and pr.idproposta = aos.proposta and aos.proposta = ap.proposta"
 							+ " and aos.amostra = am.idamostra and aos.amostra =ap.amostra and pa.idparametro = ap.parametro"
 							+ " and fr.id_frasco = pa.frasco and vol.id_volume = pa.volume and pre.id_preservacao = pa.preservacao"
-							+ " and un.id_unidade_medida = vol.id_unidade_medida and aos.coletor = co.nome";
+							+ " and un.id_unidade_medida = vol.id_unidade_medida and aos.coletor = co.nome"
+							+ " ORDER BY am.numero_amostra, aos.ordem,  pa.descricao";
 					
 					calendario.PreencherTabela(sql, dados2);
 				
 					TableCalendario.setAutoCreateRowSorter(true);
+					
+					TableCalendarioSoma.setVisible(false);
+					
+					
+			
+				
 					
 					}else 
 				if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null && txtAmostra.getText().isEmpty()){
@@ -206,16 +210,20 @@ public class TelaCalendario extends JFrame {
 							+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, frasco as fr, volume as vol, unidade_medida as un, preservacao as pre, coletor as co, amostra_parametro as ap"
 							+ " where aos.coletor = '"+cbcoletor.getSelectedItem().toString()+"' AND aos.datacoleta = '"+data+"' and pr.idproposta = aos.proposta and aos.proposta = ap.proposta and aos.amostra = am.idamostra "
 							+ " and aos.amostra =ap.amostra and pa.idparametro = ap.parametro and fr.id_frasco = pa.frasco "
-							+ " and vol.id_volume = pa.volume and pre.id_preservacao = pa.preservacao and un.id_unidade_medida = vol.id_unidade_medida and aos.coletor = co.nome";
+							+ " and vol.id_volume = pa.volume and pre.id_preservacao = pa.preservacao and "
+							+ " un.id_unidade_medida = vol.id_unidade_medida and aos.coletor = co.nome"
+							+ " ORDER BY am.numero_amostra, aos.ordem,  pa.descricao";
 					
 					calendario.PreencherTabela(sql, dados2);
 				
 					TableCalendario.setAutoCreateRowSorter(true);
+					
+					TableCalendarioSoma.setVisible(false);
 				
 					}
 				
 				
-				else if(cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null){
+				else if(cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null && txtAmostra.getText().isEmpty()){
 						//FILTRAR POR DATA
 					JOptionPane.showMessageDialog(null, "APENAS DATA");
 					
@@ -229,17 +237,25 @@ public class TelaCalendario extends JFrame {
 							+ " where aos.datacoleta = '"+data+"' and pr.idproposta = aos.proposta and aos.proposta = ap.proposta "
 							+ " and aos.amostra = am.idamostra and aos.amostra =ap.amostra and pa.idparametro = ap.parametro "
 							+ " and fr.id_frasco = pa.frasco and vol.id_volume = pa.volume and pre.id_preservacao = pa.preservacao "
-							+ " and un.id_unidade_medida = vol.id_unidade_medida and aos.coletor = co.nome";
+							+ " and un.id_unidade_medida = vol.id_unidade_medida and aos.coletor = co.nome"
+							+ " ORDER BY am.numero_amostra, aos.ordem,  pa.descricao";
 					
 					calendario.PreencherTabela(sql, dados2);
 				
 					TableCalendario.setAutoCreateRowSorter(true);
+					
+					TableCalendarioSoma.setVisible(false);
+					
+					
 					
 						}
 				
 				else 
 					if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null && !txtAmostra.getText().isEmpty()){
 						// COLETOR E DATA AMOSTRA
+						
+						TableCalendarioSoma.setVisible(true);
+						
 						JOptionPane.showMessageDialog(null, "COLETOR DATA E AMOSTRA");
 						
 						String data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
@@ -254,12 +270,16 @@ public class TelaCalendario extends JFrame {
 						+ " and pr.idproposta = aos.proposta and aos.proposta = ap.proposta and aos.amostra = am.idamostra "
 						+ " and aos.amostra = ap.amostra and pa.idparametro = ap.parametro and fr.id_frasco = pa.frasco "
 						+ " and vol.id_volume = pa.volume and pre.id_preservacao = pa.preservacao and un.id_unidade_medida = vol.id_unidade_medida"
-						+ " and aos.coletor = co.nome";
+						+ " and aos.coletor = co.nome"
+						+ " ORDER BY am.numero_amostra, aos.ordem,  pa.descricao";
 ;
 						
 						calendario.PreencherTabela(sql, dados2);
 					
 						TableCalendario.setAutoCreateRowSorter(true);
+						
+						
+						
 						
 						String	sqlSoma = "SELECT fr.descricao as frasco, pre.descricao as preservacao, SUM(vol.volume) as soma , un.unidade_medida as un"
 								+ " FROM proposta as pr, amostra as am, amostra_os as aos, parametro as pa, amostra_parametro as ap, frasco as fr, volume as vol, preservacao as pre,"
@@ -275,9 +295,92 @@ public class TelaCalendario extends JFrame {
 						TableCalendarioSoma.setAutoCreateRowSorter(true);
 					
 						}
-				else{
+					else 
+						if(cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() == null && !txtAmostra.getText().isEmpty()){
+							// SOMENTE AMOSTRA
+							JOptionPane.showMessageDialog(null, "SOMENTE AMOSTRA");
+	
+							
+							
+							sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
+							+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO,"
+							+ " vol.volume as VOLUME, un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA,"
+							+ " aos.coletor as COLETOR, am.endereco "
+							+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, frasco as fr, volume as vol, "
+							+ " unidade_medida as un, preservacao as pre, coletor as co, amostra_parametro as ap "
+							+ " where aos.amostra="+Integer.valueOf(dao.buscarIdAmostra(txtAmostra.getText()))+" "
+							+ " and pr.idproposta = aos.proposta and aos.proposta = ap.proposta and aos.amostra = am.idamostra "
+							+ " and aos.amostra = ap.amostra and pa.idparametro = ap.parametro and fr.id_frasco = pa.frasco "
+							+ " and vol.id_volume = pa.volume and pre.id_preservacao = pa.preservacao and un.id_unidade_medida = vol.id_unidade_medida"
+							+ " and aos.coletor = co.nome "
+							+ " ORDER BY am.numero_amostra, aos.ordem, pa.descricao";
+							
+							calendario.PreencherTabela(sql, dados2);
+	
+							TableCalendario.setAutoCreateRowSorter(true);
+							
+							TableCalendarioSoma.setVisible(false);
+						
+							}
+				
+						else 
+							if(cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null && !txtAmostra.getText().isEmpty()){
+								// SOMENTE AMOSTRA
+								JOptionPane.showMessageDialog(null, "DATA E AMOSTRA");
+		
+								String data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
+
+								sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
+								+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO,"
+								+ " vol.volume as VOLUME, un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA,"
+								+ " aos.coletor as COLETOR, am.endereco "
+								+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, frasco as fr, volume as vol, "
+								+ " unidade_medida as un, preservacao as pre, coletor as co, amostra_parametro as ap "
+								+ " where aos.amostra="+Integer.valueOf(dao.buscarIdAmostra(txtAmostra.getText()))+" and aos.datacoleta = '"+data+"'  "
+								+ " and pr.idproposta = aos.proposta and aos.proposta = ap.proposta and aos.amostra = am.idamostra "
+								+ " and aos.amostra = ap.amostra and pa.idparametro = ap.parametro and fr.id_frasco = pa.frasco "
+								+ " and vol.id_volume = pa.volume and pre.id_preservacao = pa.preservacao and un.id_unidade_medida = vol.id_unidade_medida"
+								+ " and aos.coletor = co.nome "
+								+ " ORDER BY am.numero_amostra, aos.ordem,  pa.descricao";
+								
+								calendario.PreencherTabela(sql, dados2);
+		
+								TableCalendario.setAutoCreateRowSorter(true);
+								
+								TableCalendarioSoma.setVisible(false);
+							
+								}
+				
+				if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate()== null && !txtAmostra.getText().isEmpty()){
+				
+				
+				JOptionPane.showMessageDialog(null, "COLETOR E AMOSTRA");
+			
+				sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
+						+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME,"
+						+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR, am.endereco"
+						+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, frasco as fr, volume as vol,"
+						+ " unidade_medida as un, preservacao as pre, coletor as co, amostra_parametro as ap"
+						+ " where aos.coletor='"+cbcoletor.getSelectedItem().toString()+"'"
+						+ " and aos.amostra="+Integer.valueOf(dao.buscarIdAmostra(txtAmostra.getText()))+""
+						+ " and pr.idproposta = aos.proposta and aos.proposta = ap.proposta"
+						+ " and aos.amostra = am.idamostra and aos.amostra =ap.amostra and pa.idparametro = ap.parametro"
+						+ " and fr.id_frasco = pa.frasco and vol.id_volume = pa.volume and pre.id_preservacao = pa.preservacao"
+						+ " and un.id_unidade_medida = vol.id_unidade_medida and aos.coletor = co.nome"
+						+ " ORDER BY am.numero_amostra, aos.ordem,  pa.descricao";
+				
+				calendario.PreencherTabela(sql, dados2);
+			
+				TableCalendario.setAutoCreateRowSorter(true);
+				
+				TableCalendarioSoma.setVisible(false);
+				
+				}
+				
+				else	if(cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate()== null && txtAmostra.getText().isEmpty()){
 					
 						JOptionPane.showMessageDialog(null, "escolha um filtro");
+				
 					}
 			}
 			} );
@@ -395,7 +498,11 @@ public class TelaCalendario extends JFrame {
 						+ " where aos.coletor = '"+cbcoletor.getSelectedItem().toString()+"' AND aos.datacoleta =  '"+data+"'"
 						+ " and pr.idproposta = aos.proposta and aos.amostra = am.idamostra and aos.coletor = co.nome";
 				
-				calendario.gerarRelatorioColeta(sql);
+				
+				
+					calendario.gerarRelatorioColeta(sql);
+				
+				
 				
 			}
 		});
