@@ -90,7 +90,7 @@ public class calendarioDAO {
 	}
 	}
 	
-	public void gerarRelatorioColeta(String sql){
+	public void gerarRelatorio(String sql){
 		
 		conexao.conexao();
 		conexao.executaSQL(sql);
@@ -103,7 +103,7 @@ public class calendarioDAO {
 			
 	 		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
 	 		
-	 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/coleta.jasper", parametros, relatResul);
+	 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/data_e_coletor_amostra.jasper", parametros, relatResul);
 	 		
 	 		JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
 	 		jv.setVisible(true); // chama relatorio para visualização
@@ -117,4 +117,147 @@ public class calendarioDAO {
 		}
 	     
 	}	   
+	
+public void gerarRelatorioPorDataColetor(String sql){
+		
+		conexao.conexao();
+		conexao.executaSQL(sql);
+			
+			try {		
+				
+			Map<String, Object> parametros = new HashMap<String,Object>();  
+			parametros.put("SUBREPORT_DIR" , "//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/") ;  
+			parametros.put("REPORT_CONNECTION",conexao.getConexao());
+			
+	 		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
+	 		
+	 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/data_e_coletor.jasper", parametros, relatResul);
+	 		
+	 		JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
+	 		jv.setVisible(true); // chama relatorio para visualização
+	 		jv.toFront(); // relatorio na frente da aplicação
+		
+		} catch (JRException e) {
+		JOptionPane.showMessageDialog(null, "Erro ao chamar relatório!"+e.getMessage());
+	}
+		finally {
+			conexao.desconecta();
+		}
+	     
+	}	   
+	
+public void gerarRelatorioPorColetorAmostra(String sql){
+	
+	conexao.conexao();
+	conexao.executaSQL(sql);
+		
+		try {		
+			
+		Map<String, Object> parametros = new HashMap<String,Object>();  
+		parametros.put("SUBREPORT_DIR" , "//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/") ;  
+		parametros.put("REPORT_CONNECTION",conexao.getConexao());
+		
+ 		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
+ 		
+ 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/coletor_Amostra.jasper", parametros, relatResul);
+ 		
+ 		JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
+ 		jv.setVisible(true); // chama relatorio para visualização
+ 		jv.toFront(); // relatorio na frente da aplicação
+	
+	} catch (JRException e) {
+	JOptionPane.showMessageDialog(null, "Erro ao chamar relatório!"+e.getMessage());
+}
+	finally {
+		conexao.desconecta();
+	}
+     
+}	   
+
+
+public void gerarRelatorioPorData(String sql){
+		
+		conexao.conexao();
+		conexao.executaSQL(sql);
+			
+			try {		
+				
+			Map<String, Object> parametros = new HashMap<String,Object>();  
+			parametros.put("SUBREPORT_DIR" , "//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/") ;  
+			parametros.put("REPORT_CONNECTION",conexao.getConexao());
+			
+	 		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
+	 		
+	 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/pordata.jasper", parametros, relatResul);
+	 		
+	 		JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
+	 		jv.setVisible(true); // chama relatorio para visualização
+	 		jv.toFront(); // relatorio na frente da aplicação
+		
+		} catch (JRException e) {
+		JOptionPane.showMessageDialog(null, "Erro ao chamar relatório!"+e.getMessage());
+	}
+		finally {
+			conexao.desconecta();
+		}
+	     
+}
+
+public void gerarRelatorioPorAmostra(String sql){
+	
+	conexao.conexao();
+	conexao.executaSQL(sql);
+		
+		try {		
+			
+		Map<String, Object> parametros = new HashMap<String,Object>();  
+		parametros.put("SUBREPORT_DIR" , "//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/") ;  
+		parametros.put("REPORT_CONNECTION",conexao.getConexao());
+		
+ 		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
+ 		
+ 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/somente_amostra.jasper", parametros, relatResul);
+ 		
+ 		JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
+ 		jv.setVisible(true); // chama relatorio para visualização
+ 		jv.toFront(); // relatorio na frente da aplicação
+	
+	} catch (JRException e) {
+	JOptionPane.showMessageDialog(null, "Erro ao chamar relatório!"+e.getMessage());
+}
+	finally {
+		conexao.desconecta();
+	}
+     
+}
+
+public void gerarRelatorioPorAmostraData(String sql){
+	
+	conexao.conexao();
+	conexao.executaSQL(sql);
+		
+		try {		
+			
+		Map<String, Object> parametros = new HashMap<String,Object>();  
+		parametros.put("SUBREPORT_DIR" , "//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/") ;  
+		parametros.put("REPORT_CONNECTION",conexao.getConexao());
+		
+ 		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
+ 		
+ 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/amostra_data.jasper", parametros, relatResul);
+ 		
+ 		JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
+ 		jv.setVisible(true); // chama relatorio para visualização
+ 		jv.toFront(); // relatorio na frente da aplicação
+	
+	} catch (JRException e) {
+	JOptionPane.showMessageDialog(null, "Erro ao chamar relatório!"+e.getMessage());
+}
+	finally {
+		conexao.desconecta();
+	}
+     
+}
+	
+	
 }

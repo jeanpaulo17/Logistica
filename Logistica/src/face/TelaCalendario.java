@@ -3,10 +3,12 @@ package face;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.print.Printable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -20,19 +22,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import com.toedter.calendar.JDateChooser;
-
+import utilitarios.ModeloTable;
 import DAO.amostraDAO;
 import DAO.calendarioDAO;
-import utilitarios.ModeloTable;
 
-import javax.swing.JTextField;
-import java.awt.Toolkit;
+import com.toedter.calendar.JDateChooser;
 
 public class TelaCalendario extends JFrame {
 
@@ -46,7 +46,7 @@ public class TelaCalendario extends JFrame {
 	private String[] colunasSoma;
 	private JTable TableCalendarioSoma;
 	private JTextField txtAmostra;
-	
+	private String data = "";
 	
 	public TelaCalendario() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCalendario.class.getResource("/face/calendario-icon.png")));
@@ -226,7 +226,7 @@ public class TelaCalendario extends JFrame {
 				else if(cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null && txtAmostra.getText().isEmpty()){
 						//FILTRAR POR DATA
 					
-					String data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
+					data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
 
 					sql =   "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA, "
 							+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME, "
@@ -322,7 +322,7 @@ public class TelaCalendario extends JFrame {
 				
 						else 
 							if(cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null && !txtAmostra.getText().isEmpty()){
-								// SOMENTE AMOSTRA
+								// AMOSTRA E DATA
 		
 								String data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
 
@@ -348,7 +348,7 @@ public class TelaCalendario extends JFrame {
 								}
 				
 				if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate()== null && !txtAmostra.getText().isEmpty()){
-				
+				//COLETOR E AMOSTRA
 				
 			
 				sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
@@ -483,31 +483,115 @@ public class TelaCalendario extends JFrame {
 		
 		btnGerarPdf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
+			try {	
+				String	data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
 				
-
-								
+				
+				if(!cbcoletor.getSelectedItem().toString().isEmpty() && dateChooser.getDate().toString().isEmpty() && txtAmostra.getText().isEmpty()){
+					//APENAS COLETOR
+					
+					JOptionPane.showMessageDialog(null, "somente coletor");	
+			
+				
+				}
+					else
+				if(cbcoletor.getSelectedItem().equals(" ") && !dateChooser.getDate().toString().isEmpty() && txtAmostra.getText().isEmpty()){
+					//FILTRAR POR DATA
+					JOptionPane.showMessageDialog(null,"DATA");
 				sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
 						+ " am.periodicidade as PERIODICIDADE,aos.datacoleta as DATACOLETA, aos.coletor as COLETOR"
 						+ " from proposta as pr, amostra as am, amostra_os as aos, coletor as co "
-						+ " where aos.coletor = '"+cbcoletor.getSelectedItem().toString()+"' AND aos.datacoleta =  '"+data+"'"
+						+ " where aos.datacoleta =  '"+data+"'"
 						+ " and pr.idproposta = aos.proposta and aos.amostra = am.idamostra and aos.coletor = co.nome";
 				
+					calendario.gerarRelatorioPorData(sql);
 				
+					}				
 				
-					calendario.gerarRelatorioColeta(sql);
+				else				
+					if(!cbcoletor.getSelectedItem().equals(" ") && !dateChooser.getDate().toString().isEmpty() && !txtAmostra.getText().isEmpty()){
+						// COLETOR, DATA E AMOSTRA
+						JOptionPane.showMessageDialog(null,"coletor e amostra E DATA");
+						sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
+								+ " am.periodicidade as PERIODICIDADE,aos.datacoleta as DATACOLETA, aos.coletor as COLETOR"
+								+ " from proposta as pr, amostra as am, amostra_os as aos, coletor as co "
+								+ " where aos.coletor = '"+cbcoletor.getSelectedItem().toString()+"' AND aos.datacoleta =  '"+data+"'"
+								+ " and am.numero_amostra='"+txtAmostra.getText()+"' and pr.idproposta = aos.proposta and aos.amostra = am.idamostra and aos.coletor = co.nome";
+						
+							calendario.gerarRelatorio(sql);
+							
+					
+						}
+					
+					else
+						if(cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate().toString().isEmpty() && !txtAmostra.getText().isEmpty()){
+						// SOMENTE AMOSTRA
+						JOptionPane.showMessageDialog(null,"somente amostra");
+						sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
+								+ " am.periodicidade as PERIODICIDADE,aos.datacoleta as DATACOLETA, aos.coletor as COLETOR"
+								+ " from proposta as pr, amostra as am, amostra_os as aos, coletor as co "
+								+ " where am.numero_amostra='"+txtAmostra.getText()+"' and pr.idproposta = aos.proposta "
+								+ " and aos.amostra = am.idamostra and aos.coletor = co.nome"
+								+ " order by aos.datacoleta";
+						
+							calendario.gerarRelatorioPorAmostra(sql);							
+						}
 				
+						else 
+							if(cbcoletor.getSelectedItem().equals(" ") && !dateChooser.getDate().toString().isEmpty() && !txtAmostra.getText().isEmpty()){
+								//  DATA e AMOSTRA 
+							JOptionPane.showMessageDialog(null,"data e amostra");
+								sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
+										+ " am.periodicidade as PERIODICIDADE,aos.datacoleta as DATACOLETA, aos.coletor as COLETOR"
+										+ " from proposta as pr, amostra as am, amostra_os as aos, coletor as co "
+										+ " where aos.datacoleta =  '"+data+"'"
+										+ " and am.numero_amostra='"+txtAmostra.getText()+"' and pr.idproposta = aos.proposta and aos.amostra = am.idamostra and aos.coletor = co.nome";
+								
+									calendario.gerarRelatorioPorAmostraData(sql);
+							
+								}
+						
+							else
+								if(cbcoletor.getSelectedItem().toString().length() >0 && dateChooser.getDate().toString().isEmpty() && !txtAmostra.getText().isEmpty()){
+					
+					//COLETOR E AMOSTRA
+								JOptionPane.showMessageDialog(null,"coletor e amostra");
+						sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
+								+ " am.periodicidade as PERIODICIDADE,aos.datacoleta as DATACOLETA, aos.coletor as COLETOR"
+								+ " from proposta as pr, amostra as am, amostra_os as aos, coletor as co "
+								+ " where aos.coletor = '"+cbcoletor.getSelectedItem().toString()+"'"
+								+ "	and am.numero_amostra='"+txtAmostra.getText()+"' and pr.idproposta = aos.proposta and aos.amostra = am.idamostra and aos.coletor = co.nome";
+						
+							calendario.gerarRelatorioPorColetorAmostra(sql);
+					
+					}
+								else
+									if(!cbcoletor.getSelectedItem().equals(" ") && !dateChooser.getDate().toString().isEmpty() && txtAmostra.getText().isEmpty()){
+										//  DATA e COLETOR
+										JOptionPane.showMessageDialog(null,"coletor DATA");
+										sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
+												+ " am.periodicidade as PERIODICIDADE,aos.datacoleta as DATACOLETA, aos.coletor as COLETOR"
+												+ " from proposta as pr, amostra as am, amostra_os as aos, coletor as co "
+												+ " where aos.coletor = '"+cbcoletor.getSelectedItem().toString()+"' AND aos.datacoleta =  '"+data+"'"
+												+ " and pr.idproposta = aos.proposta and aos.amostra = am.idamostra and aos.coletor = co.nome";
+										
+											calendario.gerarRelatorioPorDataColetor(sql);
+										} 
 				
+								else 
+									if(cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate().toString().isEmpty() && txtAmostra.getText().isEmpty()){
+										
+										JOptionPane.showMessageDialog(null, "escolha um filtro");
+									}
+					
+						
 				
-			}
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}}
+				
+			
 		});
-		
-		
-		
-		
-		
-		
-		
 		
 }
 }
