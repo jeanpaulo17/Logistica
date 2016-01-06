@@ -571,6 +571,9 @@ public class TelaDefinirParametro extends JFrame {
 					int codParametro = p.obterCodigoParametro(String.valueOf(cbParametro.getSelectedItem()));
 					
 					
+					
+					
+					
 					parametroDAO1
 							.PreencherTabelaParametro(
 									"select pr.numero_proposta as proposta , am.numero_amostra as amostra, pr.empresa, am.ponto , pa.descricao as parametro, fr.descricao as frasco, "

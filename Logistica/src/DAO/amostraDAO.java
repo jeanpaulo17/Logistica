@@ -109,28 +109,7 @@ public class amostraDAO {
 		}
 	}
 	
-	public String buscarIdColetor(String nome) {
-		String msg = "";
 
-		try {
-
-			conexao.conexao();
-
-			stm = conexao.conn.createStatement();
-			ResultSet rs = stm
-					.executeQuery("select idColetor from coletor where nome='" + nome + "';");
-
-			if (rs.next()) {
-				msg = rs.getString(1);
-				return msg;
-			}
-
-		} catch (SQLException e1) {
-		} finally {
-			conexao.desconecta();
-			return msg;
-		}
-	}
 	
 	public ArrayList<String> obterColetores(){
 		conexao.conexao();
@@ -147,6 +126,29 @@ public class amostraDAO {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null,
 					"Erro ao obter os dados. (obterColetores)" + e.getMessage());
+		} finally {
+			conexao.desconecta();
+		}
+
+		return dados;
+		
+	}
+	
+	public ArrayList<String> obterStatus(){
+		conexao.conexao();
+		ArrayList<String> dados = new ArrayList<String>();
+		
+		try {
+			stm = conexao.conn.createStatement();
+			ResultSet rs = stm
+					.executeQuery("SELECT descricao FROM status_amostra order by descricao ;");
+
+			while (rs.next()) {
+				dados.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,
+					"Erro ao obter os dados. (obterStatus)" + e.getMessage());
 		} finally {
 			conexao.desconecta();
 		}
@@ -322,7 +324,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 
 							conexao.rs.getObject("PROPOSTA"), conexao.rs.getObject("AMOSTRA"),
 							conexao.rs.getObject("ORDEM"), conexao.rs.getObject("COLETOR"),
-							conexao.rs.getObject("DATACOLETA"),conexao.rs.getObject("STATUS_AMOSTRA")
+							conexao.rs.getObject("DATACOLETA"),conexao.rs.getObject("STATUS")
 
 					});
 
@@ -378,7 +380,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 	}
 	
 	
-	public void DefinirDataColetor(int idproposta, int idamostra, int ordem, String datacoleta, String coletor) throws ParseException {
+	public void DefinirDataColetor(int idproposta, int idamostra, int ordem, String datacoleta, String coletor, String status) throws ParseException {
 		try {
 			
 			 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -390,13 +392,14 @@ public boolean verificaExistenciaAmostra(String amostra){
 	         
 	        if(diaDaSemana != 1){ 
 			conexao.conexao();
-			pst = conexao.conn.prepareStatement("UPDATE amostra_os SET coletor=?, datacoleta=? where proposta=? and amostra=? and ordem=? ");
+			pst = conexao.conn.prepareStatement("UPDATE amostra_os SET coletor=?, datacoleta=?, status_amostra=? where proposta=? and amostra=? and ordem=? ");
 			
 			pst.setString(1, coletor);
 			pst.setString(2, datacoleta);
-			pst.setInt(3, idproposta);
-			pst.setInt(4, idamostra);
-			pst.setInt(5, ordem);
+			pst.setString(3, status);
+			pst.setInt(4, idproposta);
+			pst.setInt(5, idamostra);
+			pst.setInt(6, ordem);
 			
 			pst.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Adicionado!");
