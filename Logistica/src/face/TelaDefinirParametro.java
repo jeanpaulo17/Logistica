@@ -555,6 +555,7 @@ public class TelaDefinirParametro extends JFrame {
 				int idproposta = Integer.parseInt(amostraDAO.buscarIdProposta((String)txtProposta_Amostra.getText()));
 				int idParametro = Integer.valueOf(p.obterCodigoParametro( (String) cbParametro.getSelectedItem()));
 				
+				
 				if(String.valueOf(cbLegislacao.getSelectedItem()).equals(" "))
 					JOptionPane.showMessageDialog(null, "Escolha uma legislação!");
 				
@@ -567,7 +568,9 @@ public class TelaDefinirParametro extends JFrame {
 					amostras = parametroDAO1.obterAmostra(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText()));
 					txtEmpresa_Parametro.setText(
 							amostraDAO.buscarEmpresa(amostraDAO.buscarIdProposta(txtProposta_Amostra.getText())));
-
+					int codParametro = p.obterCodigoParametro(String.valueOf(cbParametro.getSelectedItem()));
+					
+					
 					parametroDAO1
 							.PreencherTabelaParametro(
 									"select pr.numero_proposta as proposta , am.numero_amostra as amostra, pr.empresa, am.ponto , pa.descricao as parametro, fr.descricao as frasco, "
@@ -588,7 +591,6 @@ public class TelaDefinirParametro extends JFrame {
 											+ " and tip.idtipoamostra = pa.tipoamostra and uni.id_unidade_medida = vol.id_unidade_medida",
 									dados2);
 					
-				
 				
 				
 				tableParametro.setSurrendersFocusOnKeystroke(true);
@@ -625,6 +627,8 @@ public class TelaDefinirParametro extends JFrame {
 						return this;
 					}
 				});
+				
+					
 			}
 		
 		

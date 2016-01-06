@@ -159,7 +159,7 @@ public void gerarRelatorioPorColetorAmostra(String sql){
 		
  		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
  		
- 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/coletor_Amostra.jasper", parametros, relatResul);
+ 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/coletor_amostra.jasper", parametros, relatResul);
  		
  		JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
  		jv.setVisible(true); // chama relatorio para visualização
@@ -244,7 +244,7 @@ public void gerarRelatorioPorAmostraData(String sql){
 		
  		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
  		
- 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/amostra_data.jasper", parametros, relatResul);
+ 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/data_amostra.jasper", parametros, relatResul);
  		
  		JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
  		jv.setVisible(true); // chama relatorio para visualização

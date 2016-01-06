@@ -322,7 +322,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 
 							conexao.rs.getObject("PROPOSTA"), conexao.rs.getObject("AMOSTRA"),
 							conexao.rs.getObject("ORDEM"), conexao.rs.getObject("COLETOR"),
-							conexao.rs.getObject("DATACOLETA"),
+							conexao.rs.getObject("DATACOLETA"),conexao.rs.getObject("STATUS_AMOSTRA")
 
 					});
 
