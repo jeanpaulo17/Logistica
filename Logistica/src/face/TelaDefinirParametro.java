@@ -571,7 +571,14 @@ public class TelaDefinirParametro extends JFrame {
 					int codParametro = p.obterCodigoParametro(String.valueOf(cbParametro.getSelectedItem()));
 					
 					
-					
+					if(!String.valueOf(cbLegislacao.getSelectedItem()).equals(" ") && !String.valueOf(cbParametro.getSelectedItem()).equals(" ")){
+						JOptionPane.showMessageDialog(null, "Você não pode cadastrar um parametro e uma legislação ao mesmo tempo!");
+					}else if (p.verificaCadastroParametro(idamostra,
+							codParametro, idproposta) == false) {
+						JOptionPane.showMessageDialog(null, "Parametro ja cadastrada antes!");
+					} else if (txtProposta_Amostra.getText().isEmpty() || cbNumeroAmostra.getItemCount() == 0) {
+						JOptionPane.showMessageDialog(null, "Campos Proposta/Amostra vazio(s)");
+					} else {
 					
 					
 					parametroDAO1
@@ -631,7 +638,7 @@ public class TelaDefinirParametro extends JFrame {
 					}
 				});
 				
-					
+					}	
 			}
 		
 		

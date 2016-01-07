@@ -76,6 +76,7 @@ public class parametroDAO {
 	
 	
 	
+	
 	public void cadastrarLegislacaoNaAmostra(int legislacao, int idamostra, int idproposta, int idparametro)  {
 		int i;
 		ArrayList idParametros = new ArrayList();
@@ -102,8 +103,8 @@ public class parametroDAO {
 					
 				}//try
 				}// for
-				JOptionPane.showMessageDialog(null, "Você já possui alguns desses parametros na sua amostra... Vamos adicionar só os restantes para completar sua legislação!");
-				JOptionPane.showMessageDialog(null, "Legislacao incluida!");
+				//JOptionPane.showMessageDialog(null, "Você já possui alguns desses parametros na sua amostra... Vamos adicionar só os restantes para completar sua legislação!");
+				//JOptionPane.showMessageDialog(null, "Legislacao incluida!");
 				
 				}catch(SQLException ex){
 					JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -185,7 +186,7 @@ public class parametroDAO {
 	public boolean verificaCadastroParametro(int amostra, int parametro,
 			int proposta)   {
 
-boolean ok = false;
+		boolean ok = false;
 		conexao.conexao();
 
 		try {

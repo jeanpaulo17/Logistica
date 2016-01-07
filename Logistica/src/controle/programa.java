@@ -1,5 +1,6 @@
 package controle;
 
+import DAO.emailDAO;
 import face.TelaInicialAdm;
 
 public class programa {
@@ -8,6 +9,9 @@ public class programa {
 		TelaInicialAdm t = new TelaInicialAdm();
 		t.setVisible(true);
 		t.setLocationRelativeTo(null);
+		
+		emailDAO e = new emailDAO();
+		e.enviarAlerta();
 
 	}
 

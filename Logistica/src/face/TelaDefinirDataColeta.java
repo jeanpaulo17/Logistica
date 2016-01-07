@@ -435,11 +435,10 @@ public class TelaDefinirDataColeta extends JFrame {
 				}catch (Exception ex) {
 					JOptionPane.showMessageDialog(null, "ERRO" + ex.getMessage());
 				}
-				
+
 				finally {
 					tableColeta.requestFocus();
 				}
-			
 			}
 		});
 
