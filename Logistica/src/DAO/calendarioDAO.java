@@ -1,19 +1,21 @@
 package DAO;
 
+import java.io.File;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
@@ -89,6 +91,35 @@ public class calendarioDAO {
 			conexao.desconecta();
 	}
 	}
+	
+	
+public void criaRelatorioPorDataColetor(String sql,String coletor){
+		
+		conexao.conexao();
+		conexao.executaSQL(sql);
+	
+		
+		try {	
+				
+		amostraDAO a = new amostraDAO();
+		ArrayList<String> coletores = a.obterColetores();
+				
+			Map<String, Object> parametros = new HashMap<String,Object>();  
+			parametros.put("SUBREPORT_DIR" , "//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/") ;  
+			parametros.put("REPORT_CONNECTION",conexao.getConexao());
+			
+	 		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
+	 		
+	 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/data_e_coletor.jasper", parametros, relatResul);
+	 		
+	 		//JasperExportManager.exportReportToPdf(jpPrint);
+		
+	 		JasperExportManager.exportReportToPdfFile(jpPrint, File.separator+""+File.separator+"192.168.0.8"+File.separator+"informacoes"+File.separator+"SISTEMAS"+File.separator+"Fichas de Coleta"+File.separator+coletor+".pdf");
+	 		
+			} catch (JRException e) {
+	 		JOptionPane.showMessageDialog(null, "Erro ao chamar relatório!"+e.getMessage());
+	} 
+}
 	
 	public void gerarRelatorio(String sql){
 		
