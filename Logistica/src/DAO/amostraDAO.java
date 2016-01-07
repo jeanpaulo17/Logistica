@@ -414,7 +414,101 @@ public boolean verificaExistenciaAmostra(String amostra){
 			conexao.desconecta();
 		}
 	}
+	
+	public void DefinirStatusColetor(int idproposta, int idamostra, int ordem, String coletor, String status) throws ParseException {
+		try {
+			
+	            
+	         
+			conexao.conexao();
+			pst = conexao.conn.prepareStatement("UPDATE amostra_os SET coletor=?, status_amostra=? where proposta=? and amostra=? and ordem=? ");
+			
+			pst.setString(1, coletor);
+			pst.setString(2, status);
+			pst.setInt(3, idproposta);
+			pst.setInt(4, idamostra);
+			pst.setInt(5, ordem);
+			
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Adicionado!");
+	        
+			
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
 
+		} finally {
+			conexao.desconecta();
+		}
+}
+	
+
+	public void DefinirStatus(int idproposta, int idamostra, int ordem, String status) throws ParseException {
+		try {
+			
+			conexao.conexao();
+			pst = conexao.conn.prepareStatement("UPDATE amostra_os SET status_amostra=? where proposta=? and amostra=? and ordem=? ");
+			
+			pst.setString(1, status);
+			pst.setInt(2, idproposta);
+			pst.setInt(3, idamostra);
+			pst.setInt(4, ordem);
+			
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Adicionado!");
+	     			
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+	
+	public void DefinirColetor(int idproposta, int idamostra, int ordem, String coletor) throws ParseException {
+		try {
+			
+			conexao.conexao();
+			pst = conexao.conn.prepareStatement("UPDATE amostra_os SET coletor=? where proposta=? and amostra=? and ordem=? ");
+			
+			pst.setString(1, coletor);
+			pst.setInt(2, idproposta);
+			pst.setInt(3, idamostra);
+			pst.setInt(4, ordem);
+			
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Adicionado!");
+	     			
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+	
+	public void DefinirData(int idproposta, int idamostra, int ordem, String datacoleta) throws ParseException {
+		try {
+			
+			conexao.conexao();
+			pst = conexao.conn.prepareStatement("UPDATE amostra_os SET datacoleta=? where proposta=? and amostra=? and ordem=? ");
+			
+			pst.setString(1, datacoleta);
+			pst.setInt(2, idproposta);
+			pst.setInt(3, idamostra);
+			pst.setInt(4, ordem);
+			
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Adicionado!");
+	     			
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+
+	
 	public int verificaQuantidadeDeAmostrasNaProposta(int idproposta) {
 		conexao.conexao();
 

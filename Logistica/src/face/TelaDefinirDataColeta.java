@@ -223,16 +223,89 @@ public class TelaDefinirDataColeta extends JFrame {
 		btnDefinir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());
+			
 				String sql;
 				
 				int prop = Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText()));
 				int amost = Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText()));
-
+				int ordem = Integer.valueOf(txtOrdemAuto.getText());
+				String status = String.valueOf(cbStatus.getSelectedItem());
+				
+				if(cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() == null && !cbStatus.getSelectedItem().equals(" ")){
+					try {
+						amostraDAO.DefinirStatus(Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
+								Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
+								Integer.valueOf(txtOrdemAuto.getText()),
+								String.valueOf(cbStatus.getSelectedItem())
+								);
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				else if(!cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() == null && cbStatus.getSelectedItem().equals(" ")){
+					try {
+						amostraDAO.DefinirColetor(Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
+								Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
+								Integer.valueOf(txtOrdemAuto.getText()),
+								String.valueOf(cbcoletor.getSelectedItem())
+								);
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				else if(cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() != null && cbStatus.getSelectedItem().equals(" ")){
+					try {
+						String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());
+						amostraDAO.DefinirData(Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
+								Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
+								Integer.valueOf(txtOrdemAuto.getText()),
+								datacoleta
+								);
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				else if(!cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() == null && !cbStatus.getSelectedItem().equals(" ")){
+					try {
+						amostraDAO.DefinirStatusColetor(Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
+								Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
+								Integer.valueOf(txtOrdemAuto.getText()),
+								String.valueOf(cbcoletor.getSelectedItem()),
+								String.valueOf(cbStatus.getSelectedItem())
+								
+								);
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				else{
+					
 				try {
+										String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());
 				boolean ok = amostraDAO.verificarDiasIguais(datacoleta, prop, amost);
 				
 				if(ok == false){
+					
 				
 				amostraDAO.DefinirDataColetor(
 				Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
@@ -247,7 +320,8 @@ public class TelaDefinirDataColeta extends JFrame {
 				}
 				}catch (NumberFormatException e) {
 				} catch (ParseException e) {
-				}				
+				}	
+				}
 				
 
 				
