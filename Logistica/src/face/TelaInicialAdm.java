@@ -1,5 +1,7 @@
 package face;
 
+import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,11 +16,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import utilitarios.ConectaBanco;
 import DAO.amostraDAO;
 import DAO.propostaDAO;
-import utilitarios.ConectaBanco;
-import java.awt.Font;
-import java.awt.Toolkit;
 
 public class TelaInicialAdm extends JFrame {
 

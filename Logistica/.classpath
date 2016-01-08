@@ -7,119 +7,6 @@
 	<classpathentry kind="lib" path="Z:/SISTEMAS/JCalendar/jgoodies-common-1.2.0.jar"/>
 	<classpathentry kind="lib" path="Z:/SISTEMAS/JCalendar/jgoodies-looks-2.4.1.jar"/>
 	<classpathentry kind="lib" path="Z:/SISTEMAS/JCalendar/junit-4.6.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/ant-1.7.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/antlr-2.7.6.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/asm.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/asm-attrs.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/barbecue-1.5-beta1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/barcode4j-2.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/batik-anim.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/batik-awt-util.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/batik-bridge.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/batik-css.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/batik-dom.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/batik-ext.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/batik-gvt.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/batik-parser.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/batik-script.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/batik-svg-dom.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/batik-svggen.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/batik-transcoder.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/batik-util.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/batik-xml.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/bcel-5.2.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/bsh-2.1b5.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/castor-1.2.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/cglib-2.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/cincom-jr-xmla.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/commons-beanutils-1.8.2.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/commons-collections-3.2.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/commons-dbcp-1.2.2.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/commons-digester-2.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/commons-javaflow-20060411.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/commons-logging-1.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/commons-math-1.0.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/commons-pool-1.3.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/commons-pool-1.6.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/commons-vfs-1.0.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/dom4j-1.6.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/ehcache-1.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/eigenbase-properties-1.1.0.10924.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/eigenbase-resgen-1.3.0.11873.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/eigenbase-xom-1.3.0.11999.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/ejb3-persistence.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/groovy-all-2.0.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/hadoop-core-1.0.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/hibernate3.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/hibernate-annotations.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/hibernate-commons-annotations.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/hive-common-0.8.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/hive-exec-0.8.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/hive-jdbc-0.8.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/hive-metastore-0.8.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/hive-service-0.8.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/hsqldb-1.8.0-10.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/iText-2.1.7.js2.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/iTextAsian.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jackson-annotations-2.1.4.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jackson-core-2.1.4.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jackson-databind-2.1.4.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jasperreports-5.6.0.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jasperreports-chart-themes-5.6.0.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jasperreports-core-renderer.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jasperreports-extensions-3.5.3.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jasperreports-fonts-5.6.0.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jasperreports-functions-5.6.0.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jasperreports-htmlcomponent-4.7.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jasperreports-htmlcomponent-5.0.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jasperreports-json.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jasperreports-jtidy-r938.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/javacup.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/javassist-3.4.GA.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jaxen-1.1.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jcommon-1.0.15.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jdt-compiler-3.1.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jfreechart-1.0.12.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/joda-time-2.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jpa.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/js_activation-1.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/js_axis-1.4patched.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/js_commons-codec-1.3.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/js_commons-discovery-0.2.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/js_commons-httpclient-3.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/js_jasperserver-common-ws-4.7.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/js_jaxrpc.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/js_mail-1.4.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/js_saaj-api-1.3.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/js_wsdl4j-1.5.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/js-hive-datasource-1.0.4.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/js-mongodb-datasource-1.0.0a.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jta.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/jxl-2.6.10.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/libfb303-0.7.0.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/libthrift-0.9.0-snapshot.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/log4j-1.2.15.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/mondrian-3.2.0-13661-JS.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/mongo-java-driver-2.7.3.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/olap4j-0.9.7.309-JS.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/png-encoder-1.5.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/poi-3.7-20101029.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/poi-ooxml-3.7-20101029.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/poi-ooxml-schemas-3.7-20101029.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/rex-0.8.1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/rex-20080421.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/rhino-1.7R3.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/saaj-api-1.3.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/servlet-api-2.4.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/slf4j-api-1.5.8.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/slf4j-log4j12-1.5.8.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/spring.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/sqleonardo-2009.03.rc1.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/swingx-2007_10_07.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/velocity-1.7-dep.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/xbean.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/xml-apis.jar"/>
-	<classpathentry kind="lib" path="Z:/SISTEMAS/Jars/xml-apis-ext.jar"/>
 	<classpathentry kind="lib" path="src/utilitarios/commons-email-1.4-javadoc.jar"/>
 	<classpathentry kind="lib" path="src/utilitarios/commons-email-1.4.jar"/>
 	<classpathentry kind="lib" path="src/utilitarios/commons-codec-1.3.jar"/>
@@ -130,5 +17,12 @@
 	<classpathentry kind="lib" path="src/utilitarios/junit-dep-4.8.2.jar"/>
 	<classpathentry kind="lib" path="src/utilitarios/mockito-core-1.8.5.jar"/>
 	<classpathentry kind="lib" path="src/utilitarios/objenesis-1.1.jar"/>
+	<classpathentry kind="lib" path="Z:/SISTEMAS/jar quartz/c3p0-0.9.1.1.jar"/>
+	<classpathentry kind="lib" path="Z:/SISTEMAS/jar quartz/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="Z:/SISTEMAS/jar quartz/quartz-2.2.2.jar"/>
+	<classpathentry kind="lib" path="Z:/SISTEMAS/jar quartz/quartz-jobs-2.2.2.jar"/>
+	<classpathentry kind="lib" path="Z:/SISTEMAS/jar quartz/slf4j-api-1.7.7.jar"/>
+	<classpathentry kind="lib" path="Z:/SISTEMAS/jar quartz/slf4j-log4j12-1.7.7.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/IREPORT ANTIGO"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

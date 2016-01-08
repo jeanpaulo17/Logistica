@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.print.Printable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -28,11 +27,23 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import org.quartz.CronScheduleBuilder;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.impl.StdSchedulerFactory;
+
 import utilitarios.ModeloTable;
 import DAO.amostraDAO;
 import DAO.calendarioDAO;
 
 import com.toedter.calendar.JDateChooser;
+
+import controle.MyJob;
 
 public class TelaCalendario extends JFrame {
 
@@ -59,8 +70,6 @@ public class TelaCalendario extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		
-		
 		TableCalendario = new JTable();
 		TableCalendario.setRequestFocusEnabled(false);
 		
@@ -85,7 +94,6 @@ public class TelaCalendario extends JFrame {
 		dateChooser.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		dateChooser.setBounds(83, 60, 108, 20);
 		contentPane.add(dateChooser);
-		
 		
 		JLabel lblData = new JLabel("Data: ");
 		lblData.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -153,16 +161,40 @@ public class TelaCalendario extends JFrame {
 		
 		checkOnOff.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
+				try {
+					
+				SchedulerFactory shedFact = new StdSchedulerFactory();
+				Scheduler scheduler = shedFact.getScheduler();
 				
-				if(!checkOnOff.isSelected()){
+				if(checkOnOff.isSelected()){
+				
+				lblAtivado.setVisible(true);
+				lblDesativado.setVisible(false);
+						
+				scheduler.start();
+				JobDetail job = JobBuilder.newJob(MyJob.class).withIdentity("MyJob", "grupo01").build();
+				Trigger trigger = TriggerBuilder.newTrigger().withIdentity("MyJob", "grupo01").withSchedule(CronScheduleBuilder.cronSchedule("0 44 09 * * ?")).build();
+
+				scheduler.scheduleJob(job, trigger);
+					
+					
+				}else{
 					lblDesativado.setVisible(true);
 					lblAtivado.setVisible(false);
-				}else{
-					lblAtivado.setVisible(true);
-					lblDesativado.setVisible(false);
+					
+					try {
+						scheduler.shutdown();
+					} catch (SchedulerException e) {
+						JOptionPane.showMessageDialog(null, e.getMessage());
+					}
+				
+						}			
+				}catch(Exception ex){
+					JOptionPane.showMessageDialog(null,ex.getMessage());
 				}
 			}
-		});
+			});
+		
 			final amostraDAO dao = new amostraDAO();
 			final ArrayList<String> dados = dao.obterColetores();
 		
@@ -179,7 +211,6 @@ public class TelaCalendario extends JFrame {
 				if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate()== null && txtAmostra.getText().isEmpty()){
 						//APENAS COLETOR
 					
-				
 					sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
 							+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME,"
 							+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR, am.endereco"
@@ -196,10 +227,6 @@ public class TelaCalendario extends JFrame {
 					TableCalendario.setAutoCreateRowSorter(true);
 					
 					TableCalendarioSoma.setVisible(false);
-					
-					
-			
-				
 					
 					}else 
 				if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null && txtAmostra.getText().isEmpty()){
@@ -225,7 +252,6 @@ public class TelaCalendario extends JFrame {
 				
 					}
 				
-				
 				else if(cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null && txtAmostra.getText().isEmpty()){
 						//FILTRAR POR DATA
 					
@@ -248,8 +274,6 @@ public class TelaCalendario extends JFrame {
 					
 					TableCalendarioSoma.setVisible(false);
 					
-					
-					
 						}
 				
 				else 
@@ -257,7 +281,6 @@ public class TelaCalendario extends JFrame {
 						// COLETOR E DATA AMOSTRA
 						
 						TableCalendarioSoma.setVisible(true);
-						
 						
 						String data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
 						
@@ -274,13 +297,9 @@ public class TelaCalendario extends JFrame {
 						+ " and aos.coletor = co.nome"
 						+ " ORDER BY am.numero_amostra, aos.ordem,  pa.descricao";
 ;
-						
 						calendario.PreencherTabela(sql, dados2);
 					
 						TableCalendario.setAutoCreateRowSorter(true);
-						
-						
-						
 						
 						String	sqlSoma = "SELECT fr.descricao as frasco, pre.descricao as preservacao, SUM(vol.volume) as soma , un.unidade_medida as un"
 								+ " FROM proposta as pr, amostra as am, amostra_os as aos, parametro as pa, amostra_parametro as ap, frasco as fr, volume as vol, preservacao as pre,"
@@ -300,8 +319,6 @@ public class TelaCalendario extends JFrame {
 						if(cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() == null && !txtAmostra.getText().isEmpty()){
 							// SOMENTE AMOSTRA
 	
-							
-							
 							sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
 							+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO,"
 							+ " vol.volume as VOLUME, un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA,"
@@ -353,7 +370,6 @@ public class TelaCalendario extends JFrame {
 				if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate()== null && !txtAmostra.getText().isEmpty()){
 				//COLETOR E AMOSTRA
 				
-			
 				sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
 						+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME,"
 						+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR, am.endereco"
@@ -382,7 +398,6 @@ public class TelaCalendario extends JFrame {
 					}
 			}
 			} );
-		
 		
 		try {
 
@@ -423,8 +438,6 @@ public class TelaCalendario extends JFrame {
 			TableCalendarioSoma.requestFocus();
 		}
 
-		
-		
 		try {
 
 			scrollCalendario.setViewportView(TableCalendario);
@@ -487,8 +500,6 @@ public class TelaCalendario extends JFrame {
 		btnGerarPdf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			try {	
-				
-				
 				
 				if(!cbcoletor.getSelectedItem().toString().isEmpty() && dateChooser.getDate()== null && txtAmostra.getText().isEmpty()){
 					//APENAS COLETOR
@@ -598,4 +609,6 @@ public class TelaCalendario extends JFrame {
 		});
 		
 }
+	
+	
 }

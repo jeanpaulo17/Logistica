@@ -415,6 +415,40 @@ public boolean verificaExistenciaAmostra(String amostra){
 		}
 	}
 	
+	public void DefinirStatusData(int idproposta, int idamostra, int ordem, String datacoleta, String status) throws ParseException {
+		try {
+			
+			 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	         Date teste = sdf.parse(datacoleta);
+	         GregorianCalendar gc = new GregorianCalendar();
+	         gc.setTime(teste);
+	         int diaDaSemana = gc.get(GregorianCalendar.DAY_OF_WEEK);
+	            
+	         
+	        if(diaDaSemana != 1){ 
+			conexao.conexao();
+			pst = conexao.conn.prepareStatement("UPDATE amostra_os SET datacoleta=?, status_amostra=? where proposta=? and amostra=? and ordem=? ");
+			
+			pst.setString(1, datacoleta);
+			pst.setString(2, status);
+			pst.setInt(3, idproposta);
+			pst.setInt(4, idamostra);
+			pst.setInt(5, ordem);
+			
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Adicionado!");
+	        }else{
+	        	JOptionPane.showMessageDialog(null, "Você não pode agendar coletas no Domingo!");
+	        }
+			
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+	
 	public void DefinirStatusColetor(int idproposta, int idamostra, int ordem, String coletor, String status) throws ParseException {
 		try {
 			

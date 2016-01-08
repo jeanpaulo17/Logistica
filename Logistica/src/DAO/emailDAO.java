@@ -1,15 +1,13 @@
 package DAO;
 
 import java.io.File;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import javax.mail.internet.PreencodedMimeBodyPart;
 import javax.swing.JOptionPane;
 
 import org.apache.commons.mail.EmailAttachment;
@@ -24,8 +22,6 @@ ConectaBanco conexao = new ConectaBanco();
 	public void enviarAlerta(){
 		String destinatario = null;
 		
-		
-			
 			calendarioDAO cc = new calendarioDAO();
 			amostraDAO a = new amostraDAO();
 			ArrayList<String> coletores = a.obterColetores();
@@ -35,9 +31,6 @@ ConectaBanco conexao = new ConectaBanco();
 			Date data = new Date();
 			SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
 			data.setDate(data.getDate() + 1);
-
-			
-			
 
     	// cria o anexo.
     	  EmailAttachment attachment = new EmailAttachment();
@@ -70,4 +63,24 @@ ConectaBanco conexao = new ConectaBanco();
 			e.printStackTrace();
 		} 
 	} 
-	}}
+	}
+	
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

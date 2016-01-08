@@ -1,6 +1,5 @@
 package face;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,21 +12,19 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 
 import DAO.amostraDAO;
 import DAO.frascoDAO;
 import DAO.parametroDAO;
 import DAO.preservacaoDAO;
 import DAO.volumeDAO;
-
-import javax.swing.border.TitledBorder;
 
 public class TelaManutencao extends JFrame {
 

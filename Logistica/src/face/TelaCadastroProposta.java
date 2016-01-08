@@ -2,34 +2,25 @@ package face;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import DAO.propostaDAO;
-
-import javax.swing.JComboBox;
-import javax.swing.SwingConstants;
-import javax.swing.ImageIcon;
-import javax.swing.JList;
-import javax.swing.JToggleButton;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JMenuItem;
-
-import java.awt.Choice;
-
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import java.awt.Toolkit;
 
 public class TelaCadastroProposta extends JFrame {
 
