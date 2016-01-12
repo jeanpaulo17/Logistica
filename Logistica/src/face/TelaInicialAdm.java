@@ -91,7 +91,7 @@ public class TelaInicialAdm extends JFrame {
 		JMenuItem mntmListarTodosOs = new JMenuItem("Abrir Calend\u00E1rio");
 		mntmListarTodosOs.setIcon(new ImageIcon(TelaInicialAdm.class.getResource("/face/calendario-icon.png")));
 		mntmListarTodosOs.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mntmListarTodosOs.setHorizontalAlignment(SwingConstants.CENTER);
+		mntmListarTodosOs.setHorizontalAlignment(SwingConstants.LEFT);
 
 		mnCalendario.add(mntmListarTodosOs);
 		
@@ -104,7 +104,7 @@ public class TelaInicialAdm extends JFrame {
 			}
 		});
 		mntmPendncias.setIcon(new ImageIcon(TelaInicialAdm.class.getResource("/face/pendencias_icon.png")));
-		mntmPendncias.setHorizontalAlignment(SwingConstants.CENTER);
+		mntmPendncias.setHorizontalAlignment(SwingConstants.LEFT);
 		mntmPendncias.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mnCalendario.add(mntmPendncias);
 

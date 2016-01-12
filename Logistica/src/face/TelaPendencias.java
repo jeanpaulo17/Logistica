@@ -51,6 +51,7 @@ public class TelaPendencias extends JFrame {
 	private JTextField txtPropostaAuto;
 	private JTextField txtAmostraAuto;
 	private JTextField txtOrdemAuto;
+	private String sql;
 
 	public TelaPendencias() {
 
@@ -210,7 +211,7 @@ public class TelaPendencias extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 
 			
-				String sql;
+				
 				
 				int prop = Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText()));
 				int amost = Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText()));
@@ -224,6 +225,59 @@ public class TelaPendencias extends JFrame {
 								Integer.valueOf(txtOrdemAuto.getText()),
 								String.valueOf(cbStatus.getSelectedItem())
 								);
+						if(rdbtnCancelada.isSelected()){
+							// canceladas
+							
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+									+ " WHERE os.status_amostra = 'Cancelado' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " and st.descricao = os.status_amostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									tableColeta.setAutoCreateRowSorter(true);
+									
+						} else if(rdbtnConcluidas.isSelected()){
+							// concluidas
+							
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+									+ " WHERE os.status_amostra = 'Concluido' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " and st.descricao = os.status_amostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									tableColeta.setAutoCreateRowSorter(true);
+
+						
+						}else if(rdbtnNaoDatadas.isSelected()){
+							// nao datadas
+							
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
+									+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									tableColeta.setAutoCreateRowSorter(true);
+
+						
+						}else if(rdbtnPendentes.isSelected()){
+							// pendentes
+						
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+									+ " WHERE os.status_amostra = 'Pendente' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " and st.descricao = os.status_amostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									
+									tableColeta.setAutoCreateRowSorter(true);
+
+						}
+					
+						
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -240,6 +294,59 @@ public class TelaPendencias extends JFrame {
 								Integer.valueOf(txtOrdemAuto.getText()),
 								String.valueOf(cbcoletor.getSelectedItem())
 								);
+						
+						if(rdbtnCancelada.isSelected()){
+							// canceladas
+							
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+									+ " WHERE os.status_amostra = 'Cancelado' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " and st.descricao = os.status_amostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									tableColeta.setAutoCreateRowSorter(true);
+									
+						} else if(rdbtnConcluidas.isSelected()){
+							// concluidas
+							
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+									+ " WHERE os.status_amostra = 'Concluido' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " and st.descricao = os.status_amostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									tableColeta.setAutoCreateRowSorter(true);
+
+						
+						}else if(rdbtnNaoDatadas.isSelected()){
+							// nao datadas
+							
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
+									+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									tableColeta.setAutoCreateRowSorter(true);
+
+						
+						}else if(rdbtnPendentes.isSelected()){
+							// pendentes
+						
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+									+ " WHERE os.status_amostra = 'Pendente' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " and st.descricao = os.status_amostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									
+									tableColeta.setAutoCreateRowSorter(true);
+
+						}
+						
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -260,6 +367,59 @@ public class TelaPendencias extends JFrame {
 								Integer.valueOf(txtOrdemAuto.getText()),
 								datacoleta
 								);
+						
+						if(rdbtnCancelada.isSelected()){
+							// canceladas
+							
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+									+ " WHERE os.status_amostra = 'Cancelado' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " and st.descricao = os.status_amostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									tableColeta.setAutoCreateRowSorter(true);
+									
+						} else if(rdbtnConcluidas.isSelected()){
+							// concluidas
+							
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+									+ " WHERE os.status_amostra = 'Concluido' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " and st.descricao = os.status_amostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									tableColeta.setAutoCreateRowSorter(true);
+
+						
+						}else if(rdbtnNaoDatadas.isSelected()){
+							// nao datadas
+							
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
+									+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									tableColeta.setAutoCreateRowSorter(true);
+
+						
+						}else if(rdbtnPendentes.isSelected()){
+							// pendentes
+						
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+									+ " WHERE os.status_amostra = 'Pendente' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " and st.descricao = os.status_amostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									
+									tableColeta.setAutoCreateRowSorter(true);
+
+						}
+						
 					} }catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -278,6 +438,59 @@ public class TelaPendencias extends JFrame {
 								String.valueOf(cbStatus.getSelectedItem())
 								
 								);
+						
+						if(rdbtnCancelada.isSelected()){
+							// canceladas
+							
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+									+ " WHERE os.status_amostra = 'Cancelado' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " and st.descricao = os.status_amostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									tableColeta.setAutoCreateRowSorter(true);
+									
+						} else if(rdbtnConcluidas.isSelected()){
+							// concluidas
+							
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+									+ " WHERE os.status_amostra = 'Concluido' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " and st.descricao = os.status_amostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									tableColeta.setAutoCreateRowSorter(true);
+
+						
+						}else if(rdbtnNaoDatadas.isSelected()){
+							// nao datadas
+							
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
+									+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									tableColeta.setAutoCreateRowSorter(true);
+
+						
+						}else if(rdbtnPendentes.isSelected()){
+							// pendentes
+						
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+									+ " WHERE os.status_amostra = 'Pendente' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " and st.descricao = os.status_amostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									
+									tableColeta.setAutoCreateRowSorter(true);
+
+						}
+						
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -300,6 +513,59 @@ public class TelaPendencias extends JFrame {
 								String.valueOf(cbStatus.getSelectedItem())
 								
 								);
+						
+						if(rdbtnCancelada.isSelected()){
+							// canceladas
+							
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+									+ " WHERE os.status_amostra = 'Cancelado' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " and st.descricao = os.status_amostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									tableColeta.setAutoCreateRowSorter(true);
+									
+						} else if(rdbtnConcluidas.isSelected()){
+							// concluidas
+							
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+									+ " WHERE os.status_amostra = 'Concluido' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " and st.descricao = os.status_amostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									tableColeta.setAutoCreateRowSorter(true);
+
+						
+						}else if(rdbtnNaoDatadas.isSelected()){
+							// nao datadas
+							
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
+									+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									tableColeta.setAutoCreateRowSorter(true);
+
+						
+						}else if(rdbtnPendentes.isSelected()){
+							// pendentes
+						
+							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+									+ " WHERE os.status_amostra = 'Pendente' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+									+ " and st.descricao = os.status_amostra "
+									+ " order by amostra,ordem";
+									
+									amostraDAO.PreencherTabelaColeta(sql,dados3);
+									
+									tableColeta.setAutoCreateRowSorter(true);
+
+						}
+						
 					} }catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -312,7 +578,9 @@ public class TelaPendencias extends JFrame {
 				else{
 					
 				try {
-										String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());
+				
+				
+				String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());
 				boolean ok = amostraDAO.verificarDiasIguais(datacoleta, prop, amost);
 				
 				if(ok == false){
@@ -327,6 +595,58 @@ public class TelaPendencias extends JFrame {
 				String.valueOf(cbStatus.getSelectedItem())
 						
 				);
+				
+				if(rdbtnCancelada.isSelected()){
+					// canceladas
+					
+					sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+							+ " WHERE os.status_amostra = 'Cancelado' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " and st.descricao = os.status_amostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							tableColeta.setAutoCreateRowSorter(true);
+							
+				} else if(rdbtnConcluidas.isSelected()){
+					// concluidas
+					
+					sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+							+ " WHERE os.status_amostra = 'Concluido' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " and st.descricao = os.status_amostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							tableColeta.setAutoCreateRowSorter(true);
+
+				
+				}else if(rdbtnNaoDatadas.isSelected()){
+					// nao datadas
+					
+					sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
+							+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							tableColeta.setAutoCreateRowSorter(true);
+
+				
+				}else if(rdbtnPendentes.isSelected()){
+					// pendentes
+				
+					sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+							+ " WHERE os.status_amostra = 'Pendente' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " and st.descricao = os.status_amostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							
+							tableColeta.setAutoCreateRowSorter(true);
+
+				}		
 				
 				}
 				}catch (NumberFormatException e) {
@@ -354,7 +674,7 @@ public class TelaPendencias extends JFrame {
 
 			public void actionPerformed(ActionEvent arg0) {
 
-			String sql;
+			
 			
 			if(rdbtnCancelada.isSelected()){
 				// canceladas
@@ -403,6 +723,7 @@ public class TelaPendencias extends JFrame {
 						+ " order by amostra,ordem";
 						
 						amostraDAO.PreencherTabelaColeta(sql,dados3);
+						
 						tableColeta.setAutoCreateRowSorter(true);
 
 			}
