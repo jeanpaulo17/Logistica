@@ -94,6 +94,19 @@ public class TelaInicialAdm extends JFrame {
 		mntmListarTodosOs.setHorizontalAlignment(SwingConstants.CENTER);
 
 		mnCalendario.add(mntmListarTodosOs);
+		
+		JMenuItem mntmPendncias = new JMenuItem("Pend\u00EAncias");
+		mntmPendncias.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TelaPendencias p = new TelaPendencias();
+				p.setVisible(true);
+				p.setLocationRelativeTo(null);
+			}
+		});
+		mntmPendncias.setIcon(new ImageIcon(TelaInicialAdm.class.getResource("/face/pendencias_icon.png")));
+		mntmPendncias.setHorizontalAlignment(SwingConstants.CENTER);
+		mntmPendncias.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		mnCalendario.add(mntmPendncias);
 
 		JMenu mnSistema = new JMenu("Sistema");
 		mnSistema.setFont(new Font("Segoe UI", Font.PLAIN, 15));

@@ -108,7 +108,7 @@ public void criaRelatorioPorDataColetor(String sql,String coletor){
 			
 	 		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
 	 		
-	 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/data_e_coletor.jasper", parametros, relatResul);
+	 		JasperPrint jpPrint = JasperFillManager.fillReport("//192.168.0.8/informacoes/SISTEMAS/relatorios/data_e_coletor.jasper", parametros, relatResul);
 	 		
 	 		//JasperExportManager.exportReportToPdf(jpPrint);
 		
@@ -127,12 +127,12 @@ public void criaRelatorioPorDataColetor(String sql,String coletor){
 			try {		
 				
 			Map<String, Object> parametros = new HashMap<String,Object>();  
-			parametros.put("SUBREPORT_DIR" , "//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/") ;  
+			parametros.put("SUBREPORT_DIR" , "//192.168.0.8/informacoes/SISTEMAS/relatorios/") ;  
 			parametros.put("REPORT_CONNECTION",conexao.getConexao());
 			
 	 		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
 	 		
-	 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/data_e_coletor_amostra.jasper", parametros, relatResul);
+	 		JasperPrint jpPrint = JasperFillManager.fillReport("//192.168.0.8/informacoes/SISTEMAS/relatorios/data_e_coletor_amostra.jasper", parametros, relatResul);
 	 		
 	 		JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
 	 		jv.setVisible(true); // chama relatorio para visualização
@@ -155,12 +155,12 @@ public void gerarRelatorioPorDataColetor(String sql){
 			try {		
 				
 			Map<String, Object> parametros = new HashMap<String,Object>();  
-			parametros.put("SUBREPORT_DIR" , "//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/") ;  
+			parametros.put("SUBREPORT_DIR" , "//192.168.0.8/informacoes/SISTEMAS/relatorios/") ;  
 			parametros.put("REPORT_CONNECTION",conexao.getConexao());
 			
 	 		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
 	 		
-	 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/data_e_coletor.jasper", parametros, relatResul);
+	 		JasperPrint jpPrint = JasperFillManager.fillReport("//192.168.0.8/informacoes/SISTEMAS/relatorios/data_e_coletor.jasper", parametros, relatResul);
 	 		
 	 		JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
 	 		jv.setVisible(true); // chama relatorio para visualização
@@ -183,12 +183,12 @@ public void gerarRelatorioPorColetorAmostra(String sql){
 		try {		
 			
 		Map<String, Object> parametros = new HashMap<String,Object>();  
-		parametros.put("SUBREPORT_DIR" , "//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/") ;  
+		parametros.put("SUBREPORT_DIR" , "//192.168.0.8/informacoes/SISTEMAS/relatorios/") ;  
 		parametros.put("REPORT_CONNECTION",conexao.getConexao());
 		
  		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
  		
- 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/coletor_amostra.jasper", parametros, relatResul);
+ 		JasperPrint jpPrint = JasperFillManager.fillReport("//192.168.0.8/informacoes/SISTEMAS/relatorios/coletor_amostra.jasper", parametros, relatResul);
  		
  		JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
  		jv.setVisible(true); // chama relatorio para visualização
@@ -212,12 +212,12 @@ public void gerarRelatorioPorData(String sql){
 			try {		
 				
 			Map<String, Object> parametros = new HashMap<String,Object>();  
-			parametros.put("SUBREPORT_DIR" , "//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/") ;  
+			parametros.put("SUBREPORT_DIR" , "//192.168.0.8/informacoes/SISTEMAS/relatorios/") ;  
 			parametros.put("REPORT_CONNECTION",conexao.getConexao());
 			
 	 		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
 	 		
-	 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/pordata.jasper", parametros, relatResul);
+	 		JasperPrint jpPrint = JasperFillManager.fillReport("//192.168.0.8/informacoes/SISTEMAS/relatorios/pordata.jasper", parametros, relatResul);
 	 		
 	 		JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
 	 		jv.setVisible(true); // chama relatorio para visualização
@@ -240,12 +240,12 @@ public void gerarRelatorioPorAmostra(String sql){
 		try {		
 			
 		Map<String, Object> parametros = new HashMap<String,Object>();  
-		parametros.put("SUBREPORT_DIR" , "//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/") ;  
+		parametros.put("SUBREPORT_DIR" , "//192.168.0.8/informacoes/SISTEMAS/relatorios/") ;  
 		parametros.put("REPORT_CONNECTION",conexao.getConexao());
 		
  		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
  		
- 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/somente_amostra.jasper", parametros, relatResul);
+ 		JasperPrint jpPrint = JasperFillManager.fillReport("//192.168.0.8/informacoes/SISTEMAS/relatorios/somente_amostra.jasper", parametros, relatResul);
  		
  		JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
  		jv.setVisible(true); // chama relatorio para visualização
@@ -268,12 +268,12 @@ public void gerarRelatorioPorAmostraData(String sql){
 		try {		
 			
 		Map<String, Object> parametros = new HashMap<String,Object>();  
-		parametros.put("SUBREPORT_DIR" , "//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/") ;  
+		parametros.put("SUBREPORT_DIR" , "//192.168.0.8/informacoes/SISTEMAS/relatorios/") ;  
 		parametros.put("REPORT_CONNECTION",conexao.getConexao());
 		
  		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
  		
- 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/data_amostra.jasper", parametros, relatResul);
+ 		JasperPrint jpPrint = JasperFillManager.fillReport("//192.168.0.8/informacoes/SISTEMAS/relatorios/data_amostra.jasper", parametros, relatResul);
  		
  		JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
  		jv.setVisible(true); // chama relatorio para visualização

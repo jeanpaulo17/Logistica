@@ -1,10 +1,14 @@
 package face;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -12,15 +16,22 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 
+import utilitarios.ModeloTable;
 import DAO.amostraDAO;
+import DAO.coletorDAO;
 import DAO.frascoDAO;
 import DAO.parametroDAO;
 import DAO.preservacaoDAO;
@@ -37,13 +48,27 @@ public class TelaManutencao extends JFrame {
 	private JTextField txtCodigo;
 	private JTextField txtLegislacao;
 	public	static int leg ;
+	private JTextField txtNome;
+	private JTextField txtEmail;
+	private ArrayList dados2;
+	private String[] colunas2;
+	private ArrayList dados3;
+	private String sql;
+	private int linha;
+	private String nomeTable;
+	private String emailTable;
+	
+	
+	coletorDAO coletor = new coletorDAO();
+	private JTable table_1;
+	private JTable TableColetor;
 
 	public TelaManutencao() throws SQLException {
 		setTitle("Adicionar Dados");
 		setBounds(100, 100, 530, 320);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		setContentPane(contentPane)                                                                                        ;
 		contentPane.setLayout(null);
 
 		JTabbedPane tabbedPaneCadastro = new JTabbedPane(JTabbedPane.TOP);
@@ -261,7 +286,7 @@ public class TelaManutencao extends JFrame {
 		JLabel lblPreservacao1 = new JLabel("Preservacao:");
 		lblPreservacao1.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		lblPreservacao1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPreservacao1.setBounds(10, 152, 101, 14);
+		lblPreservacao1.setBounds(10, 149, 101, 21);
 		panelFrasco.add(lblPreservacao1);
 
 		txtPreservacao = new JTextField();
@@ -314,8 +339,8 @@ public class TelaManutencao extends JFrame {
 		JLabel lblNovaLegislao = new JLabel("Nova Legisla\u00E7\u00E3o:");
 		lblNovaLegislao.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNovaLegislao.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNovaLegislao.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNovaLegislao.setBounds(0, 27, 508, 20);
+		lblNovaLegislao.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		lblNovaLegislao.setBounds(0, 24, 508, 23);
 		panelLegislacao.add(lblNovaLegislao);
 		
 		txtLegislacao = new JTextField();
@@ -333,8 +358,8 @@ public class TelaManutencao extends JFrame {
 		panelLegislacao.add(separator_1);
 		
 		JLabel lblLegislao = new JLabel("Legisla\u00E7\u00E3o: ");
-		lblLegislao.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblLegislao.setBounds(10, 161, 79, 14);
+		lblLegislao.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		lblLegislao.setBounds(10, 159, 79, 17);
 		panelLegislacao.add(lblLegislao);
 		
 		final JComboBox cbLegislacao = new JComboBox();
@@ -342,8 +367,8 @@ public class TelaManutencao extends JFrame {
 		panelLegislacao.add(cbLegislacao);
 		
 		JLabel lblParametros = new JLabel("Parametros:");
-		lblParametros.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblParametros.setBounds(10, 192, 79, 14);
+		lblParametros.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		lblParametros.setBounds(10, 192, 79, 17);
 		panelLegislacao.add(lblParametros);
 		
 		final JComboBox cbParametro_legislacao = new JComboBox();
@@ -383,13 +408,157 @@ public class TelaManutencao extends JFrame {
 		JLabel lblAdicionarParmetroNa = new JLabel("Adicionar Par\u00E2metro na Legisla\u00E7\u00E3o");
 		lblAdicionarParmetroNa.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblAdicionarParmetroNa.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAdicionarParmetroNa.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblAdicionarParmetroNa.setBounds(0, 123, 508, 17);
+		lblAdicionarParmetroNa.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		lblAdicionarParmetroNa.setBounds(0, 117, 508, 23);
 		panelLegislacao.add(lblAdicionarParmetroNa);
-		ArrayList<String> dados2 = null;
-		ArrayList<String> dados3 = null;
+		
+		JPanel panelColetor = new JPanel();
+		tabbedPaneCadastro.addTab("Coletor", null, panelColetor, null);
+		panelColetor.setLayout(null);
+		
+		txtNome = new JTextField();
+		txtNome.setBounds(97, 27, 387, 20);
+		panelColetor.add(txtNome);
+		txtNome.setColumns(10);
+		
+		JLabel lblNome = new JLabel("Nome: ");
+		lblNome.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		lblNome.setBounds(22, 30, 65, 14);
+		panelColetor.add(lblNome);
+		
+		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		lblEmail.setBounds(22, 61, 65, 14);
+		panelColetor.add(lblEmail);
+		
+		txtEmail = new JTextField();
+		txtEmail.setBounds(97, 58, 387, 20);
+		panelColetor.add(txtEmail);
+		txtEmail.setColumns(10);
+		
+		final JScrollPane ScrollPaneColetor = new JScrollPane();
+		ScrollPaneColetor.setBounds(22, 134, 462, 109);
+		panelColetor.add(ScrollPaneColetor);
+		
+		TableColetor = new JTable();
+		ScrollPaneColetor.setViewportView(TableColetor);
+		
+		final ArrayList dadosColetor = new ArrayList();
+		String [] colunasColetor = new String[] { "NOME", "EMAIL" };
+		
+		ModeloTable modelo = new ModeloTable(dadosColetor, colunasColetor);
+		TableColetor.setModel(modelo);
+		
+		TableColetor.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				linha = TableColetor.getSelectedRow();
+				nomeTable = (String) TableColetor.getValueAt(linha, 0);
+				emailTable = (String) TableColetor.getValueAt(linha, 1);
+				
+			}
+		});
+	
+
+		
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				coletor.ExcluirColetor(nomeTable, emailTable);
+				coletor.PreencherTabela("select nome,email from coletor where nome <> ' ' order by nome", dadosColetor);
+				//coletor.verificaCadastroColetor(nomeTable, emailTable);
+				TableColetor.setAutoCreateRowSorter(true);
+			}
+		});
+		btnExcluir.setBounds(276, 89, 99, 23);
+		panelColetor.add(btnExcluir);
+		
+
+		coletor.PreencherTabela("select nome,email from coletor where nome <> ' ' order by nome", dadosColetor);
+	
+		TableColetor.setAutoCreateRowSorter(true);
+	
+		JButton btnCadastrarColetor = new JButton("Cadastrar");
+		btnCadastrarColetor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(txtNome.getText().isEmpty()){
+					JOptionPane.showMessageDialog(null, "Digite um nome!");
+				}
+				else{
+			
+				boolean ok = coletor.verificaCadastroColetor(txtNome.getText(), txtEmail.getText());
+				
+				if(ok == true){
+						
+			coletor.cadastrarColetor(txtNome.getText(), txtEmail.getText());	
+			
+			coletor.PreencherTabela("select nome,email from coletor where nome <> ' ' order by nome", dadosColetor);
+		
+			TableColetor.setAutoCreateRowSorter(true);
+			
+			}}}
+		});
+		btnCadastrarColetor.setBounds(166, 89, 99, 23);
+		panelColetor.add(btnCadastrarColetor);
+		
+		JButton btnCancelarColetor = new JButton("Cancelar");
+		btnCancelarColetor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
+		
+		try {
+
+			ScrollPaneColetor.setViewportView(TableColetor);
+
+			TableColetor.setSurrendersFocusOnKeystroke(true);
+			TableColetor.setFocusTraversalPolicyProvider(true);
+			TableColetor.setFocusCycleRoot(true);
+			TableColetor.setForeground(new Color(0, 0, 0));
+			TableColetor.setSelectionForeground(new Color(0, 0, 0));
+			TableColetor.setFillsViewportHeight(true);
+			TableColetor.setSelectionBackground(new Color(135, 206, 235));
+			TableColetor.setAutoCreateRowSorter(true);
+
+			TableColetor.getColumnModel().getColumn(0).setPreferredWidth(400);
+			TableColetor.getColumnModel().getColumn(1).setPreferredWidth(400);			
+			
+			TableColetor.getTableHeader().setReorderingAllowed(false);
+			TableColetor.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+			TableColetor.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			
+			TableColetor.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+
+				public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+						boolean hasFocus, int row, int column) {
+					super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+					this.setHorizontalAlignment(CENTER);
+					return this;
+				}
+			});
+
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, "ERRO" + ex.getMessage());
+		} finally {
+			TableColetor.requestFocus();
+		}
+		
+		
+		
+		btnCancelarColetor.setBounds(385, 89, 99, 23);
+		panelColetor.add(btnCancelarColetor);
+		
+		dados2 = new ArrayList();
+		dados3 = new ArrayList();
+		
 		dados2 = p.obterDados();
-		dados3 =  p.obterLegislacao();
+		dados3 = p.obterLegislacao();
+		
 
 		for (int i = 0; i < dados2.size(); i++)
 			cbParametro_legislacao.addItem(dados2.get(i));
@@ -412,5 +581,4 @@ public class TelaManutencao extends JFrame {
 		});
 	
 	}
-
 }
