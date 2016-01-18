@@ -10,6 +10,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -40,6 +41,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import utilitarios.ModeloTable;
 import DAO.amostraDAO;
 import DAO.calendarioDAO;
+import DAO.emailDAO;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -480,6 +482,32 @@ public class TelaCalendario extends JFrame {
 			contentPane.add(txtAmostra);
 			txtAmostra.setColumns(10);
 			
+			JButton enviarEmail = new JButton("Enviar p/ Email");
+			enviarEmail.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					
+					emailDAO email = new emailDAO();
+					calendarioDAO cc = new calendarioDAO();
+					amostraDAO a = new amostraDAO();
+					
+			        
+			        String data = new SimpleDateFormat("dd/MM/yyyy").format(dateChooser.getDate());
+			        
+					
+						cc.criaRelatorioPorDataColetor("select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
+							+ " am.periodicidade as PERIODICIDADE,aos.datacoleta as DATACOLETA, aos.coletor as COLETOR"
+							+ " from proposta as pr, amostra as am, amostra_os as aos, coletor as co"
+							+ " where aos.coletor = '"+cbcoletor.getSelectedItem().toString()+"' AND aos.datacoleta = '"+data+"'"
+							+ " and pr.idproposta = aos.proposta and aos.amostra = am.idamostra and aos.coletor = co.nome", cbcoletor.getSelectedItem().toString());
+					
+					email.enviarEmail(cbcoletor.getSelectedItem().toString(), data);
+					
+				}
+			});
+			enviarEmail.setBounds(201, 94, 141, 23);
+			contentPane.add(enviarEmail);
+			
 			TableCalendario.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 
 				public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
@@ -577,8 +605,8 @@ public class TelaCalendario extends JFrame {
 								+ "	and am.numero_amostra='"+txtAmostra.getText()+"' and pr.idproposta = aos.proposta and aos.amostra = am.idamostra and aos.coletor = co.nome";
 						
 							calendario.gerarRelatorioPorColetorAmostra(sql);
-					
-					}
+
+								}
 								else
 									if(!cbcoletor.getSelectedItem().equals(" ") && dateChooser.getDate() != null && txtAmostra.getText().isEmpty()){
 										//  DATA e COLETOR
@@ -609,6 +637,4 @@ public class TelaCalendario extends JFrame {
 		});
 		
 }
-	
-	
 }

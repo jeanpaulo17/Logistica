@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
 	
 	private String driver = "org.postgresql.Driver"; // RESPONSAVEL POR IDENTIFICAR O SERVIÇO DE BANCO DE DADOS
 	
-	private String caminho = "jdbc:postgresql://192.168.0.8:5432/logistica"; // RESPONSAVEL POR SETAR O LOCAL DO BANDO DE DADOS
+	private String caminho = "jdbc:postgresql://192.168.0.6:5432/logistica"; // RESPONSAVEL POR SETAR O LOCAL DO BANDO DE DADOS
 	
 	private String login = "postgres"; // USUARIO DO POSTEGRES
 	

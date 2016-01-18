@@ -698,7 +698,7 @@ public class parametroDAO {
 			conexao.desconecta();
 		}
 	}
-
+	
 	public void PreencherTabelaParametro(String sql, ArrayList<Object[]> dados) {
 
 		conexao.conexao();

@@ -322,7 +322,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 				do {
 					dados.add(new Object[] {
 
-							conexao.rs.getObject("PROPOSTA"), conexao.rs.getObject("AMOSTRA"),
+							conexao.rs.getObject("PROPOSTA"), conexao.rs.getObject("EMPRESA"), conexao.rs.getObject("AMOSTRA"),
 							conexao.rs.getObject("ORDEM"), conexao.rs.getObject("COLETOR"),
 							conexao.rs.getObject("DATACOLETA"),conexao.rs.getObject("STATUS")
 
