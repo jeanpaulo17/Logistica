@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import utilitarios.ConectaBanco;
 import face.TelaVerLegislacao;
+import utilitarios.ConectaBanco;
 
 public class parametroDAO {
 	

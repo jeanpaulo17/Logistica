@@ -16,9 +16,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import utilitarios.ConectaBanco;
 import DAO.amostraDAO;
 import DAO.propostaDAO;
+import utilitarios.ConectaBanco;
 
 public class TelaInicialAdm extends JFrame {
 

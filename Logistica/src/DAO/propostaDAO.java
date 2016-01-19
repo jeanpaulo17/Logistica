@@ -1,17 +1,16 @@
 package DAO;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import utilitarios.ConectaBanco;
 import face.TelaCadastroProposta;
 import face.TelaEditarProposta;
 import face.TelaVerPropostas;
+import utilitarios.ConectaBanco;
 
 public class propostaDAO {
 	

@@ -6,10 +6,10 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
-import utilitarios.ConectaBanco;
 import dominio.funcionario;
 import face.TelaInicialAdm;
 import face.TelaLogin;
+import utilitarios.ConectaBanco;
 
 public class funcionarioDAO {
 	public funcionarioDAO() {

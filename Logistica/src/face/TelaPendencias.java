@@ -17,8 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
@@ -33,12 +33,10 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import utilitarios.ModeloTable;
-import DAO.amostraDAO;
-
 import com.toedter.calendar.JDateChooser;
 
-import javax.swing.JRadioButton;
+import DAO.amostraDAO;
+import utilitarios.ModeloTable;
 
 public class TelaPendencias extends JFrame {
 	private JTabbedPane tabbedPane;

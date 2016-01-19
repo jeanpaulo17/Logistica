@@ -12,9 +12,10 @@ import java.util.GregorianCalendar;
 
 import javax.swing.JOptionPane;
 
-import utilitarios.ConectaBanco;
+import face.TelaAdicionarMotivo;
 import face.TelaCadastroAmostra;
 import face.TelaManutencao;
+import utilitarios.ConectaBanco;
 
 public class amostraDAO {
 	final ConectaBanco conexao = new ConectaBanco();
@@ -40,6 +41,12 @@ public class amostraDAO {
 		} catch (SQLException e) {
 		}
 		
+	}
+	
+	public void abrirAdicionarMotivo() {
+		TelaAdicionarMotivo t = new TelaAdicionarMotivo();
+			t.setVisible(true);
+			t.setLocationRelativeTo(null);
 	}
 
 	public String buscarEmpresa(String proposta) {
@@ -133,6 +140,7 @@ public class amostraDAO {
 		return dados;
 		
 	}
+
 	
 	public ArrayList<String> obterStatus(){
 		conexao.conexao();
@@ -498,6 +506,29 @@ public boolean verificaExistenciaAmostra(String amostra){
 		}
 	}
 	
+	public void DefinirObservacao(int propostaObs, int amostraObs, int ordem, String status, String observacao) throws ParseException {
+		try {
+			
+			conexao.conexao();
+			pst = conexao.conn.prepareStatement("UPDATE amostra_os SET observacao=? where proposta=? and amostra=? and ordem=? and status_amostra=? ");
+			
+			pst.setString(1, observacao);
+			pst.setInt(2, propostaObs);
+			pst.setInt(3, amostraObs);
+			pst.setInt(4, ordem);
+			pst.setString(5, status);
+			
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Adicionado!");
+	     			
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+	
 	public void DefinirColetor(int idproposta, int idamostra, int ordem, String coletor) throws ParseException {
 		try {
 			
@@ -645,5 +676,85 @@ public boolean verificaExistenciaAmostra(String amostra){
 			conexao.desconecta();
 		}
 	}
+	
+	public String obterObservacao(int proposta, int amostra, int ordem){
+	 String obs = null;
+		try {
+			conexao.conexao();
+
+			stm = conexao.conn.createStatement();
+					ResultSet rs = stm.executeQuery("select observacao from amostra_os where proposta = "+proposta+" and amostra = "+amostra+" and ordem = " +ordem);
+			
+			if(rs.next()){
+				obs = rs.getString("observacao");
+				return obs;
+			}
+
+		} catch (SQLException e1) {
+		} finally {
+			conexao.desconecta();
+		}
+		return obs;
+	}
+	
+	public String obterProposta(int proposta){
+		 String obs = null;
+			try {
+				conexao.conexao();
+
+				stm = conexao.conn.createStatement();
+						ResultSet rs = stm.executeQuery("SELECT numero_proposta FROM proposta where idproposta = "+ proposta);
+				
+				if(rs.next()){
+					obs = rs.getString("numero_proposta");
+					return obs;
+				}
+
+			} catch (SQLException e1) {
+			} finally {
+				conexao.desconecta();
+			}
+			return obs;
+		}
+	
+	public String obterAmostra(int amostra){
+		 String obs = null;
+			try {
+				conexao.conexao();
+
+				stm = conexao.conn.createStatement();
+						ResultSet rs = stm.executeQuery("SELECT numero_amostra FROM amostra where idamostra = "+ amostra);
+				
+				if(rs.next()){
+					obs = rs.getString("numero_amostra");
+					return obs;
+				}
+
+			} catch (SQLException e1) {
+			} finally {
+				conexao.desconecta();
+			}
+			return obs;
+		}
+
+	public String obterEmpresa(int proposta){
+		 String obs = null;
+			try {
+				conexao.conexao();
+
+				stm = conexao.conn.createStatement();
+						ResultSet rs = stm.executeQuery("SELECT empresa FROM proposta where idproposta = "+ proposta);
+				
+				if(rs.next()){
+					obs = rs.getString("empresa");
+					return obs;
+				}
+
+			} catch (SQLException e1) {
+			} finally {
+				conexao.desconecta();
+			}
+			return obs;
+		}
 
 }

@@ -23,7 +23,7 @@ public class coletorDAO {
 			pst.setString(1, nome);
 			pst.setString(2, email);
 			pst.executeUpdate();
-			JOptionPane.showMessageDialog(null, "Coletor cadastrada com sucesso!");
+			JOptionPane.showMessageDialog(null, "Coletor cadastrado com sucesso!");
 
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Erro ao cadastrar Coletor!" + e.getMessage());
@@ -65,8 +65,9 @@ public class coletorDAO {
 		try {
 			conexao.conexao();
 
-			pst = conexao.conn.prepareStatement("DELETE FROM coletor WHERE nome=?");
+			pst = conexao.conn.prepareStatement("DELETE FROM coletor WHERE nome=? and email = ?");
 			pst.setString(1, nome);
+			pst.setString(2, email);
 
 			
 			if(pst.executeUpdate() == 1){
@@ -90,7 +91,7 @@ public class coletorDAO {
 
 			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
-					.executeQuery("select nome, email from coletor where nome = "+nome+" and email="+email);
+					.executeQuery("select nome, email from coletor where nome = '"+nome+"' and email = '"+email+"'");
 
 			if (rs.next()) {
 					ok = false;

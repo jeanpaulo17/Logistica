@@ -1,7 +1,5 @@
 package dominio;
 
-import face.TelaCadastroProposta;
-
 public class proposta {
 
 	private String numero;

@@ -10,7 +10,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -38,14 +37,13 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 
-import utilitarios.ModeloTable;
+import com.toedter.calendar.JDateChooser;
+
 import DAO.amostraDAO;
 import DAO.calendarioDAO;
 import DAO.emailDAO;
-
-import com.toedter.calendar.JDateChooser;
-
 import controle.MyJob;
+import utilitarios.ModeloTable;
 
 public class TelaCalendario extends JFrame {
 

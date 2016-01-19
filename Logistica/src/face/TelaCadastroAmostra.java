@@ -36,8 +36,8 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import utilitarios.ModeloTable;
 import DAO.amostraDAO;
+import utilitarios.ModeloTable;
 
 public class TelaCadastroAmostra extends JFrame {
 

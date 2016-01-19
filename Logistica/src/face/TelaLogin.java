@@ -17,8 +17,8 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-import utilitarios.ConectaBanco;
 import DAO.funcionarioDAO;
+import utilitarios.ConectaBanco;
 
 public class TelaLogin extends JFrame {
 	private JPanel contentPane = new JPanel();

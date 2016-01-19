@@ -32,9 +32,9 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import utilitarios.ModeloTable;
 import DAO.amostraDAO;
 import DAO.parametroDAO;
+import utilitarios.ModeloTable;
 
 public class TelaDefinirParametro extends JFrame {
 	private JPanel panelParametros;

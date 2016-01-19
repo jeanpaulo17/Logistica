@@ -32,10 +32,11 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import utilitarios.ModeloTable;
-import DAO.amostraDAO;
-
 import com.toedter.calendar.JDateChooser;
+
+import DAO.amostraDAO;
+import sun.util.BuddhistCalendar;
+import utilitarios.ModeloTable;
 
 public class TelaDefinirDataColeta extends JFrame {
 	private JTabbedPane tabbedPane;
@@ -50,7 +51,13 @@ public class TelaDefinirDataColeta extends JFrame {
 	private JTextField txtPropostaAuto;
 	private JTextField txtAmostraAuto;
 	private JTextField txtOrdemAuto;
-
+    public static int propostaObs;
+    public static int amostraObs;
+    public static String statusObs;
+    public static int ordemObs;
+    public static String Obs;
+        
+    
 	public TelaDefinirDataColeta() {
 
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaDefinirDataColeta.class.getResource("/face/definir-data_icon.png")));
@@ -82,13 +89,13 @@ public class TelaDefinirDataColeta extends JFrame {
 		panelDatas.add(label_1);
 
 		dados3 = new ArrayList();
-		colunas3 = new String[] { "PROPOSTA", "AMOSTRA", "ORDEM", "COLETOR", "DATACOLETA","STATUS" };
+		colunas3 = new String[] { "PROPOSTA","EMPRESA", "AMOSTRA", "ORDEM", "COLETOR", "DATACOLETA","STATUS" };
 
 		ModeloTable modelo3 = new ModeloTable(dados3, colunas3);
 		tableColeta.setModel(modelo3);
 
 		JButton btnDatasPesquisar = new JButton("Pesquisar");
-		btnDatasPesquisar.setBounds(616, 28, 102, 23);
+		btnDatasPesquisar.setBounds(616, 28, 120, 23);
 		panelDatas.add(btnDatasPesquisar);
 
 		JSeparator separator_2 = new JSeparator();
@@ -212,6 +219,58 @@ public class TelaDefinirDataColeta extends JFrame {
 		lblStatus.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		lblStatus.setBounds(306, 140, 139, 20);
 		panelDatas.add(lblStatus);
+		
+		final JButton btnObservacao = new JButton("Observa\u00E7\u00E3o");
+		btnObservacao.setEnabled(false);
+		btnObservacao.setBounds(616, 176, 120, 23);
+		panelDatas.add(btnObservacao);
+
+		
+		tableColeta.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				txtAmostraAuto.setText("");
+				txtPropostaAuto.setText("");
+				txtOrdemAuto.setText("");
+
+				int linha = tableColeta.getSelectedRow();
+				String proposta = (String) tableColeta.getValueAt(linha, 0);
+				String amostra = (String) tableColeta.getValueAt(linha, 2);
+				int ordem = (Integer) tableColeta.getValueAt(linha, 3);
+				final String status = (String) tableColeta.getValueAt(linha, 6);
+				
+				
+			    amostraObs = Integer.valueOf(amostraDAO.buscarIdAmostra(amostra));
+			    propostaObs = Integer.valueOf(amostraDAO.buscarIdProposta(proposta));
+			    ordemObs = ordem;
+			    statusObs =status;
+				
+				txtAmostraAuto.setText(amostra);
+				txtPropostaAuto.setText(proposta);
+				txtOrdemAuto.setText(String.valueOf(ordem));
+				
+				if( status.equals("Cancelado")){
+					btnObservacao.setEnabled(true);
+				}
+				else{
+					btnObservacao.setEnabled(false);
+
+				}
+			
+			}
+		});
+		
+
+		btnObservacao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				amostraDAO.abrirAdicionarMotivo();
+				
+			}
+		});
+		
+		
 		btnDefinir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -344,7 +403,7 @@ public class TelaDefinirDataColeta extends JFrame {
 				
 				if(!txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty()){
 					
-					sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
 					+ " FROM proposta as pr, amostra as am, amostra_os as os "
 					+ " WHERE os.proposta = "+amostraDAO.buscarIdProposta(txtDatasProposta.getText())+" and os.proposta = pr.idproposta and os.amostra = am.idamostra  order by amostra,ordem";
 					
@@ -353,7 +412,7 @@ public class TelaDefinirDataColeta extends JFrame {
 					}
 				
 				if(txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()){
-					sql =      "SELECT pr.numero_proposta as PROPOSTA, am.numero_amostra as AMOSTRA, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+					sql =      "SELECT pr.numero_proposta as PROPOSTA, pr.empresa, am.numero_amostra as AMOSTRA, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
 							+ "	FROM  amostra_os as os, amostra as am, proposta as pr "
 							+ " WHERE am.numero_amostra='"+txtDatasAmostra.getText()+"' and  os.amostra = am.idamostra and os.proposta = pr.idproposta  "
 							+ " ORDER BY proposta, amostra, ordem";
@@ -364,7 +423,7 @@ public class TelaDefinirDataColeta extends JFrame {
 				
 				if(!txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()){
 					
-					sql = " SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor os.datacoleta, os.status_amostra as status "
+					sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor os.datacoleta, os.status_amostra as status "
 						+ " FROM proposta as pr, amostra as am, amostra_os as os "
 						+ " WHERE os.proposta = "+amostraDAO.buscarIdProposta(txtDatasProposta.getText())+" and os.amostra= "+amostraDAO.buscarIdAmostra(txtDatasAmostra.getText())+""
 						+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta  ORDER BY proposta, amostra, ordem";
@@ -388,11 +447,12 @@ public class TelaDefinirDataColeta extends JFrame {
 					tableColeta.setAutoCreateRowSorter(true);
 
 					tableColeta.getColumnModel().getColumn(0).setPreferredWidth(130);
-					tableColeta.getColumnModel().getColumn(1).setPreferredWidth(200);
-					tableColeta.getColumnModel().getColumn(2).setPreferredWidth(130);
-					tableColeta.getColumnModel().getColumn(3).setPreferredWidth(200);
-					tableColeta.getColumnModel().getColumn(4).setPreferredWidth(400);
-					tableColeta.getColumnModel().getColumn(5).setPreferredWidth(200);
+					tableColeta.getColumnModel().getColumn(1).setPreferredWidth(400);
+					tableColeta.getColumnModel().getColumn(2).setPreferredWidth(200);
+					tableColeta.getColumnModel().getColumn(3).setPreferredWidth(130);
+					tableColeta.getColumnModel().getColumn(4).setPreferredWidth(200);
+					tableColeta.getColumnModel().getColumn(5).setPreferredWidth(400);
+					tableColeta.getColumnModel().getColumn(6).setPreferredWidth(200);
 					tableColeta.getTableHeader().setReorderingAllowed(false);
 					tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 					tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -491,27 +551,6 @@ public class TelaDefinirDataColeta extends JFrame {
 					tableColeta.getTableHeader().setReorderingAllowed(false);
 					tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 					tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-					tableColeta.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-
-							txtAmostraAuto.setText("");
-							txtPropostaAuto.setText("");
-							txtOrdemAuto.setText("");
-
-							int linha = tableColeta.getSelectedRow();
-							String proposta = (String) tableColeta.getValueAt(linha, 0);
-							String amostra = (String) tableColeta.getValueAt(linha, 1);
-							int ordem = (Integer) tableColeta.getValueAt(linha, 2);
-
-							txtAmostraAuto.setText(amostra);
-							txtPropostaAuto.setText(proposta);
-							txtOrdemAuto.setText(String.valueOf(ordem));
-
-						}
-					});
-
 					tableColeta.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 
 						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,

@@ -29,13 +29,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import utilitarios.ModeloTable;
 import DAO.amostraDAO;
 import DAO.coletorDAO;
 import DAO.frascoDAO;
 import DAO.parametroDAO;
 import DAO.preservacaoDAO;
 import DAO.volumeDAO;
+import utilitarios.ModeloTable;
 
 public class TelaManutencao extends JFrame {
 
@@ -484,21 +484,25 @@ public class TelaManutencao extends JFrame {
 		JButton btnCadastrarColetor = new JButton("Cadastrar");
 		btnCadastrarColetor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				boolean ok = coletor.verificaCadastroColetor(txtNome.getText(), txtEmail.getText());
 				
 				if(txtNome.getText().isEmpty()){
 					JOptionPane.showMessageDialog(null, "Digite um nome!");
 				}
 				else{
-			
-				boolean ok = coletor.verificaCadastroColetor(txtNome.getText(), txtEmail.getText());
-				
+					
 				if(ok == true){
+					coletor.cadastrarColetor(txtNome.getText(), txtEmail.getText());	
+					
+					coletor.PreencherTabela("select nome,email from coletor where nome <> ' ' order by nome", dadosColetor);
+				
+					TableColetor.setAutoCreateRowSorter(true);
+					
+
+				}
+				else{
 						
-			coletor.cadastrarColetor(txtNome.getText(), txtEmail.getText());	
-			
-			coletor.PreencherTabela("select nome,email from coletor where nome <> ' ' order by nome", dadosColetor);
-		
-			TableColetor.setAutoCreateRowSorter(true);
+					JOptionPane.showMessageDialog(null, "Coletor ja cadastrado!");
 			
 			}}}
 		});

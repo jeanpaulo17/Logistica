@@ -1,7 +1,6 @@
 package controle;
 
 import DAO.funcionarioDAO;
-import face.TelaInicialAdm;
 
 public class programa {
 
