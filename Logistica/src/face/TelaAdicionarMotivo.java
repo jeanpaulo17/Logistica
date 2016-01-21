@@ -16,6 +16,8 @@ import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class TelaAdicionarMotivo extends JFrame {
 
@@ -51,7 +53,7 @@ public class TelaAdicionarMotivo extends JFrame {
 		
 		final JTextArea textAreaMotivo = new JTextArea(a.obterObservacao(TelaDefinirDataColeta.propostaObs, TelaDefinirDataColeta.amostraObs, TelaDefinirDataColeta.ordemObs));
 		textAreaMotivo.setLineWrap(true);
-		textAreaMotivo.setBounds(10, 44, 414, 179);
+		textAreaMotivo.setBounds(10, 68, 414, 155);
 		contentPane.add(textAreaMotivo);
 		
 		JButton btnCancelar = new JButton("Cancelar");
@@ -87,15 +89,20 @@ public class TelaAdicionarMotivo extends JFrame {
 		contentPane.add(btnAdicionar);
 		
 		JLabel lblPropostaObs = new JLabel("Proposta: " +a.obterProposta(TelaDefinirDataColeta.propostaObs));
-		lblPropostaObs.setBounds(10, 11, 122, 14);
+		lblPropostaObs.setHorizontalAlignment(SwingConstants.LEFT);
+		lblPropostaObs.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		lblPropostaObs.setBounds(10, 35, 150, 23);
 		contentPane.add(lblPropostaObs);
 		
 		JLabel lblAmostraObs = new JLabel("Amostra: "+ a.obterAmostra(TelaDefinirDataColeta.amostraObs));
-		lblAmostraObs.setBounds(322, 11, 102, 14);
+		lblAmostraObs.setHorizontalAlignment(SwingConstants.LEFT);
+		lblAmostraObs.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		lblAmostraObs.setBounds(172, 34, 150, 23);
 		contentPane.add(lblAmostraObs);
 		
 		JLabel lblEmpresaObs = new JLabel("Empresa: " + a.obterEmpresa(TelaDefinirDataColeta.propostaObs));
-		lblEmpresaObs.setBounds(142, 11, 164, 14);
+		lblEmpresaObs.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		lblEmpresaObs.setBounds(10, 11, 414, 22);
 		contentPane.add(lblEmpresaObs);
 	}
 }

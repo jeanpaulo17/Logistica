@@ -226,9 +226,9 @@ public class TelaCadastroAmostra extends JFrame {
 				try {
 
 					amostraDAO.PreencherTabela(
-							"select p.numero_proposta PROPOSTA ,a.numero_amostra AMOSTRA ,a.ponto PONTO, a.periodicidade PERIODO "
-									+ "from proposta as p , amostra as a where p.idproposta = a.proposta and p.numero_proposta='"
-									+ txtProposta.getText() + "'",
+							"select p.numero_proposta PROPOSTA ,a.numero_amostra AMOSTRA ,a.ponto PONTO, a.periodicidade PERIODO, a.endereco "
+									+ "from proposta as p , amostra as a where p.idproposta = a.proposta and p.idproposta="
+									+ amostraDAO.buscarIdProposta(txtProposta.getText()),
 							dados);
 
 					tableAmostra.setSurrendersFocusOnKeystroke(true);
@@ -262,6 +262,58 @@ public class TelaCadastroAmostra extends JFrame {
 				}
 			}
 		});
+		
+		this.txtProposta.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+				if (ke.getKeyCode() == 10) {
+					
+					txtEmpresa.setText(amostraDAO.buscarEmpresa(amostraDAO.buscarIdProposta(txtProposta.getText())));
+
+					try {
+
+						amostraDAO.PreencherTabela(
+								"select p.numero_proposta PROPOSTA ,a.numero_amostra AMOSTRA ,a.ponto PONTO, a.periodicidade PERIODO, a.endereco "
+										+ "from proposta as p , amostra as a where p.idproposta = a.proposta and p.idproposta="
+										+ amostraDAO.buscarIdProposta(txtProposta.getText()),
+								dados);
+
+						tableAmostra.setSurrendersFocusOnKeystroke(true);
+						tableAmostra.setFocusTraversalPolicyProvider(true);
+						tableAmostra.setFocusCycleRoot(true);
+						tableAmostra.setForeground(new Color(0, 0, 0));
+						tableAmostra.setSelectionForeground(new Color(0, 0, 0));
+						tableAmostra.setFillsViewportHeight(true);
+						tableAmostra.setSelectionBackground(new Color(135, 206, 235));
+						tableAmostra.setAutoCreateRowSorter(true);
+						ScrolPaneDashBoard.setViewportView(tableAmostra);
+
+						tableAmostra.getColumnModel().getColumn(0).setPreferredWidth(100);
+						tableAmostra.getColumnModel().getColumn(1).setPreferredWidth(100);
+						tableAmostra.getColumnModel().getColumn(2).setPreferredWidth(400);
+						tableAmostra.getColumnModel().getColumn(3).setPreferredWidth(150);
+						tableAmostra.getTableHeader().setReorderingAllowed(false);
+						tableAmostra.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+						tableAmostra.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+						tableAmostra.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+
+							public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+									boolean hasFocus, int row, int column) {
+								super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+								this.setHorizontalAlignment(CENTER);
+
+								return this;
+							}
+						});
+					} finally {
+					}
+				}
+
+			}
+
+		});
+
+		
+		
 		brnPesquisar.setBounds(505, 31, 100, 22);
 		contentPane.add(brnPesquisar);
 		
@@ -402,12 +454,13 @@ public class TelaCadastroAmostra extends JFrame {
 		
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				amostraDAO.ExcluirAmostra(Integer.valueOf(amostraDAO.buscarIdProposta(propostaTable)), amostraTable);
+				
+				amostraDAO.ExcluirAmostra(Integer.valueOf(amostraDAO.buscarIdProposta(propostaTable)),amostraTable);
 				amostraDAO.contaQuantidadeDeAmostrasNaProposta(Integer.valueOf(amostraDAO.buscarIdProposta(propostaTable)));
 				
 				try {
 					amostraDAO.PreencherTabela(
-							"select p.numero_proposta PROPOSTA ,a.numero_amostra AMOSTRA ,a.ponto PONTO, a.periodicidade PERIODO "
+							"select p.numero_proposta PROPOSTA ,a.numero_amostra AMOSTRA ,a.ponto PONTO, a.periodicidade PERIODO, a.endereco "
 									+ "from proposta as p , amostra as a where p.idproposta = a.proposta and p.idproposta="
 									+ amostraDAO.buscarIdProposta(txtProposta.getText()),
 							dados);

@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
@@ -35,7 +37,6 @@ import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
 
 import DAO.amostraDAO;
-import sun.util.BuddhistCalendar;
 import utilitarios.ModeloTable;
 
 public class TelaDefinirDataColeta extends JFrame {
@@ -51,16 +52,16 @@ public class TelaDefinirDataColeta extends JFrame {
 	private JTextField txtPropostaAuto;
 	private JTextField txtAmostraAuto;
 	private JTextField txtOrdemAuto;
-    public static int propostaObs;
-    public static int amostraObs;
-    public static String statusObs;
-    public static int ordemObs;
-    public static String Obs;
-        
-    
+	public static int propostaObs;
+	public static int amostraObs;
+	public static String statusObs;
+	public static int ordemObs;
+	public static String Obs;
+
 	public TelaDefinirDataColeta() {
 
-		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaDefinirDataColeta.class.getResource("/face/definir-data_icon.png")));
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(TelaDefinirDataColeta.class.getResource("/face/definir-data_icon.png")));
 		setTitle("Definir Data da Coleta");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1097, 700);
@@ -89,7 +90,7 @@ public class TelaDefinirDataColeta extends JFrame {
 		panelDatas.add(label_1);
 
 		dados3 = new ArrayList();
-		colunas3 = new String[] { "PROPOSTA","EMPRESA", "AMOSTRA", "ORDEM", "COLETOR", "DATACOLETA","STATUS" };
+		colunas3 = new String[] { "PROPOSTA", "EMPRESA", "AMOSTRA", "ORDEM", "COLETOR", "DATACOLETA", "STATUS" };
 
 		ModeloTable modelo3 = new ModeloTable(dados3, colunas3);
 		tableColeta.setModel(modelo3);
@@ -197,35 +198,34 @@ public class TelaDefinirDataColeta extends JFrame {
 		final JDateChooser txtDataCol = new JDateChooser();
 		txtDataCol.setBounds(455, 79, 139, 20);
 		panelDatas.add(txtDataCol);
-		
+
 		final JComboBox cbcoletor = new JComboBox();
 		cbcoletor.setBounds(455, 113, 139, 20);
 		panelDatas.add(cbcoletor);
-		
+
 		JButton btnDefinir = new JButton("Definir");
 		btnDefinir.setBounds(455, 176, 138, 23);
 		panelDatas.add(btnDefinir);
-		
+
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 62, 1056, 2);
 		panelDatas.add(separator);
-		
+
 		final JComboBox cbStatus = new JComboBox();
 		cbStatus.setBounds(455, 142, 139, 20);
 		panelDatas.add(cbStatus);
-		
+
 		JLabel lblStatus = new JLabel("Status da Amostra");
 		lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStatus.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		lblStatus.setBounds(306, 140, 139, 20);
 		panelDatas.add(lblStatus);
-		
+
 		final JButton btnObservacao = new JButton("Observa\u00E7\u00E3o");
 		btnObservacao.setEnabled(false);
 		btnObservacao.setBounds(616, 176, 120, 23);
 		panelDatas.add(btnObservacao);
 
-		
 		tableColeta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -239,200 +239,197 @@ public class TelaDefinirDataColeta extends JFrame {
 				String amostra = (String) tableColeta.getValueAt(linha, 2);
 				int ordem = (Integer) tableColeta.getValueAt(linha, 3);
 				final String status = (String) tableColeta.getValueAt(linha, 6);
-				
-				
-			    amostraObs = Integer.valueOf(amostraDAO.buscarIdAmostra(amostra));
-			    propostaObs = Integer.valueOf(amostraDAO.buscarIdProposta(proposta));
-			    ordemObs = ordem;
-			    statusObs =status;
-				
+
+				amostraObs = Integer.valueOf(amostraDAO.buscarIdAmostra(amostra));
+				propostaObs = Integer.valueOf(amostraDAO.buscarIdProposta(proposta));
+				ordemObs = ordem;
+				statusObs = status;
+
 				txtAmostraAuto.setText(amostra);
 				txtPropostaAuto.setText(proposta);
 				txtOrdemAuto.setText(String.valueOf(ordem));
-				
-				if( status.equals("Cancelado")){
+
+				if (status.equals("Cancelado")) {
 					btnObservacao.setEnabled(true);
-				}
-				else{
+				} else {
 					btnObservacao.setEnabled(false);
 
 				}
-			
+
 			}
 		});
-		
 
 		btnObservacao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				amostraDAO.abrirAdicionarMotivo();
-				
+
 			}
 		});
-		
-		
+
 		btnDefinir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-			
 				String sql;
-				
+
 				int prop = Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText()));
 				int amost = Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText()));
 				int ordem = Integer.valueOf(txtOrdemAuto.getText());
 				String status = String.valueOf(cbStatus.getSelectedItem());
-				
-				if(cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() == null && !cbStatus.getSelectedItem().equals(" ")){
-					try {
-						amostraDAO.DefinirStatus(Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
-								Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
-								Integer.valueOf(txtOrdemAuto.getText()),
-								String.valueOf(cbStatus.getSelectedItem())
-								);
-					} catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-				else if(!cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() == null && cbStatus.getSelectedItem().equals(" ")){
-					try {
-						amostraDAO.DefinirColetor(Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
-								Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
-								Integer.valueOf(txtOrdemAuto.getText()),
-								String.valueOf(cbcoletor.getSelectedItem())
-								);
-					} catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-				else if(cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() != null && cbStatus.getSelectedItem().equals(" ")){
-					try {
-						String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());
-						boolean ok = amostraDAO.verificarDiasIguais(datacoleta, prop, amost);
-						
-						if(ok == false){
-						amostraDAO.DefinirData(Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
-								Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
-								Integer.valueOf(txtOrdemAuto.getText()),
-								datacoleta
-								);
-					} }catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-				else if(!cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() == null && !cbStatus.getSelectedItem().equals(" ")){
-					try {
-						amostraDAO.DefinirStatusColetor(Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
-								Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
-								Integer.valueOf(txtOrdemAuto.getText()),
-								String.valueOf(cbcoletor.getSelectedItem()),
-								String.valueOf(cbStatus.getSelectedItem())
-								
-								);
-					} catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-				else if(cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() != null && !cbStatus.getSelectedItem().equals(" ")){
-					try {
-						String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());
-						boolean ok = amostraDAO.verificarDiasIguais(datacoleta, prop, amost);
-						
-						if(ok == false){
-						amostraDAO.DefinirStatusData(Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
-								Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
-								Integer.valueOf(txtOrdemAuto.getText()),
-								datacoleta,
-								String.valueOf(cbStatus.getSelectedItem())
-								
-								);
-					} }catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-				else{
-					
-				try {
-										String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());
-				boolean ok = amostraDAO.verificarDiasIguais(datacoleta, prop, amost);
-				
-				if(ok == false){
-					
-				
-				amostraDAO.DefinirDataColetor(
-				Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
-				Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
-				Integer.valueOf(txtOrdemAuto.getText()),
-				datacoleta,
-				String.valueOf(cbcoletor.getSelectedItem()),
-				String.valueOf(cbStatus.getSelectedItem())
-						
-				);
-				
-				}
-				}catch (NumberFormatException e) {
-				} catch (ParseException e) {
-				}	
-				}
-				
 
-				
-				if(!txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty()){
-					
-					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
-					+ " FROM proposta as pr, amostra as am, amostra_os as os "
-					+ " WHERE os.proposta = "+amostraDAO.buscarIdProposta(txtDatasProposta.getText())+" and os.proposta = pr.idproposta and os.amostra = am.idamostra  order by amostra,ordem";
-					
-					amostraDAO.PreencherTabelaColeta(sql,dados3);
-					
+				if (cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() == null
+						&& !cbStatus.getSelectedItem().equals(" ")) {
+					try {
+						amostraDAO.DefinirStatus(
+								Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
+								Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
+								Integer.valueOf(txtOrdemAuto.getText()), String.valueOf(cbStatus.getSelectedItem()));
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-				
-				if(txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()){
-					sql =      "SELECT pr.numero_proposta as PROPOSTA, pr.empresa, am.numero_amostra as AMOSTRA, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
-							+ "	FROM  amostra_os as os, amostra as am, proposta as pr "
-							+ " WHERE am.numero_amostra='"+txtDatasAmostra.getText()+"' and  os.amostra = am.idamostra and os.proposta = pr.idproposta  "
-							+ " ORDER BY proposta, amostra, ordem";
-						
-					amostraDAO.PreencherTabelaColeta(sql,dados3);
-					
-					}
-				
-				if(!txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()){
-					
-					sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor os.datacoleta, os.status_amostra as status "
-						+ " FROM proposta as pr, amostra as am, amostra_os as os "
-						+ " WHERE os.proposta = "+amostraDAO.buscarIdProposta(txtDatasProposta.getText())+" and os.amostra= "+amostraDAO.buscarIdAmostra(txtDatasAmostra.getText())+""
-						+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta  ORDER BY proposta, amostra, ordem";
-					
-					amostraDAO.PreencherTabelaColeta(sql,dados3);
-					
 				}
-					
-				
+
+				else if (!cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() == null
+						&& cbStatus.getSelectedItem().equals(" ")) {
+					try {
+						amostraDAO.DefinirColetor(
+								Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
+								Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
+								Integer.valueOf(txtOrdemAuto.getText()), String.valueOf(cbcoletor.getSelectedItem()));
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				else if (cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() != null
+						&& cbStatus.getSelectedItem().equals(" ")) {
+					try {
+						String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());
+						boolean ok = amostraDAO.verificarDiasIguais(datacoleta, prop, amost);
+
+						if (ok == false) {
+							amostraDAO.DefinirData(
+									Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
+									Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
+									Integer.valueOf(txtOrdemAuto.getText()), datacoleta);
+						}
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				else if (!cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() == null
+						&& !cbStatus.getSelectedItem().equals(" ")) {
+					try {
+						amostraDAO.DefinirStatusColetor(
+								Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
+								Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
+								Integer.valueOf(txtOrdemAuto.getText()), String.valueOf(cbcoletor.getSelectedItem()),
+								String.valueOf(cbStatus.getSelectedItem())
+
+						);
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				else if (cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() != null
+						&& !cbStatus.getSelectedItem().equals(" ")) {
+					try {
+						String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());
+						boolean ok = amostraDAO.verificarDiasIguais(datacoleta, prop, amost);
+
+						if (ok == false) {
+							amostraDAO.DefinirStatusData(
+									Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
+									Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
+									Integer.valueOf(txtOrdemAuto.getText()), datacoleta,
+									String.valueOf(cbStatus.getSelectedItem())
+
+							);
+						}
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				else {
+
+					try {
+						String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());
+						boolean ok = amostraDAO.verificarDiasIguais(datacoleta, prop, amost);
+
+						if (ok == false) {
+
+							amostraDAO.DefinirDataColetor(
+									Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
+									Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
+									Integer.valueOf(txtOrdemAuto.getText()), datacoleta,
+									String.valueOf(cbcoletor.getSelectedItem()),
+									String.valueOf(cbStatus.getSelectedItem())
+
+							);
+
+						}
+					} catch (NumberFormatException e) {
+					} catch (ParseException e) {
+					}
+				}
+
+				if (!txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty()) {
+
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+							+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
+							+ amostraDAO.buscarIdProposta(txtDatasProposta.getText())
+							+ " and os.proposta = pr.idproposta and os.amostra = am.idamostra  order by amostra,ordem";
+
+					amostraDAO.PreencherTabelaColeta(sql, dados3);
+
+				}
+
+				if (txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
+					sql = "SELECT pr.numero_proposta as PROPOSTA, pr.empresa, am.numero_amostra as AMOSTRA, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+							+ "	FROM  amostra_os as os, amostra as am, proposta as pr " + " WHERE am.numero_amostra='"
+							+ txtDatasAmostra.getText()
+							+ "' and  os.amostra = am.idamostra and os.proposta = pr.idproposta  "
+							+ " ORDER BY proposta, amostra, ordem";
+
+					amostraDAO.PreencherTabelaColeta(sql, dados3);
+
+				}
+
+				if (!txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
+
+					sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor os.datacoleta, os.status_amostra as status "
+							+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
+							+ amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + " and os.amostra= "
+							+ amostraDAO.buscarIdAmostra(txtDatasAmostra.getText()) + ""
+							+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta  ORDER BY proposta, amostra, ordem";
+
+					amostraDAO.PreencherTabelaColeta(sql, dados3);
+
+				}
+
 				try {
 
 					scrollPaneColeta.setViewportView(tableColeta);
@@ -475,15 +472,13 @@ public class TelaDefinirDataColeta extends JFrame {
 			}
 		});
 
-	
-		
 		ArrayList<String> dados = amostraDAO.obterColetores();
-		
+
 		for (int i = 0; i <= dados.size() - 1; i++)
 			cbcoletor.addItem(dados.get(i));
-		
+
 		ArrayList<String> dados2 = amostraDAO.obterStatus();
-		
+
 		for (int i = 0; i <= dados2.size() - 1; i++)
 			cbStatus.addItem(dados2.get(i));
 
@@ -491,43 +486,45 @@ public class TelaDefinirDataColeta extends JFrame {
 
 			public void actionPerformed(ActionEvent arg0) {
 
-			String sql;
-			
-			if(txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty())
-				JOptionPane.showMessageDialog(null, "Preencha um dos campos (PROPOSTA/AMOSTRA)");
-			
-				
-			if(!txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty()){
-				
-				sql = "SELECT pr.numero_proposta as proposta,  pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
-				+ " FROM proposta as pr, amostra as am, amostra_os as os "
-				+ " WHERE os.proposta = "+amostraDAO.buscarIdProposta(txtDatasProposta.getText())+" and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem";
-				
-				amostraDAO.PreencherTabelaColeta(sql,dados3);
-				
+				String sql;
+
+				if (txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty())
+					JOptionPane.showMessageDialog(null, "Preencha um dos campos (PROPOSTA/AMOSTRA)");
+
+				if (!txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty()) {
+
+					sql = "SELECT pr.numero_proposta as proposta,  pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+							+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
+							+ amostraDAO.buscarIdProposta(txtDatasProposta.getText())
+							+ " and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem";
+
+					amostraDAO.PreencherTabelaColeta(sql, dados3);
+
 				}
-			
-			if(txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()){
-				sql =      "SELECT pr.numero_proposta as PROPOSTA,  pr.empresa, am.numero_amostra as AMOSTRA, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
-						+ "	FROM  amostra_os as os, amostra as am, proposta as pr  "
-						+ " WHERE am.numero_amostra='"+txtDatasAmostra.getText()+"' and  os.amostra = am.idamostra and os.proposta = pr.idproposta "
-						+ " ORDER BY proposta, amostra, ordem";
-					
-				amostraDAO.PreencherTabelaColeta(sql,dados3);
-				
+
+				if (txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
+					sql = "SELECT pr.numero_proposta as PROPOSTA,  pr.empresa, am.numero_amostra as AMOSTRA, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+							+ "	FROM  amostra_os as os, amostra as am, proposta as pr  " + " WHERE am.numero_amostra='"
+							+ txtDatasAmostra.getText()
+							+ "' and  os.amostra = am.idamostra and os.proposta = pr.idproposta "
+							+ " ORDER BY proposta, amostra, ordem";
+
+					amostraDAO.PreencherTabelaColeta(sql, dados3);
+
 				}
-			
-			if(!txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()){
-				
-				sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
-					+ " FROM proposta as pr, amostra as am, amostra_os as os "
-					+ " WHERE os.proposta = "+amostraDAO.buscarIdProposta(txtDatasProposta.getText())+" and os.amostra= "+amostraDAO.buscarIdAmostra(txtDatasAmostra.getText())+""
-					+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta ORDER BY proposta, amostra, ordem";
-				
-				amostraDAO.PreencherTabelaColeta(sql,dados3);
-				
-			}
-				
+
+				if (!txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
+
+					sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+							+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
+							+ amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + " and os.amostra= "
+							+ amostraDAO.buscarIdAmostra(txtDatasAmostra.getText()) + ""
+							+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta ORDER BY proposta, amostra, ordem";
+
+					amostraDAO.PreencherTabelaColeta(sql, dados3);
+
+				}
+
 				try {
 
 					scrollPaneColeta.setViewportView(tableColeta);
@@ -561,9 +558,9 @@ public class TelaDefinirDataColeta extends JFrame {
 						}
 					});
 
-				}  catch (NullPointerException nu) {
-				
-				}catch (Exception ex) {
+				} catch (NullPointerException nu) {
+
+				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null, "ERRO" + ex.getMessage());
 				}
 
@@ -571,6 +568,190 @@ public class TelaDefinirDataColeta extends JFrame {
 					tableColeta.requestFocus();
 				}
 			}
+		});
+
+		this.txtDatasAmostra.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+				if (ke.getKeyCode() == 10) {
+
+					String sql;
+
+					if (txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty())
+						JOptionPane.showMessageDialog(null, "Preencha um dos campos (PROPOSTA/AMOSTRA)");
+
+					if (!txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty()) {
+
+						sql = "SELECT pr.numero_proposta as proposta,  pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+								+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
+								+ amostraDAO.buscarIdProposta(txtDatasProposta.getText())
+								+ " and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem";
+
+						amostraDAO.PreencherTabelaColeta(sql, dados3);
+
+					}
+
+					if (txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
+						sql = "SELECT pr.numero_proposta as PROPOSTA,  pr.empresa, am.numero_amostra as AMOSTRA, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+								+ "	FROM  amostra_os as os, amostra as am, proposta as pr  "
+								+ " WHERE am.numero_amostra='" + txtDatasAmostra.getText()
+								+ "' and  os.amostra = am.idamostra and os.proposta = pr.idproposta "
+								+ " ORDER BY proposta, amostra, ordem";
+
+						amostraDAO.PreencherTabelaColeta(sql, dados3);
+
+					}
+
+					if (!txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
+
+						sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+								+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
+								+ amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + " and os.amostra= "
+								+ amostraDAO.buscarIdAmostra(txtDatasAmostra.getText()) + ""
+								+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta ORDER BY proposta, amostra, ordem";
+
+						amostraDAO.PreencherTabelaColeta(sql, dados3);
+
+					}
+
+					try {
+
+						scrollPaneColeta.setViewportView(tableColeta);
+
+						tableColeta.setSurrendersFocusOnKeystroke(true);
+						tableColeta.setFocusTraversalPolicyProvider(true);
+						tableColeta.setFocusCycleRoot(true);
+						tableColeta.setForeground(new Color(0, 0, 0));
+						tableColeta.setSelectionForeground(new Color(0, 0, 0));
+						tableColeta.setFillsViewportHeight(true);
+						tableColeta.setSelectionBackground(new Color(135, 206, 235));
+						tableColeta.setAutoCreateRowSorter(true);
+
+						tableColeta.getColumnModel().getColumn(0).setPreferredWidth(130);
+						tableColeta.getColumnModel().getColumn(1).setPreferredWidth(400);
+						tableColeta.getColumnModel().getColumn(2).setPreferredWidth(200);
+						tableColeta.getColumnModel().getColumn(3).setPreferredWidth(130);
+						tableColeta.getColumnModel().getColumn(4).setPreferredWidth(200);
+						tableColeta.getColumnModel().getColumn(5).setPreferredWidth(400);
+						tableColeta.getColumnModel().getColumn(6).setPreferredWidth(200);
+						tableColeta.getTableHeader().setReorderingAllowed(false);
+						tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+						tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+						tableColeta.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+
+							public Component getTableCellRendererComponent(JTable table, Object value,
+									boolean isSelected, boolean hasFocus, int row, int column) {
+								super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+								this.setHorizontalAlignment(CENTER);
+								return this;
+							}
+						});
+
+					} catch (NullPointerException nu) {
+
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(null, "ERRO" + ex.getMessage());
+					}
+
+					finally {
+						tableColeta.requestFocus();
+					}
+
+				}
+
+			}
+
+		});
+		
+		this.txtDatasProposta.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+				if (ke.getKeyCode() == 10) {
+
+					String sql;
+
+					if (txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty())
+						JOptionPane.showMessageDialog(null, "Preencha um dos campos (PROPOSTA/AMOSTRA)");
+
+					if (!txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty()) {
+
+						sql = "SELECT pr.numero_proposta as proposta,  pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+								+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
+								+ amostraDAO.buscarIdProposta(txtDatasProposta.getText())
+								+ " and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem";
+
+						amostraDAO.PreencherTabelaColeta(sql, dados3);
+
+					}
+
+					if (txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
+						sql = "SELECT pr.numero_proposta as PROPOSTA,  pr.empresa, am.numero_amostra as AMOSTRA, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+								+ "	FROM  amostra_os as os, amostra as am, proposta as pr  "
+								+ " WHERE am.numero_amostra='" + txtDatasAmostra.getText()
+								+ "' and  os.amostra = am.idamostra and os.proposta = pr.idproposta "
+								+ " ORDER BY proposta, amostra, ordem";
+
+						amostraDAO.PreencherTabelaColeta(sql, dados3);
+
+					}
+
+					if (!txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
+
+						sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+								+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
+								+ amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + " and os.amostra= "
+								+ amostraDAO.buscarIdAmostra(txtDatasAmostra.getText()) + ""
+								+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta ORDER BY proposta, amostra, ordem";
+
+						amostraDAO.PreencherTabelaColeta(sql, dados3);
+
+					}
+
+					try {
+
+						scrollPaneColeta.setViewportView(tableColeta);
+
+						tableColeta.setSurrendersFocusOnKeystroke(true);
+						tableColeta.setFocusTraversalPolicyProvider(true);
+						tableColeta.setFocusCycleRoot(true);
+						tableColeta.setForeground(new Color(0, 0, 0));
+						tableColeta.setSelectionForeground(new Color(0, 0, 0));
+						tableColeta.setFillsViewportHeight(true);
+						tableColeta.setSelectionBackground(new Color(135, 206, 235));
+						tableColeta.setAutoCreateRowSorter(true);
+
+						tableColeta.getColumnModel().getColumn(0).setPreferredWidth(130);
+						tableColeta.getColumnModel().getColumn(1).setPreferredWidth(400);
+						tableColeta.getColumnModel().getColumn(2).setPreferredWidth(200);
+						tableColeta.getColumnModel().getColumn(3).setPreferredWidth(130);
+						tableColeta.getColumnModel().getColumn(4).setPreferredWidth(200);
+						tableColeta.getColumnModel().getColumn(5).setPreferredWidth(400);
+						tableColeta.getColumnModel().getColumn(6).setPreferredWidth(200);
+						tableColeta.getTableHeader().setReorderingAllowed(false);
+						tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+						tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+						tableColeta.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+
+							public Component getTableCellRendererComponent(JTable table, Object value,
+									boolean isSelected, boolean hasFocus, int row, int column) {
+								super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+								this.setHorizontalAlignment(CENTER);
+								return this;
+							}
+						});
+
+					} catch (NullPointerException nu) {
+
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(null, "ERRO" + ex.getMessage());
+					}
+
+					finally {
+						tableColeta.requestFocus();
+					}
+
+				}
+
+			}
+
 		});
 
 	}

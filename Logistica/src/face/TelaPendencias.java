@@ -76,7 +76,7 @@ public class TelaPendencias extends JFrame {
 		tabbedPane.add("Definir Datas", panelDatas);
 
 		dados3 = new ArrayList();
-		colunas3 = new String[] { "PROPOSTA", "AMOSTRA", "ORDEM", "COLETOR", "DATACOLETA","STATUS" };
+		colunas3 = new String[] { "PROPOSTA", "EMPRESA", "AMOSTRA", "ORDEM", "COLETOR", "DATACOLETA","STATUS" };
 
 		ModeloTable modelo3 = new ModeloTable(dados3, colunas3);
 		tableColeta.setModel(modelo3);
@@ -205,6 +205,21 @@ public class TelaPendencias extends JFrame {
 		opcoes.add(rdbtnNaoDatadas);
 		opcoes.add(rdbtnPendentes);
 		
+		final JDateChooser txtdatacompara1 = new JDateChooser();
+		txtdatacompara1.setBounds(753, 28, 139, 20);
+		panelDatas.add(txtdatacompara1);
+		
+		JLabel lblDataComparacao = new JLabel("Data compara\u00E7\u00E3o");
+		lblDataComparacao.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDataComparacao.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		lblDataComparacao.setBounds(604, 28, 139, 20);
+		panelDatas.add(lblDataComparacao);
+		
+		final JDateChooser txtdatacompara2 = new JDateChooser();
+		txtdatacompara2.setBounds(927, 28, 139, 20);
+		panelDatas.add(txtdatacompara2);
+
+		
 		btnDefinir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -226,7 +241,7 @@ public class TelaPendencias extends JFrame {
 						if(rdbtnCancelada.isSelected()){
 							// canceladas
 							
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 									+ " WHERE os.status_amostra = 'Cancelado' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " and st.descricao = os.status_amostra "
@@ -238,7 +253,7 @@ public class TelaPendencias extends JFrame {
 						} else if(rdbtnConcluidas.isSelected()){
 							// concluidas
 							
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 									+ " WHERE os.status_amostra = 'Concluido' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " and st.descricao = os.status_amostra "
@@ -251,7 +266,7 @@ public class TelaPendencias extends JFrame {
 						}else if(rdbtnNaoDatadas.isSelected()){
 							// nao datadas
 							
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
 									+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " order by amostra,ordem";
@@ -263,7 +278,7 @@ public class TelaPendencias extends JFrame {
 						}else if(rdbtnPendentes.isSelected()){
 							// pendentes
 						
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 									+ " WHERE os.status_amostra = 'Pendente' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " and st.descricao = os.status_amostra "
@@ -296,7 +311,7 @@ public class TelaPendencias extends JFrame {
 						if(rdbtnCancelada.isSelected()){
 							// canceladas
 							
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 									+ " WHERE os.status_amostra = 'Cancelado' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " and st.descricao = os.status_amostra "
@@ -308,7 +323,7 @@ public class TelaPendencias extends JFrame {
 						} else if(rdbtnConcluidas.isSelected()){
 							// concluidas
 							
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 									+ " WHERE os.status_amostra = 'Concluido' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " and st.descricao = os.status_amostra "
@@ -321,7 +336,7 @@ public class TelaPendencias extends JFrame {
 						}else if(rdbtnNaoDatadas.isSelected()){
 							// nao datadas
 							
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
 									+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " order by amostra,ordem";
@@ -333,7 +348,7 @@ public class TelaPendencias extends JFrame {
 						}else if(rdbtnPendentes.isSelected()){
 							// pendentes
 						
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 									+ " WHERE os.status_amostra = 'Pendente' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " and st.descricao = os.status_amostra "
@@ -369,7 +384,7 @@ public class TelaPendencias extends JFrame {
 						if(rdbtnCancelada.isSelected()){
 							// canceladas
 							
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 									+ " WHERE os.status_amostra = 'Cancelado' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " and st.descricao = os.status_amostra "
@@ -381,7 +396,7 @@ public class TelaPendencias extends JFrame {
 						} else if(rdbtnConcluidas.isSelected()){
 							// concluidas
 							
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 									+ " WHERE os.status_amostra = 'Concluido' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " and st.descricao = os.status_amostra "
@@ -394,7 +409,7 @@ public class TelaPendencias extends JFrame {
 						}else if(rdbtnNaoDatadas.isSelected()){
 							// nao datadas
 							
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
 									+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " order by amostra,ordem";
@@ -406,7 +421,7 @@ public class TelaPendencias extends JFrame {
 						}else if(rdbtnPendentes.isSelected()){
 							// pendentes
 						
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 									+ " WHERE os.status_amostra = 'Pendente' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " and st.descricao = os.status_amostra "
@@ -440,7 +455,7 @@ public class TelaPendencias extends JFrame {
 						if(rdbtnCancelada.isSelected()){
 							// canceladas
 							
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 									+ " WHERE os.status_amostra = 'Cancelado' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " and st.descricao = os.status_amostra "
@@ -452,7 +467,7 @@ public class TelaPendencias extends JFrame {
 						} else if(rdbtnConcluidas.isSelected()){
 							// concluidas
 							
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 									+ " WHERE os.status_amostra = 'Concluido' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " and st.descricao = os.status_amostra "
@@ -465,7 +480,7 @@ public class TelaPendencias extends JFrame {
 						}else if(rdbtnNaoDatadas.isSelected()){
 							// nao datadas
 							
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
 									+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " order by amostra,ordem";
@@ -477,7 +492,7 @@ public class TelaPendencias extends JFrame {
 						}else if(rdbtnPendentes.isSelected()){
 							// pendentes
 						
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 									+ " WHERE os.status_amostra = 'Pendente' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " and st.descricao = os.status_amostra "
@@ -515,7 +530,7 @@ public class TelaPendencias extends JFrame {
 						if(rdbtnCancelada.isSelected()){
 							// canceladas
 							
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 									+ " WHERE os.status_amostra = 'Cancelado' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " and st.descricao = os.status_amostra "
@@ -527,7 +542,7 @@ public class TelaPendencias extends JFrame {
 						} else if(rdbtnConcluidas.isSelected()){
 							// concluidas
 							
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 									+ " WHERE os.status_amostra = 'Concluido' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " and st.descricao = os.status_amostra "
@@ -540,7 +555,7 @@ public class TelaPendencias extends JFrame {
 						}else if(rdbtnNaoDatadas.isSelected()){
 							// nao datadas
 							
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
 									+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " order by amostra,ordem";
@@ -552,7 +567,7 @@ public class TelaPendencias extends JFrame {
 						}else if(rdbtnPendentes.isSelected()){
 							// pendentes
 						
-							sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 									+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 									+ " WHERE os.status_amostra = 'Pendente' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 									+ " and st.descricao = os.status_amostra "
@@ -597,7 +612,7 @@ public class TelaPendencias extends JFrame {
 				if(rdbtnCancelada.isSelected()){
 					// canceladas
 					
-					sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 							+ " WHERE os.status_amostra = 'Cancelado' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 							+ " and st.descricao = os.status_amostra "
@@ -609,7 +624,7 @@ public class TelaPendencias extends JFrame {
 				} else if(rdbtnConcluidas.isSelected()){
 					// concluidas
 					
-					sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 							+ " WHERE os.status_amostra = 'Concluido' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 							+ " and st.descricao = os.status_amostra "
@@ -622,7 +637,7 @@ public class TelaPendencias extends JFrame {
 				}else if(rdbtnNaoDatadas.isSelected()){
 					// nao datadas
 					
-					sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
 							+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 							+ " order by amostra,ordem";
@@ -634,7 +649,7 @@ public class TelaPendencias extends JFrame {
 				}else if(rdbtnPendentes.isSelected()){
 					// pendentes
 				
-					sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 							+ " WHERE os.status_amostra = 'Pendente' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 							+ " and st.descricao = os.status_amostra "
@@ -669,15 +684,14 @@ public class TelaPendencias extends JFrame {
 			cbStatus.addItem(dados2.get(i));
 
 		btnDatasPesquisar.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent arg0) {
 
 			
-			
+			if(txtdatacompara1.getDate() == null && txtdatacompara2.getDate() == null){
 			if(rdbtnCancelada.isSelected()){
 				// canceladas
 				
-				sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+				sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 						+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 						+ " WHERE os.status_amostra = 'Cancelado' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 						+ " and st.descricao = os.status_amostra "
@@ -689,7 +703,7 @@ public class TelaPendencias extends JFrame {
 			} else if(rdbtnConcluidas.isSelected()){
 				// concluidas
 				
-				sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+				sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 						+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 						+ " WHERE os.status_amostra = 'Concluido' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 						+ " and st.descricao = os.status_amostra "
@@ -702,7 +716,7 @@ public class TelaPendencias extends JFrame {
 			}else if(rdbtnNaoDatadas.isSelected()){
 				// nao datadas
 				
-				sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+				sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 						+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
 						+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 						+ " order by amostra,ordem";
@@ -714,7 +728,7 @@ public class TelaPendencias extends JFrame {
 			}else if(rdbtnPendentes.isSelected()){
 				// pendentes
 			
-				sql = "SELECT pr.numero_proposta as proposta, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+				sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 						+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
 						+ " WHERE os.status_amostra = 'Pendente' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 						+ " and st.descricao = os.status_amostra "
@@ -727,6 +741,199 @@ public class TelaPendencias extends JFrame {
 			}
 			
 				
+			}
+			
+			else if(txtdatacompara1.getDate() == null && txtdatacompara2.getDate() != null){
+				
+				if(rdbtnCancelada.isSelected()){
+					// canceladas
+					
+					String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtdatacompara2.getDate());
+					
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+							+ " WHERE os.status_amostra = 'Cancelado' and os.datacoleta ='"+ datacoleta +"' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " and st.descricao = os.status_amostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							tableColeta.setAutoCreateRowSorter(true);
+							
+				} else if(rdbtnConcluidas.isSelected()){
+					// concluidas
+					
+					String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtdatacompara2.getDate());
+					
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+							+ " WHERE os.status_amostra = 'Concluido' and os.datacoleta ='"+ datacoleta +"' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " and st.descricao = os.status_amostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							tableColeta.setAutoCreateRowSorter(true);
+
+				
+				}else if(rdbtnNaoDatadas.isSelected()){
+					// nao datadas
+					
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
+							+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							tableColeta.setAutoCreateRowSorter(true);
+
+				
+				}else if(rdbtnPendentes.isSelected()){
+					// pendentes
+					
+					String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtdatacompara2.getDate());
+				
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+							+ " WHERE os.status_amostra = 'Pendente' and os.datacoleta = '"+ datacoleta +"' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " and st.descricao = os.status_amostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							
+							tableColeta.setAutoCreateRowSorter(true);
+
+				}
+				
+			}
+			
+			else if(txtdatacompara1.getDate() != null && txtdatacompara2.getDate() == null){
+				
+				if(rdbtnCancelada.isSelected()){
+					// canceladas
+					
+					String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtdatacompara1.getDate());
+					
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+							+ " WHERE os.status_amostra = 'Cancelado' and os.datacoleta ='"+ datacoleta +"' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " and st.descricao = os.status_amostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							tableColeta.setAutoCreateRowSorter(true);
+							
+				} else if(rdbtnConcluidas.isSelected()){
+					// concluidas
+					
+					String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtdatacompara1.getDate());
+					
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+							+ " WHERE os.status_amostra = 'Concluido' and os.datacoleta ='"+ datacoleta +"' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " and st.descricao = os.status_amostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							tableColeta.setAutoCreateRowSorter(true);
+
+				
+				}else if(rdbtnNaoDatadas.isSelected()){
+					// nao datadas
+					
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
+							+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							tableColeta.setAutoCreateRowSorter(true);
+
+				
+				}else if(rdbtnPendentes.isSelected()){
+					// pendentes
+					
+					String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtdatacompara1.getDate());
+				
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+							+ " WHERE os.status_amostra = 'Pendente' and os.datacoleta = '"+ datacoleta +"' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " and st.descricao = os.status_amostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							
+							tableColeta.setAutoCreateRowSorter(true);
+
+				}
+				
+			}
+			
+			else if(txtdatacompara1.getDate() != null && txtdatacompara2.getDate() != null){
+				
+				if(rdbtnCancelada.isSelected()){
+					// canceladas
+					
+					String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtdatacompara1.getDate());
+					String datacoleta2 = new SimpleDateFormat("dd/MM/yyyy").format(txtdatacompara2.getDate());
+					
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+							+ " WHERE os.status_amostra = 'Cancelado' and os.datacoleta ='"+ datacoleta +"' and os.datacoleta ='"+ datacoleta2 +"' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " and st.descricao = os.status_amostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							tableColeta.setAutoCreateRowSorter(true);
+							
+				} else if(rdbtnConcluidas.isSelected()){
+					// concluidas
+					
+					String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtdatacompara1.getDate());
+					String datacoleta2 = new SimpleDateFormat("dd/MM/yyyy").format(txtdatacompara2.getDate());
+
+					
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+							+ " WHERE os.status_amostra = 'Concluido' and os.datacoleta ='"+ datacoleta +"' and os.datacoleta ='"+ datacoleta2 +"' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " and st.descricao = os.status_amostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							tableColeta.setAutoCreateRowSorter(true);
+
+				
+				}else if(rdbtnNaoDatadas.isSelected()){
+					// nao datadas
+					
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
+							+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							tableColeta.setAutoCreateRowSorter(true);
+
+				
+				}else if(rdbtnPendentes.isSelected()){
+					// pendentes
+					
+					String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtdatacompara1.getDate());
+					String datacoleta2 = new SimpleDateFormat("dd/MM/yyyy").format(txtdatacompara2.getDate());
+
+				
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+							+ " WHERE os.status_amostra = 'Pendente' and os.datacoleta = '"+ datacoleta +"' and os.datacoleta ='"+ datacoleta2 +"' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " and st.descricao = os.status_amostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							
+							tableColeta.setAutoCreateRowSorter(true);
+
+				}
+				
+			}
+			
 			}
 		});
 		
@@ -750,6 +957,7 @@ public class TelaPendencias extends JFrame {
 			tableColeta.getTableHeader().setReorderingAllowed(false);
 			tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 			tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			
 
 			tableColeta.addMouseListener(new MouseAdapter() {
 				@Override
@@ -782,7 +990,6 @@ public class TelaPendencias extends JFrame {
 			});
 
 		}  
-
 	}
 
 	
