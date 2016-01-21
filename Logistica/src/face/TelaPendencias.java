@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -50,6 +51,8 @@ public class TelaPendencias extends JFrame {
 	private JTextField txtAmostraAuto;
 	private JTextField txtOrdemAuto;
 	private String sql;
+	private int linha = tableColeta.getSelectedRow();
+	private String status;
 
 	public TelaPendencias() {
 
@@ -82,11 +85,11 @@ public class TelaPendencias extends JFrame {
 		tableColeta.setModel(modelo3);
 
 		JButton btnDatasPesquisar = new JButton("Pesquisar");
-		btnDatasPesquisar.setBounds(455, 28, 139, 23);
+		btnDatasPesquisar.setBounds(457, 89, 139, 23);
 		panelDatas.add(btnDatasPesquisar);
 
 		JSeparator separator_2 = new JSeparator();
-		separator_2.setBounds(10, 218, 1056, 2);
+		separator_2.setBounds(10, 263, 1056, 2);
 		panelDatas.add(separator_2);
 
 		final JScrollPane scrollPaneColeta = new JScrollPane();
@@ -94,13 +97,13 @@ public class TelaPendencias extends JFrame {
 
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollPaneColeta.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPaneColeta.setBounds(10, 231, 1056, 392);
+		scrollPaneColeta.setBounds(10, 276, 1056, 347);
 		panelDatas.add(scrollPaneColeta);
 
 		JLabel label_2 = new JLabel("N\u00BA Proposta:");
 		label_2.setHorizontalAlignment(SwingConstants.CENTER);
 		label_2.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		label_2.setBounds(9, 77, 139, 20);
+		label_2.setBounds(10, 130, 139, 20);
 		panelDatas.add(label_2);
 
 		txtPropostaAuto = new JTextField();
@@ -110,13 +113,13 @@ public class TelaPendencias extends JFrame {
 		txtPropostaAuto.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		txtPropostaAuto.setColumns(10);
 		txtPropostaAuto.setBackground(Color.WHITE);
-		txtPropostaAuto.setBounds(146, 80, 139, 20);
+		txtPropostaAuto.setBounds(147, 133, 139, 20);
 		panelDatas.add(txtPropostaAuto);
 
 		JLabel label_3 = new JLabel("N\u00BA Amostra / Ano: ");
 		label_3.setHorizontalAlignment(SwingConstants.CENTER);
 		label_3.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		label_3.setBounds(9, 112, 139, 20);
+		label_3.setBounds(10, 165, 139, 20);
 		panelDatas.add(label_3);
 
 		txtAmostraAuto = new JTextField();
@@ -126,13 +129,13 @@ public class TelaPendencias extends JFrame {
 		txtAmostraAuto.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		txtAmostraAuto.setColumns(10);
 		txtAmostraAuto.setBackground(Color.WHITE);
-		txtAmostraAuto.setBounds(146, 115, 139, 20);
+		txtAmostraAuto.setBounds(147, 168, 139, 20);
 		panelDatas.add(txtAmostraAuto);
 
 		JLabel lblOrdem = new JLabel("Ordem");
 		lblOrdem.setHorizontalAlignment(SwingConstants.CENTER);
 		lblOrdem.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		lblOrdem.setBounds(9, 143, 139, 20);
+		lblOrdem.setBounds(10, 196, 139, 20);
 		panelDatas.add(lblOrdem);
 
 		txtOrdemAuto = new JTextField();
@@ -142,61 +145,61 @@ public class TelaPendencias extends JFrame {
 		txtOrdemAuto.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		txtOrdemAuto.setColumns(10);
 		txtOrdemAuto.setBackground(Color.WHITE);
-		txtOrdemAuto.setBounds(146, 143, 139, 20);
+		txtOrdemAuto.setBounds(147, 196, 139, 20);
 		panelDatas.add(txtOrdemAuto);
 
 		JLabel DataColeta = new JLabel("Data da Coleta:");
 		DataColeta.setHorizontalAlignment(SwingConstants.CENTER);
 		DataColeta.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		DataColeta.setBounds(306, 79, 139, 20);
+		DataColeta.setBounds(307, 132, 139, 20);
 		panelDatas.add(DataColeta);
 
 		JLabel Coletor = new JLabel("Coletor:");
 		Coletor.setHorizontalAlignment(SwingConstants.CENTER);
 		Coletor.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		Coletor.setBounds(306, 113, 139, 20);
+		Coletor.setBounds(307, 166, 139, 20);
 		panelDatas.add(Coletor);
 
 		final JDateChooser txtDataCol = new JDateChooser();
-		txtDataCol.setBounds(455, 79, 139, 20);
+		txtDataCol.setBounds(456, 132, 139, 20);
 		panelDatas.add(txtDataCol);
 		
 		final JComboBox cbcoletor = new JComboBox();
-		cbcoletor.setBounds(455, 113, 139, 20);
+		cbcoletor.setBounds(456, 166, 139, 20);
 		panelDatas.add(cbcoletor);
 		
 		JButton btnDefinir = new JButton("Definir");
-		btnDefinir.setBounds(455, 176, 138, 23);
+		btnDefinir.setBounds(456, 229, 138, 23);
 		panelDatas.add(btnDefinir);
 		
 		final JComboBox cbStatus = new JComboBox();
-		cbStatus.setBounds(455, 142, 139, 20);
+		cbStatus.setBounds(456, 195, 139, 20);
 		panelDatas.add(cbStatus);
 		
 		JLabel lblStatus = new JLabel("Status da Amostra");
 		lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStatus.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		lblStatus.setBounds(306, 140, 139, 20);
+		lblStatus.setBounds(307, 193, 139, 20);
 		panelDatas.add(lblStatus);
 		
 		final JRadioButton rdbtnNaoDatadas = new JRadioButton("N\u00E3o Datadas");
 		rdbtnNaoDatadas.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		rdbtnNaoDatadas.setBounds(22, 26, 111, 23);
+		rdbtnNaoDatadas.setBounds(322, 25, 111, 23);
 		panelDatas.add(rdbtnNaoDatadas);
 		
 		final JRadioButton rdbtnPendentes = new JRadioButton("Pendentes");
 		rdbtnPendentes.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		rdbtnPendentes.setBounds(135, 26, 98, 23);
+		rdbtnPendentes.setBounds(322, 57, 98, 23);
 		panelDatas.add(rdbtnPendentes);
 		
 		final JRadioButton rdbtnConcluidas = new JRadioButton("Concluidas");
 		rdbtnConcluidas.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		rdbtnConcluidas.setBounds(235, 26, 98, 23);
+		rdbtnConcluidas.setBounds(497, 25, 98, 23);
 		panelDatas.add(rdbtnConcluidas);
 		
 		final JRadioButton rdbtnCancelada = new JRadioButton("Cancelada");
 		rdbtnCancelada.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		rdbtnCancelada.setBounds(335, 26, 98, 23);
+		rdbtnCancelada.setBounds(497, 57, 98, 23);
 		panelDatas.add(rdbtnCancelada);
 		
 		ButtonGroup opcoes = new ButtonGroup();
@@ -206,19 +209,44 @@ public class TelaPendencias extends JFrame {
 		opcoes.add(rdbtnPendentes);
 		
 		final JDateChooser txtdatacompara1 = new JDateChooser();
-		txtdatacompara1.setBounds(753, 28, 139, 20);
+		txtdatacompara1.setBounds(148, 25, 138, 20);
 		panelDatas.add(txtdatacompara1);
 		
-		JLabel lblDataComparacao = new JLabel("Data compara\u00E7\u00E3o");
+		JLabel lblDataComparacao = new JLabel("Periodo:  D\u00EA");
 		lblDataComparacao.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDataComparacao.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		lblDataComparacao.setBounds(604, 28, 139, 20);
+		lblDataComparacao.setBounds(10, 25, 111, 20);
 		panelDatas.add(lblDataComparacao);
 		
 		final JDateChooser txtdatacompara2 = new JDateChooser();
-		txtdatacompara2.setBounds(927, 28, 139, 20);
+		txtdatacompara2.setBounds(148, 57, 138, 20);
 		panelDatas.add(txtdatacompara2);
+		
+		tableColeta.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
 
+				txtAmostraAuto.setText("");
+				txtPropostaAuto.setText("");
+				txtOrdemAuto.setText("");
+
+				
+				String proposta = (String) tableColeta.getValueAt(linha, 0);
+				String amostra = (String) tableColeta.getValueAt(linha, 2);
+				int ordem = (Integer) tableColeta.getValueAt(linha, 3);
+				status = (String) tableColeta.getValueAt(linha, 5);
+				
+								
+					
+				
+				txtAmostraAuto.setText(amostra);
+				txtPropostaAuto.setText(proposta);
+				txtOrdemAuto.setText(String.valueOf(ordem));
+
+			}
+			
+			
+			});
 		
 		btnDefinir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -877,7 +905,7 @@ public class TelaPendencias extends JFrame {
 					
 					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
-							+ " WHERE os.status_amostra = 'Cancelado' and os.datacoleta ='"+ datacoleta +"' and os.datacoleta ='"+ datacoleta2 +"' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " WHERE os.status_amostra = 'Cancelado' and os.datacoleta >='"+ datacoleta +"' and os.datacoleta <='"+ datacoleta2 +"' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 							+ " and st.descricao = os.status_amostra "
 							+ " order by amostra,ordem";
 							
@@ -893,7 +921,7 @@ public class TelaPendencias extends JFrame {
 					
 					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
-							+ " WHERE os.status_amostra = 'Concluido' and os.datacoleta ='"+ datacoleta +"' and os.datacoleta ='"+ datacoleta2 +"' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " WHERE os.status_amostra = 'Concluido' and os.datacoleta >='"+ datacoleta +"' and os.datacoleta <='"+ datacoleta2 +"' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 							+ " and st.descricao = os.status_amostra "
 							+ " order by amostra,ordem";
 							
@@ -922,13 +950,55 @@ public class TelaPendencias extends JFrame {
 				
 					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
 							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
-							+ " WHERE os.status_amostra = 'Pendente' and os.datacoleta = '"+ datacoleta +"' and os.datacoleta ='"+ datacoleta2 +"' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " WHERE os.status_amostra = 'Pendente' and os.datacoleta >= '"+ datacoleta +"' and os.datacoleta <='"+ datacoleta2 +"' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
 							+ " and st.descricao = os.status_amostra "
 							+ " order by amostra,ordem";
 							
 							amostraDAO.PreencherTabelaColeta(sql,dados3);
 							
 							tableColeta.setAutoCreateRowSorter(true);
+
+				}
+				else{
+					// pendentes
+					
+					String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtdatacompara1.getDate());
+					String datacoleta2 = new SimpleDateFormat("dd/MM/yyyy").format(txtdatacompara2.getDate());
+
+				
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.ordem , os.coletor as coletor, os.datacoleta, "
+							+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+							+ " WHERE os.datacoleta >= '"+ datacoleta +"' and os.datacoleta <='"+ datacoleta2 +"' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+							+ " and st.descricao = os.status_amostra "
+							+ " order by amostra,ordem";
+							
+							amostraDAO.PreencherTabelaColeta(sql,dados3);
+							
+							tableColeta.setAutoCreateRowSorter(true);
+							
+							tableColeta.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {  
+								  
+						          public Component getTableCellRendererComponent(JTable table, Object value,  
+						              boolean isSelected, boolean hasFocus, int row, int column) {  
+						              super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);  
+						              
+						              this.setHorizontalAlignment(CENTER);
+						              
+										if(status == "Cancelado") {
+
+										tableColeta.setBackground(Color.RED); 
+										}
+										else if(status =="Concluido"){
+								 		tableColeta.setBackground(Color.GREEN);
+										}
+										else if(status == "Pendente"){
+										tableColeta.setBackground(Color.YELLOW);
+										}
+						                  
+						              return this;  
+						          }  
+						      });  
+
 
 				}
 				
@@ -958,26 +1028,17 @@ public class TelaPendencias extends JFrame {
 			tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 			tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			
+			JLabel lblAt = new JLabel("At\u00E9");
+			lblAt.setHorizontalAlignment(SwingConstants.CENTER);
+			lblAt.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+			lblAt.setBounds(46, 57, 48, 20);
+			panelDatas.add(lblAt);
+			
+			JSeparator separator = new JSeparator();
+			separator.setBounds(12, 120, 1056, 2);
+			panelDatas.add(separator);
+			
 
-			tableColeta.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-
-					txtAmostraAuto.setText("");
-					txtPropostaAuto.setText("");
-					txtOrdemAuto.setText("");
-
-					int linha = tableColeta.getSelectedRow();
-					String proposta = (String) tableColeta.getValueAt(linha, 0);
-					String amostra = (String) tableColeta.getValueAt(linha, 1);
-					int ordem = (Integer) tableColeta.getValueAt(linha, 2);
-
-					txtAmostraAuto.setText(amostra);
-					txtPropostaAuto.setText(proposta);
-					txtOrdemAuto.setText(String.valueOf(ordem));
-
-				}
-			});
 
 			tableColeta.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 

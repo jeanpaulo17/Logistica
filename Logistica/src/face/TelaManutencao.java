@@ -500,11 +500,7 @@ public class TelaManutencao extends JFrame {
 					
 
 				}
-				else{
-						
-					JOptionPane.showMessageDialog(null, "Coletor ja cadastrado!");
-			
-			}}}
+			}}
 		});
 		btnCadastrarColetor.setBounds(166, 89, 99, 23);
 		panelColetor.add(btnCadastrarColetor);

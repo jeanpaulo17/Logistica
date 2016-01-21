@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 	            Component c = super.getTableCellRendererComponent(table,
 	                value, isSelected, hasFocus, row, column);
 
+	            
 	              	
 	            for(int i=0 ; i < 165 ; i++){
 	        		int	qtd = (Integer) table.getValueAt(i, 2);
