@@ -11,7 +11,6 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
-import dominio.calendario;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -19,6 +18,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 import utilitarios.ConectaBanco;
+import dominio.calendario;
 
 public class calendarioDAO {
 	ConectaBanco conexao = new ConectaBanco();

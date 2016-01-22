@@ -51,7 +51,7 @@ public class TelaPendencias extends JFrame {
 	private JTextField txtAmostraAuto;
 	private JTextField txtOrdemAuto;
 	private String sql;
-	private int linha = tableColeta.getSelectedRow();
+	private int linha;
 	private String status;
 
 	public TelaPendencias() {
@@ -225,20 +225,17 @@ public class TelaPendencias extends JFrame {
 		tableColeta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				linha = tableColeta.getSelectedRow();
 
 				txtAmostraAuto.setText("");
 				txtPropostaAuto.setText("");
 				txtOrdemAuto.setText("");
-
 				
 				String proposta = (String) tableColeta.getValueAt(linha, 0);
 				String amostra = (String) tableColeta.getValueAt(linha, 2);
 				int ordem = (Integer) tableColeta.getValueAt(linha, 3);
-				status = (String) tableColeta.getValueAt(linha, 5);
-				
+				status = (String) tableColeta.getValueAt(linha, 6);
 								
-					
-				
 				txtAmostraAuto.setText(amostra);
 				txtPropostaAuto.setText(proposta);
 				txtOrdemAuto.setText(String.valueOf(ordem));
@@ -984,22 +981,24 @@ public class TelaPendencias extends JFrame {
 						              
 						              this.setHorizontalAlignment(CENTER);
 						              
-										if(status == "Cancelado") {
+						            for(int i=0 ; i < tableColeta.getRowCount(); i++){
+						            	String st = (String) table.getValueAt(row, 6);  
+						        		
+						        		if(st == "Cancelado") {
 
-										tableColeta.setBackground(Color.RED); 
-										}
-										else if(status =="Concluido"){
-								 		tableColeta.setBackground(Color.GREEN);
-										}
-										else if(status == "Pendente"){
-										tableColeta.setBackground(Color.YELLOW);
-										}
-						                  
-						              return this;  
-						          }  
+											setBackground(Color.RED); 
+											}
+											else if(st =="Concluido"){
+									 		setBackground(Color.GREEN);
+											}
+											else if(st == "Pendente"){
+											setBackground(Color.YELLOW);
+											}
+							                  
+							              return this;  
+						          }
+									return table;  }
 						      });  
-
-
 				}
 				
 			}
@@ -1024,6 +1023,7 @@ public class TelaPendencias extends JFrame {
 			tableColeta.getColumnModel().getColumn(3).setPreferredWidth(200);
 			tableColeta.getColumnModel().getColumn(4).setPreferredWidth(400);
 			tableColeta.getColumnModel().getColumn(5).setPreferredWidth(200);
+			tableColeta.getColumnModel().getColumn(6).setPreferredWidth(130);
 			tableColeta.getTableHeader().setReorderingAllowed(false);
 			tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 			tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

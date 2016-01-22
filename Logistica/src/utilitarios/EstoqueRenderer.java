@@ -18,18 +18,25 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 	            
 	              	
-	            for(int i=0 ; i < 165 ; i++){
-	        		int	qtd = (Integer) table.getValueAt(i, 2);
-	        		int	minimo = (Integer) table.getValueAt(i, 3);
-	        		if(qtd < minimo){
-	                c.setBackground(Color.PINK);}
-	                else{
-	                c.setBackground(Color.GREEN);
-	                }
+	            for(int i=0 ; i < table.getRowCount(); i++){
+	            	String st = (String) table.getValueAt(row, 6);  
+	        		
+	        		if(st == "Cancelado") {
 
-	        		}
-	    				return c;
+						setBackground(Color.RED); 
+						}
+						else if(st =="Concluido"){
+				 		setBackground(Color.GREEN);
+						}
+						else if(st == "Pendente"){
+						setBackground(Color.YELLOW);
+						}
+		                  
+		              return this;  
 	            		         		
 	    }
+				return c;
 
+	}
+		
 	}
