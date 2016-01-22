@@ -162,9 +162,9 @@ public class TelaVerPropostas extends JFrame {
 						tableProposta.setAutoCreateRowSorter(true);
 						scrollPaneProposta.setViewportView(tableProposta);
 
-						tableProposta.getColumnModel().getColumn(0).setPreferredWidth(130);
-						tableProposta.getColumnModel().getColumn(1).setPreferredWidth(200);
-						tableProposta.getColumnModel().getColumn(2).setPreferredWidth(130);
+						tableProposta.getColumnModel().getColumn(0).setPreferredWidth(400);
+						tableProposta.getColumnModel().getColumn(1).setPreferredWidth(100);
+						tableProposta.getColumnModel().getColumn(2).setPreferredWidth(100);
 
 						tableProposta.getTableHeader().setReorderingAllowed(false);
 						tableProposta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);

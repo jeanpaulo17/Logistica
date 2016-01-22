@@ -641,7 +641,7 @@ public class TelaDefinirParametro extends JFrame {
 				if(String.valueOf(cbLegislacao.getSelectedItem()).equals(" "))
 					JOptionPane.showMessageDialog(null, "Escolha uma legislação!");
 				
-					p.cadastrarLegislacaoNaAmostra(legislacao, idamostra, idproposta, idParametro);
+					
 
 					tableParametro.removeAll();
 
@@ -662,6 +662,7 @@ public class TelaDefinirParametro extends JFrame {
 						JOptionPane.showMessageDialog(null, "Campos Proposta/Amostra vazio(s)");
 					} else {
 					
+						p.cadastrarLegislacaoNaAmostra(legislacao, idamostra, idproposta, idParametro);
 					
 					parametroDAO1
 							.PreencherTabelaParametro(

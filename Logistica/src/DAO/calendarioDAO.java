@@ -132,7 +132,7 @@ public void criaRelatorioPorDataColetor(String sql,String coletor){
 			
 	 		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
 	 		
-	 		JasperPrint jpPrint = JasperFillManager.fillReport("//192.168.0.8/informacoes/SISTEMAS/relatorios/data_e_coletor_amostra.jasper", parametros, relatResul);
+	 		JasperPrint jpPrint = JasperFillManager.fillReport("//QUALITYSERVER12/informacoes/SISTEMAS/relatorios/data_e_coletor_amostra.jasper", parametros, relatResul);
 	 		
 	 		JasperViewer jv = new JasperViewer(jpPrint,false); // cria instancia para impressão , seta exit_on_close == false 
 	 		jv.setVisible(true); // chama relatorio para visualização

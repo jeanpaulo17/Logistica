@@ -3,6 +3,7 @@ package utilitarios;
 import java.awt.Color;
 import java.awt.Component;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -21,6 +22,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 	            for(int i=0 ; i < table.getRowCount(); i++){
 	            	String st = (String) table.getValueAt(row, 6);  
 	        		
+	            	JOptionPane.showMessageDialog(null, st);
+	            	if(isSelected){
 	        		if(st == "Cancelado") {
 
 						setBackground(Color.RED); 
@@ -31,7 +34,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 						else if(st == "Pendente"){
 						setBackground(Color.YELLOW);
 						}
-		                  
+	            	}
 		              return this;  
 	            		         		
 	    }
