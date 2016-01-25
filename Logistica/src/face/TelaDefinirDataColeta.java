@@ -59,7 +59,34 @@ public class TelaDefinirDataColeta extends JFrame {
 	public static String Obs;
 
 	public TelaDefinirDataColeta() {
+		
+		 tableColeta.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {  
+			    public Component getTableCellRendererComponent(JTable table, Object value,  
+			            boolean isSelected, boolean hasFocus, int row, int column) {  
+			        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);  
+			        
+			        final String ref = String.valueOf(tableColeta.getValueAt(row, 6));
+			        
+			        Color verdeClaro = new Color(152, 251, 152); 
+			        Color vermelhoClaro = new Color(255, 106, 106); 
+			        Color amareloClaro = new Color(238, 221, 130); 
+			        Color cinzaClaro = new Color(207, 207, 207);   
 
+			        
+			        if (ref.equals("Cancelado")) {  
+			            setBackground(vermelhoClaro);  
+			        } else if (ref.equals("Concluido")){  
+			        	setBackground(verdeClaro);  
+			        }  else if (ref.equals("Pendente")){
+			        	setBackground(amareloClaro);
+			        }
+			        else {
+			        	setBackground(cinzaClaro);
+			        }
+			        return this;  
+			    }  
+			});  
+		
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(TelaDefinirDataColeta.class.getResource("/face/definir-data_icon.png")));
 		setTitle("Definir Data da Coleta");
@@ -103,7 +130,6 @@ public class TelaDefinirDataColeta extends JFrame {
 		separator_2.setBounds(10, 218, 1056, 2);
 		panelDatas.add(separator_2);
 
-		final JScrollPane scrollPaneColeta = new JScrollPane();
 		scrollPaneColeta.setViewportBorder(new TitledBorder(null, "",
 
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -225,6 +251,8 @@ public class TelaDefinirDataColeta extends JFrame {
 		btnObservacao.setEnabled(false);
 		btnObservacao.setBounds(616, 176, 120, 23);
 		panelDatas.add(btnObservacao);
+		
+		
 
 		tableColeta.addMouseListener(new MouseAdapter() {
 			@Override
@@ -284,6 +312,9 @@ public class TelaDefinirDataColeta extends JFrame {
 								Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
 								Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
 								Integer.valueOf(txtOrdemAuto.getText()), String.valueOf(cbStatus.getSelectedItem()));
+						
+						tableColeta.setAutoCreateRowSorter(true);
+						
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -300,11 +331,13 @@ public class TelaDefinirDataColeta extends JFrame {
 								Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
 								Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
 								Integer.valueOf(txtOrdemAuto.getText()), String.valueOf(cbcoletor.getSelectedItem()));
+						tableColeta.setAutoCreateRowSorter(true);
+						
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
+						// TODO Auto-generated catch blockmas 
 						e.printStackTrace();
 					}
 				}
@@ -320,6 +353,7 @@ public class TelaDefinirDataColeta extends JFrame {
 									Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
 									Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
 									Integer.valueOf(txtOrdemAuto.getText()), datacoleta);
+							tableColeta.setAutoCreateRowSorter(true);
 						}
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
@@ -337,9 +371,10 @@ public class TelaDefinirDataColeta extends JFrame {
 								Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
 								Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
 								Integer.valueOf(txtOrdemAuto.getText()), String.valueOf(cbcoletor.getSelectedItem()),
-								String.valueOf(cbStatus.getSelectedItem())
-
-						);
+								String.valueOf(cbStatus.getSelectedItem()));
+						
+						tableColeta.setAutoCreateRowSorter(true);
+						
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -360,9 +395,8 @@ public class TelaDefinirDataColeta extends JFrame {
 									Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
 									Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
 									Integer.valueOf(txtOrdemAuto.getText()), datacoleta,
-									String.valueOf(cbStatus.getSelectedItem())
-
-							);
+									String.valueOf(cbStatus.getSelectedItem()));
+							tableColeta.setAutoCreateRowSorter(true);
 						}
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
@@ -389,6 +423,7 @@ public class TelaDefinirDataColeta extends JFrame {
 									String.valueOf(cbStatus.getSelectedItem())
 
 							);
+							tableColeta.setAutoCreateRowSorter(true);
 
 						}
 					} catch (NumberFormatException e) {
@@ -404,6 +439,8 @@ public class TelaDefinirDataColeta extends JFrame {
 							+ " and os.proposta = pr.idproposta and os.amostra = am.idamostra  order by amostra,ordem";
 
 					amostraDAO.PreencherTabelaColeta(sql, dados3);
+					
+					tableColeta.setAutoCreateRowSorter(true);
 
 				}
 
@@ -415,6 +452,8 @@ public class TelaDefinirDataColeta extends JFrame {
 							+ " ORDER BY proposta, amostra, ordem";
 
 					amostraDAO.PreencherTabelaColeta(sql, dados3);
+					
+					tableColeta.setAutoCreateRowSorter(true);
 
 				}
 
@@ -427,48 +466,12 @@ public class TelaDefinirDataColeta extends JFrame {
 							+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta  ORDER BY proposta, amostra, ordem";
 
 					amostraDAO.PreencherTabelaColeta(sql, dados3);
-
-				}
-
-				try {
-
-					scrollPaneColeta.setViewportView(tableColeta);
-
-					tableColeta.setSurrendersFocusOnKeystroke(true);
-					tableColeta.setFocusTraversalPolicyProvider(true);
-					tableColeta.setFocusCycleRoot(true);
-					tableColeta.setForeground(new Color(0, 0, 0));
-					tableColeta.setSelectionForeground(new Color(0, 0, 0));
-					tableColeta.setFillsViewportHeight(true);
-					tableColeta.setSelectionBackground(new Color(135, 206, 235));
+					
 					tableColeta.setAutoCreateRowSorter(true);
 
-					tableColeta.getColumnModel().getColumn(0).setPreferredWidth(130);
-					tableColeta.getColumnModel().getColumn(1).setPreferredWidth(400);
-					tableColeta.getColumnModel().getColumn(2).setPreferredWidth(200);
-					tableColeta.getColumnModel().getColumn(3).setPreferredWidth(130);
-					tableColeta.getColumnModel().getColumn(4).setPreferredWidth(200);
-					tableColeta.getColumnModel().getColumn(5).setPreferredWidth(400);
-					tableColeta.getColumnModel().getColumn(6).setPreferredWidth(200);
-					tableColeta.getTableHeader().setReorderingAllowed(false);
-					tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-					tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-					tableColeta.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-
-						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-								boolean hasFocus, int row, int column) {
-							super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-							this.setHorizontalAlignment(CENTER);
-							return this;
-						}
-					});
-
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "ERRO" + ex.getMessage());
-				} finally {
-					tableColeta.requestFocus();
 				}
+
+			
 			}
 		});
 
@@ -481,7 +484,8 @@ public class TelaDefinirDataColeta extends JFrame {
 
 		for (int i = 0; i <= dados2.size() - 1; i++)
 			cbStatus.addItem(dados2.get(i));
-
+		
+		
 		btnDatasPesquisar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -499,6 +503,8 @@ public class TelaDefinirDataColeta extends JFrame {
 							+ " and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem";
 
 					amostraDAO.PreencherTabelaColeta(sql, dados3);
+					
+					tableColeta.setAutoCreateRowSorter(true);		
 
 				}
 
@@ -510,6 +516,7 @@ public class TelaDefinirDataColeta extends JFrame {
 							+ " ORDER BY proposta, amostra, ordem";
 
 					amostraDAO.PreencherTabelaColeta(sql, dados3);
+					tableColeta.setAutoCreateRowSorter(true);
 
 				}
 
@@ -522,51 +529,12 @@ public class TelaDefinirDataColeta extends JFrame {
 							+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta ORDER BY proposta, amostra, ordem";
 
 					amostraDAO.PreencherTabelaColeta(sql, dados3);
-
-				}
-
-				try {
-
-					scrollPaneColeta.setViewportView(tableColeta);
-
-					tableColeta.setSurrendersFocusOnKeystroke(true);
-					tableColeta.setFocusTraversalPolicyProvider(true);
-					tableColeta.setFocusCycleRoot(true);
-					tableColeta.setForeground(new Color(0, 0, 0));
-					tableColeta.setSelectionForeground(new Color(0, 0, 0));
-					tableColeta.setFillsViewportHeight(true);
-					tableColeta.setSelectionBackground(new Color(135, 206, 235));
+					
 					tableColeta.setAutoCreateRowSorter(true);
 
-					tableColeta.getColumnModel().getColumn(0).setPreferredWidth(130);
-					tableColeta.getColumnModel().getColumn(1).setPreferredWidth(400);
-					tableColeta.getColumnModel().getColumn(2).setPreferredWidth(200);
-					tableColeta.getColumnModel().getColumn(3).setPreferredWidth(130);
-					tableColeta.getColumnModel().getColumn(4).setPreferredWidth(200);
-					tableColeta.getColumnModel().getColumn(5).setPreferredWidth(400);
-					tableColeta.getColumnModel().getColumn(6).setPreferredWidth(200);
-					tableColeta.getTableHeader().setReorderingAllowed(false);
-					tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-					tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-					tableColeta.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-
-						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-								boolean hasFocus, int row, int column) {
-							super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-							this.setHorizontalAlignment(CENTER);
-							return this;
-						}
-					});
-
-				} catch (NullPointerException nu) {
-
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "ERRO" + ex.getMessage());
 				}
 
-				finally {
-					tableColeta.requestFocus();
-				}
+				
 			}
 		});
 
@@ -587,6 +555,8 @@ public class TelaDefinirDataColeta extends JFrame {
 								+ " and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem";
 
 						amostraDAO.PreencherTabelaColeta(sql, dados3);
+						
+						tableColeta.setAutoCreateRowSorter(true);
 
 					}
 
@@ -598,6 +568,8 @@ public class TelaDefinirDataColeta extends JFrame {
 								+ " ORDER BY proposta, amostra, ordem";
 
 						amostraDAO.PreencherTabelaColeta(sql, dados3);
+						
+						tableColeta.setAutoCreateRowSorter(true);
 
 					}
 
@@ -610,50 +582,9 @@ public class TelaDefinirDataColeta extends JFrame {
 								+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta ORDER BY proposta, amostra, ordem";
 
 						amostraDAO.PreencherTabelaColeta(sql, dados3);
-
-					}
-
-					try {
-
-						scrollPaneColeta.setViewportView(tableColeta);
-
-						tableColeta.setSurrendersFocusOnKeystroke(true);
-						tableColeta.setFocusTraversalPolicyProvider(true);
-						tableColeta.setFocusCycleRoot(true);
-						tableColeta.setForeground(new Color(0, 0, 0));
-						tableColeta.setSelectionForeground(new Color(0, 0, 0));
-						tableColeta.setFillsViewportHeight(true);
-						tableColeta.setSelectionBackground(new Color(135, 206, 235));
+						
 						tableColeta.setAutoCreateRowSorter(true);
 
-						tableColeta.getColumnModel().getColumn(0).setPreferredWidth(130);
-						tableColeta.getColumnModel().getColumn(1).setPreferredWidth(400);
-						tableColeta.getColumnModel().getColumn(2).setPreferredWidth(200);
-						tableColeta.getColumnModel().getColumn(3).setPreferredWidth(130);
-						tableColeta.getColumnModel().getColumn(4).setPreferredWidth(200);
-						tableColeta.getColumnModel().getColumn(5).setPreferredWidth(400);
-						tableColeta.getColumnModel().getColumn(6).setPreferredWidth(200);
-						tableColeta.getTableHeader().setReorderingAllowed(false);
-						tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-						tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-						tableColeta.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-
-							public Component getTableCellRendererComponent(JTable table, Object value,
-									boolean isSelected, boolean hasFocus, int row, int column) {
-								super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-								this.setHorizontalAlignment(CENTER);
-								return this;
-							}
-						});
-
-					} catch (NullPointerException nu) {
-
-					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(null, "ERRO" + ex.getMessage());
-					}
-
-					finally {
-						tableColeta.requestFocus();
 					}
 
 				}
@@ -679,6 +610,8 @@ public class TelaDefinirDataColeta extends JFrame {
 								+ " and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem";
 
 						amostraDAO.PreencherTabelaColeta(sql, dados3);
+						
+						tableColeta.setAutoCreateRowSorter(true);
 
 					}
 
@@ -690,6 +623,8 @@ public class TelaDefinirDataColeta extends JFrame {
 								+ " ORDER BY proposta, amostra, ordem";
 
 						amostraDAO.PreencherTabelaColeta(sql, dados3);
+						
+						tableColeta.setAutoCreateRowSorter(true);
 
 					}
 
@@ -702,57 +637,45 @@ public class TelaDefinirDataColeta extends JFrame {
 								+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta ORDER BY proposta, amostra, ordem";
 
 						amostraDAO.PreencherTabelaColeta(sql, dados3);
-
-					}
-
-					try {
-
-						scrollPaneColeta.setViewportView(tableColeta);
-
-						tableColeta.setSurrendersFocusOnKeystroke(true);
-						tableColeta.setFocusTraversalPolicyProvider(true);
-						tableColeta.setFocusCycleRoot(true);
-						tableColeta.setForeground(new Color(0, 0, 0));
-						tableColeta.setSelectionForeground(new Color(0, 0, 0));
-						tableColeta.setFillsViewportHeight(true);
-						tableColeta.setSelectionBackground(new Color(135, 206, 235));
+						
 						tableColeta.setAutoCreateRowSorter(true);
 
-						tableColeta.getColumnModel().getColumn(0).setPreferredWidth(130);
-						tableColeta.getColumnModel().getColumn(1).setPreferredWidth(400);
-						tableColeta.getColumnModel().getColumn(2).setPreferredWidth(200);
-						tableColeta.getColumnModel().getColumn(3).setPreferredWidth(130);
-						tableColeta.getColumnModel().getColumn(4).setPreferredWidth(200);
-						tableColeta.getColumnModel().getColumn(5).setPreferredWidth(400);
-						tableColeta.getColumnModel().getColumn(6).setPreferredWidth(200);
-						tableColeta.getTableHeader().setReorderingAllowed(false);
-						tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-						tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-						tableColeta.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-
-							public Component getTableCellRendererComponent(JTable table, Object value,
-									boolean isSelected, boolean hasFocus, int row, int column) {
-								super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-								this.setHorizontalAlignment(CENTER);
-								return this;
-							}
-						});
-
-					} catch (NullPointerException nu) {
-
-					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(null, "ERRO" + ex.getMessage());
 					}
 
-					finally {
-						tableColeta.requestFocus();
-					}
+					
 
 				}
-
+				
+				
 			}
+			
+			
+			
 
 		});
+		
 
+		scrollPaneColeta.setViewportView(tableColeta);
+		
+		tableColeta.setSurrendersFocusOnKeystroke(true);
+		tableColeta.setFocusTraversalPolicyProvider(true);
+		tableColeta.setFocusCycleRoot(true);
+		tableColeta.setForeground(new Color(0, 0, 0));
+		tableColeta.setSelectionForeground(new Color(0, 0, 0));
+		tableColeta.setFillsViewportHeight(true);
+		tableColeta.setSelectionBackground(new Color(135, 206, 235));
+		tableColeta.setAutoCreateRowSorter(true);
+
+		tableColeta.getColumnModel().getColumn(0).setPreferredWidth(130);
+		tableColeta.getColumnModel().getColumn(1).setPreferredWidth(200);
+		tableColeta.getColumnModel().getColumn(2).setPreferredWidth(130);
+		tableColeta.getColumnModel().getColumn(3).setPreferredWidth(200);
+		tableColeta.getColumnModel().getColumn(4).setPreferredWidth(400);
+		tableColeta.getColumnModel().getColumn(5).setPreferredWidth(200);
+		tableColeta.getColumnModel().getColumn(6).setPreferredWidth(130);
+		tableColeta.getTableHeader().setReorderingAllowed(false);
+		tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+		tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
 	}
 }

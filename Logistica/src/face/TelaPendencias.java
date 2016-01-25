@@ -1,3 +1,4 @@
+
 package face;
 
 import java.awt.Color;
@@ -63,16 +64,22 @@ public class TelaPendencias extends JFrame {
 	                hasFocus, row, column);  
 	        
 	        final String ref = String.valueOf(tableColeta.getValueAt(row, 6));
+	        
+	        Color verdeClaro = new Color(152, 251, 152); 
+	        Color vermelhoClaro = new Color(255, 106, 106); 
+	        Color amareloClaro = new Color(238, 221, 130); 
+	        Color cinzaClaro = new Color(207, 207, 207);   
+	       
 	  
 	        if (ref.equals("Cancelado")) {  
-	            setBackground(Color.red);  
+	            setBackground(vermelhoClaro);  
 	        } else if (ref.equals("Concluido")){  
-	        	setBackground(Color.green);  
+	        	setBackground(verdeClaro);  
 	        }  else if (ref.equals("Pendente")){
-	        	setBackground(Color.yellow);
+	        	setBackground(amareloClaro);
 	        }
 	        else {
-	        	setBackground(Color.lightGray);
+	        	setBackground(cinzaClaro);
 	        }
 	        return this;  
 	    }  
@@ -790,11 +797,8 @@ public class TelaPendencias extends JFrame {
 	amostraDAO.PreencherTabelaColeta(sql,dados3);
 	
 	tableColeta.setAutoCreateRowSorter(true);
-	
-	
 
 	}
-	
 	
 	}
 	
