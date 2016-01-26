@@ -500,7 +500,6 @@ public class TelaCalendario extends JFrame {
 							+ " and pr.idproposta = aos.proposta and aos.amostra = am.idamostra and aos.coletor = co.nome", cbcoletor.getSelectedItem().toString());
 					
 					email.enviarEmail(cbcoletor.getSelectedItem().toString(), data);
-					
 				}
 			});
 			enviarEmail.setBounds(201, 94, 141, 23);

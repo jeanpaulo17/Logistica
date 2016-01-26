@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.JOptionPane;
+
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
@@ -97,8 +99,12 @@ ConectaBanco conexao = new ConectaBanco();
 	    	  email.attach(attachment);
 	    	  // adiciona o anexo à mensagem
 	    	  email.send();  // enviar email
+				JOptionPane.showMessageDialog(null, "Email enviado!");
+
 		} catch (EmailException e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Email não enviado!");
+
 		} 
 	} 
 }

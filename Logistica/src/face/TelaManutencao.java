@@ -58,9 +58,7 @@ public class TelaManutencao extends JFrame {
 	private String nomeTable;
 	private String emailTable;
 	
-	
 	coletorDAO coletor = new coletorDAO();
-	private JTable table_1;
 	private JTable TableColetor;
 
 	public TelaManutencao() throws SQLException {
@@ -547,8 +545,6 @@ public class TelaManutencao extends JFrame {
 		} finally {
 			TableColetor.requestFocus();
 		}
-		
-		
 		
 		btnCancelarColetor.setBounds(385, 89, 99, 23);
 		panelColetor.add(btnCancelarColetor);

@@ -277,9 +277,12 @@ public class TelaDefinirDataColeta extends JFrame {
 				txtPropostaAuto.setText(proposta);
 				txtOrdemAuto.setText(String.valueOf(ordem));
 
-				if (status.equals("Cancelado")) {
+				if (status == null) {
+					btnObservacao.setEnabled(false);
+				} else if(status.equals("Cancelado")) {
 					btnObservacao.setEnabled(true);
-				} else {
+				}
+				else{
 					btnObservacao.setEnabled(false);
 
 				}

@@ -455,6 +455,11 @@ public class TelaCadastroAmostra extends JFrame {
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+				int DialogButton = JOptionPane.showConfirmDialog (null, "Deseja excluir a amostra "+ amostraTable +" ?",amostraTable, dialogButton);
+				if(DialogButton == JOptionPane.YES_OPTION){
+				
 				amostraDAO.ExcluirAmostra(Integer.valueOf(amostraDAO.buscarIdProposta(propostaTable)),amostraTable);
 				amostraDAO.contaQuantidadeDeAmostrasNaProposta(Integer.valueOf(amostraDAO.buscarIdProposta(propostaTable)));
 				
@@ -497,6 +502,8 @@ public class TelaCadastroAmostra extends JFrame {
 					});
 				} finally {
 
+				}
+				
 				}
 			}
 		});

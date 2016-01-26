@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -28,9 +29,9 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import utilitarios.ModeloTable;
 import DAO.amostraDAO;
 import DAO.propostaDAO;
-import utilitarios.ModeloTable;
 
 public class TelaVerPropostas extends JFrame {
 	private JPanel panelProposta;
@@ -144,6 +145,11 @@ public class TelaVerPropostas extends JFrame {
 			btnExcluir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
+					int dialogButton = JOptionPane.YES_NO_OPTION;
+					int DialogButton = JOptionPane.showConfirmDialog (null, "Deseja excluir a proposta "+ proposta +" ?",proposta, dialogButton);
+					if(DialogButton == JOptionPane.YES_OPTION){
+					
+					
 					p.ExcluirProposta(proposta);
 
 					
@@ -181,7 +187,7 @@ public class TelaVerPropostas extends JFrame {
 						});
 							} finally {
 							}
-					
+					}
 				}
 			});
 			btnExcluir.setBounds(531, 371, 89, 23);
