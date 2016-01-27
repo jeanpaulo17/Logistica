@@ -391,7 +391,7 @@ public class TelaManutencao extends JFrame {
 				p.cadastrarParametroLegislacao((String)cbLegislacao.getSelectedItem(),(String)cbParametro_legislacao.getSelectedItem() );
 			}
 		});
-		btnAdicionar.setBounds(298, 220, 95, 23);
+		btnAdicionar.setBounds(313, 220, 90, 23);
 		panelLegislacao.add(btnAdicionar);
 		
 		JButton btnCancelarLegislacao = new JButton("Cancelar");
@@ -400,7 +400,7 @@ public class TelaManutencao extends JFrame {
 				dispose();
 			}
 		});
-		btnCancelarLegislacao.setBounds(403, 220, 95, 23);
+		btnCancelarLegislacao.setBounds(413, 220, 85, 23);
 		panelLegislacao.add(btnCancelarLegislacao);
 		
 		JLabel lblAdicionarParmetroNa = new JLabel("Adicionar Par\u00E2metro na Legisla\u00E7\u00E3o");
@@ -409,6 +409,23 @@ public class TelaManutencao extends JFrame {
 		lblAdicionarParmetroNa.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		lblAdicionarParmetroNa.setBounds(0, 117, 508, 23);
 		panelLegislacao.add(lblAdicionarParmetroNa);
+		
+		JButton btnExcluirLegislacao = new JButton("Excluir");
+		btnExcluirLegislacao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				p.ExcluirLegislacao((String) cbLegislacao.getSelectedItem());
+				
+				cbLegislacao.removeAllItems();
+				ArrayList dados3;
+					dados3 = p.obterLegislacao();
+					for (int i = 0; i < dados3.size(); i++)
+					cbLegislacao.addItem(dados3.get(i));
+
+			}
+		});
+		btnExcluirLegislacao.setBounds(218, 220, 85, 23);
+		panelLegislacao.add(btnExcluirLegislacao);
 		
 		JPanel panelColetor = new JPanel();
 		tabbedPaneCadastro.addTab("Coletor", null, panelColetor, null);

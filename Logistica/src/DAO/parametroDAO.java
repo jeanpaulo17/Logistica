@@ -249,10 +249,17 @@ public class parametroDAO {
 			pst = conexao.conn
 					.prepareStatement("INSERT INTO legislacao (descricao) VALUES (?)");
 			pst.setString(1, legislacao);
+			
+		stm = conexao.conn.createStatement();
+	ResultSet rs = stm.executeQuery("select descricao from legislacao where descricao = '"+legislacao+"'");
+	if(!rs.next()){
+
 
 			pst.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Legislação incluida!");
-
+	}else{
+		JOptionPane.showMessageDialog(null, "Legislação já existe");
+	}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null,
 					"Erro ao obter os dados" + e.getMessage());
@@ -263,6 +270,26 @@ public class parametroDAO {
 
 		return null;
 
+	}
+	
+	public void ExcluirLegislacao(String legislacao)   {
+
+		try {
+			conexao.conexao();
+
+			pst = conexao.conn.prepareStatement("delete from legislacao where descricao = ?");
+			pst.setString(1, legislacao);
+			
+			if(pst.executeUpdate() == 1){
+				JOptionPane.showMessageDialog(null, "Sucesso!");
+			}
+
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1.getMessage());
+		} finally {
+			conexao.desconecta();
+			 
+		}
 	}
 	
 

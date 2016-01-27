@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import DAO.amostraDAO;
 import DAO.parametroDAO;
 import utilitarios.ModeloTable;
+import javax.swing.JButton;
 
 public class TelaVerLegislacao extends JFrame {
 	private JPanel panelParametros;
@@ -32,13 +33,14 @@ public class TelaVerLegislacao extends JFrame {
 	private ArrayList dados;
 	private String[] colunas;
 	private int index;
+	private JButton btnExcluir;
 
 	public TelaVerLegislacao() {
 
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaDefinirParametro.class.getResource("/face/vidro.png")));
 		setTitle("ParÂmetros da legislação");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 530, 320);
+		setBounds(100, 100, 530, 358);
 
 		tabbedPane = new JTabbedPane();
 
@@ -62,7 +64,6 @@ public class TelaVerLegislacao extends JFrame {
 		parametroDAO p = new parametroDAO();
 
 		
-		final JScrollPane scrollPaneParametro = new JScrollPane();
 		scrollPaneParametro
 				.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollPaneParametro.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -98,6 +99,10 @@ public class TelaVerLegislacao extends JFrame {
 			tableParametro.getTableHeader().setReorderingAllowed(false);
 			tableParametro.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 			tableParametro.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			
+			btnExcluir = new JButton("Excluir");
+			btnExcluir.setBounds(410, 254, 89, 23);
+			panelParametros.add(btnExcluir);
 			tableParametro.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 
 				public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,

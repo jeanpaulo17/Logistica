@@ -44,7 +44,6 @@ ConectaBanco conexao = new ConectaBanco();
     	  email.setSmtpPort(587);
     	  email.setSSL(true);
     	  
-    	  
     	  try {
 			email.addTo("ti@grupoqualityambiental.com.br", "Ficha de Coleta");
 			//destinatário  
@@ -67,8 +66,6 @@ ConectaBanco conexao = new ConectaBanco();
 		
 			calendarioDAO cc = new calendarioDAO();
 			amostraDAO a = new amostraDAO();
-
-			
 			
     	// cria o anexo.
     	  EmailAttachment attachment = new EmailAttachment();
@@ -84,7 +81,6 @@ ConectaBanco conexao = new ConectaBanco();
     	  email.setAuthentication("logistica.qualylab@gmail.com", "ql02log06");  
     	  email.setSmtpPort(587);
     	  email.setSSL(true);
-    	  
     	  
     	  try {
 			email.addTo("ti@grupoqualityambiental.com.br", "Ficha de Coleta");
