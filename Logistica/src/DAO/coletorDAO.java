@@ -71,7 +71,6 @@ public class coletorDAO {
 
 			
 			if(pst.executeUpdate() == 1){
-				JOptionPane.showMessageDialog(null, "Sucesso!");
 			}
 
 		} catch (SQLException e1) {

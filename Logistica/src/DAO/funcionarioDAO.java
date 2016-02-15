@@ -6,10 +6,10 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
+import utilitarios.ConectaBanco;
 import dominio.funcionario;
 import face.TelaInicialAdm;
 import face.TelaLogin;
-import utilitarios.ConectaBanco;
 
 public class funcionarioDAO {
 	public funcionarioDAO() {
@@ -21,9 +21,24 @@ public class funcionarioDAO {
 		tl.setVisible(true);
 		tl.setLocationRelativeTo(null);
 	}
+	
+	public String abrirTelaInicial(String permissao) {
+		if (permissao.equals("ADMINISTRADOR")) {
+			TelaInicialAdm adm = new TelaInicialAdm();
+			adm.setLocationRelativeTo(null);
+			adm.setResizable(false);
+			adm.setVisible(true);
+		} else {
+			TelaInicialAdm usu = new TelaInicialAdm();
+			usu.setLocationRelativeTo(null);
+			usu.setResizable(false);
+			usu.setVisible(true);
+		}
+		return null;
+	}
 
-	public String fazerLogin(String login, String senha) {
-
+	public int fazerLogin(String login, String senha) {
+		int modo = 0; 
 		ConectaBanco conexao = new ConectaBanco();
 
 		try {
@@ -39,46 +54,31 @@ public class funcionarioDAO {
 			if (rs.next()) {
 				if ((rs.getString(1).equals(login))
 						&& (rs.getString(2).equals(senha) && (rs.getString(3).equals("ADMINISTRADOR")))) {
-					JOptionPane.showMessageDialog(null, "Logado com sucesso!");
 
-					String permissao = rs.getString(3);
-
-					abrirTelaInicial(permissao);
-
+					return modo =1;
 				}
 				if ((rs.getString(1).equals(login))
 						&& (rs.getString(2).equals(senha) && (rs.getString(3).equals("USUARIO")))) {
-					JOptionPane.showMessageDialog(null, "Logado com sucesso!");
-
-					String permissao = rs.getString(3);
-					abrirTelaInicial(permissao);
-
+					
+					return modo=2;
 				}
 			} else {
-				JOptionPane.showMessageDialog(null, "Login ou Senha incorretos!");
+				
+				return modo=3;
 			}
+			
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null, "Erro no Banco de dados!" + ex.getMessage());
 		} finally {
 			conexao.desconecta();
-			return null;
+			
+			
 		}
+		return modo;
+		
 	}
 
-	public String abrirTelaInicial(String permissao) {
-		if (permissao.equals("ADMINISTRADOR")) {
-			TelaInicialAdm adm = new TelaInicialAdm();
-			adm.setLocationRelativeTo(null);
-			adm.setResizable(false);
-			adm.setVisible(true);
-		} else {
-			TelaInicialAdm usu = new TelaInicialAdm();
-			usu.setLocationRelativeTo(null);
-			usu.setResizable(false);
-			usu.setVisible(true);
-		}
-		return null;
-	}
+
 
 	public funcionario buscarFuncionario(String login) {
 		final ConectaBanco conexao = new ConectaBanco();

@@ -563,7 +563,7 @@ public class TelaDefinirParametro extends JFrame {
 				int DialogButton = JOptionPane.showConfirmDialog (null, "Deseja excluir o parametro "+ parametroTable +" da amostra ?",parametroTable, dialogButton);
 				if(DialogButton == JOptionPane.YES_OPTION){
 			
-				p.ExcluirParametro(Integer.valueOf(amostraDAO.buscarIdProposta(propostaTable)), Integer.valueOf(amostraDAO.buscarIdAmostra(amostraTable)), Integer.valueOf(p.obterCodigoParametro(parametroTable)));
+				p.ExcluirParametroAmostra(Integer.valueOf(amostraDAO.buscarIdProposta(propostaTable)), Integer.valueOf(amostraDAO.buscarIdAmostra(amostraTable)), Integer.valueOf(p.obterCodigoParametro(parametroTable)));
 
 				p.verificaCadastroParametro(Integer.valueOf(amostraDAO.buscarIdProposta(propostaTable)),
 						Integer.valueOf(amostraDAO.buscarIdAmostra(amostraTable)),

@@ -24,11 +24,11 @@ public class volumeDAO {
 			PreparedStatement pst2 = conexao.conn.prepareStatement(sql);
 
 			pst.setDouble(1, volume);
-			pst.setInt(2, 2);
+			pst.setInt(2, 1);
 			pst.executeUpdate();
 
 			pst2.setDouble(1, volume);
-			pst2.setInt(2, 3);
+			pst2.setInt(2, 2);
 			pst2.executeUpdate();
 
 			JOptionPane.showMessageDialog(null, "Volume cadastrado com sucesso!");

@@ -188,6 +188,7 @@ public class amostraDAO {
 					return status;
 				}
 			}
+			
 
 		} catch (SQLException e) {
 
@@ -215,8 +216,10 @@ public boolean verificaExistenciaAmostra(String amostra){
 			return ok;
 			}
 			else{
+				
 				ok = false;
 				return ok;
+				
 			}
 		} catch (SQLException e) {
 		}
@@ -668,7 +671,6 @@ public boolean verificaExistenciaAmostra(String amostra){
 			pst.setString(2, amostra);
 			
 			if(pst.executeUpdate() == 1){
-				JOptionPane.showMessageDialog(null, "Sucesso!");
 			}
 
 		} catch (SQLException e1) {

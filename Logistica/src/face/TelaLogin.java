@@ -76,10 +76,21 @@ public class TelaLogin extends JFrame {
 					JOptionPane.showMessageDialog(null, "nao pode campos vazios");
 				} else {
 					funcionarioDAO f = new funcionarioDAO();
-					f.fazerLogin(txtLogin.getText(), txtSenha.getText());
-					TelaLogin.usuarioLogado = txtLogin.getText();
-					dispose();
+					int modo = f.fazerLogin(txtLogin.getText(), txtSenha.getText());
+				
+					if(modo==1){
+						f.abrirTelaInicial("ADMINISTRADOR");
+						TelaLogin.usuarioLogado = txtLogin.getText();
+						dispose();
+					}else if(modo==2){
+						f.abrirTelaInicial("USUARIO");
+						TelaLogin.usuarioLogado = txtLogin.getText();
+						dispose();
+					}else if(modo==3){
+						JOptionPane.showMessageDialog(null, "Login ou Senha incorretos!");
+					}
 				}
+				
 			}
 
 		});
@@ -92,10 +103,19 @@ public class TelaLogin extends JFrame {
 						JOptionPane.showMessageDialog(null, "nao pode campos vazios");
 					} else {
 						funcionarioDAO f = new funcionarioDAO();
-						f.fazerLogin(txtLogin.getText(), txtSenha.getText());
-						TelaLogin.usuarioLogado = txtLogin.getText();
-
-						dispose();
+						int modo = f.fazerLogin(txtLogin.getText(), txtSenha.getText());
+					
+						if(modo==1){
+							f.abrirTelaInicial("ADMINISTRADOR");
+							TelaLogin.usuarioLogado = txtLogin.getText();
+							dispose();
+						}else if(modo==2){
+							f.abrirTelaInicial("USUARIO");
+							TelaLogin.usuarioLogado = txtLogin.getText();
+							dispose();
+						}else if(modo==3){
+							JOptionPane.showMessageDialog(null, "Login ou Senha incorretos!");
+						}
 					}
 
 				}

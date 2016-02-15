@@ -114,6 +114,15 @@ public class TelaManutencao extends JFrame {
 		txtParametro.setBounds(152, 25, 312, 20);
 		panelParametro.add(txtParametro);
 		txtParametro.setColumns(10);
+		
+		JPanel panelLegislacao = new JPanel();
+		panelLegislacao.setBorder(new TitledBorder(null, "Legisla\u00E7\u00E3o", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		tabbedPaneCadastro.addTab("Legislação", null, panelLegislacao, null);
+		panelLegislacao.setLayout(null);
+		
+		final JComboBox cbParametro_legislacao = new JComboBox();
+		cbParametro_legislacao.setBounds(88, 189, 410, 20);
+		panelLegislacao.add(cbParametro_legislacao);
 
 		final JComboBox cbFrasco = new JComboBox();
 		cbFrasco.setBounds(152, 92, 312, 20);
@@ -130,6 +139,7 @@ public class TelaManutencao extends JFrame {
 		final JComboBox cbTipoAmostra = new JComboBox();
 		cbTipoAmostra.setBounds(152, 126, 312, 20);
 		panelParametro.add(cbTipoAmostra);
+		
 
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
@@ -137,7 +147,7 @@ public class TelaManutencao extends JFrame {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(375, 224, 89, 23);
+		btnCancelar.setBounds(376, 224, 88, 23);
 		panelParametro.add(btnCancelar);
 
 		final parametroDAO p = new parametroDAO();
@@ -206,11 +216,18 @@ public class TelaManutencao extends JFrame {
 				String tipoAmostra = (String) cbTipoAmostra.getSelectedItem();
 
 					p.cadastrarParametro(parametro, codigo, frasco, volume, preservacao, tipoAmostra);
+				
+						cbParametro_legislacao.removeAllItems();
+						ArrayList dados5;
+						dados5 = p.obterDados();
+						for (int i = 0; i < dados5.size(); i++)
+						cbParametro_legislacao.addItem(dados5.get(i));
+					
 			}
 		});
 
-		btnCadastrarParametro.setBounds(262, 224, 103, 23);
-		panelParametro.add(btnCadastrarParametro);
+		btnCadastrarParametro.setBounds(272, 224, 101, 23);
+		panelParametro.add(btnCadastrarParametro);	
 
 		JLabel lblCodigo = new JLabel("C\u00F3digo:");
 		lblCodigo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -222,6 +239,15 @@ public class TelaManutencao extends JFrame {
 		txtCodigo.setColumns(10);
 		txtCodigo.setBounds(152, 56, 312, 20);
 		panelParametro.add(txtCodigo);
+		
+		JButton btnVerParametro = new JButton("Ver Par\u00E2metro");
+		btnVerParametro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				p.abrirTelaVerParametro();
+			}
+		});
+		btnVerParametro.setBounds(149, 224, 121, 23);
+		panelParametro.add(btnVerParametro);
 
 		JPanel panelFrasco = new JPanel();
 		panelFrasco
@@ -329,11 +355,6 @@ public class TelaManutencao extends JFrame {
 		btnTipoAmostra.setBounds(368, 211, 109, 23);
 		panelFrasco.add(btnTipoAmostra);
 		
-		JPanel panelLegislacao = new JPanel();
-		panelLegislacao.setBorder(new TitledBorder(null, "Legisla\u00E7\u00E3o", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-		tabbedPaneCadastro.addTab("Legislação", null, panelLegislacao, null);
-		panelLegislacao.setLayout(null);
-		
 		JLabel lblNovaLegislao = new JLabel("Nova Legisla\u00E7\u00E3o:");
 		lblNovaLegislao.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNovaLegislao.setHorizontalAlignment(SwingConstants.CENTER);
@@ -368,10 +389,6 @@ public class TelaManutencao extends JFrame {
 		lblParametros.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 		lblParametros.setBounds(10, 192, 79, 17);
 		panelLegislacao.add(lblParametros);
-		
-		final JComboBox cbParametro_legislacao = new JComboBox();
-		cbParametro_legislacao.setBounds(88, 189, 410, 20);
-		panelLegislacao.add(cbParametro_legislacao);
 		
 		JButton btnVerLegislacao = new JButton("Ver Legisla\u00E7\u00E3o");
 		btnVerLegislacao.addActionListener(new ActionListener() {
@@ -413,7 +430,10 @@ public class TelaManutencao extends JFrame {
 		JButton btnExcluirLegislacao = new JButton("Excluir");
 		btnExcluirLegislacao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				String legislacao = (String) cbLegislacao.getSelectedItem();
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+				int DialogButton = JOptionPane.showConfirmDialog (null, "Deseja excluir a legislação "+ legislacao +" ?", legislacao, dialogButton);
+				if(DialogButton == JOptionPane.YES_OPTION){
 				p.ExcluirLegislacao((String) cbLegislacao.getSelectedItem());
 				
 				cbLegislacao.removeAllItems();
@@ -421,7 +441,7 @@ public class TelaManutencao extends JFrame {
 					dados3 = p.obterLegislacao();
 					for (int i = 0; i < dados3.size(); i++)
 					cbLegislacao.addItem(dados3.get(i));
-
+				}
 			}
 		});
 		btnExcluirLegislacao.setBounds(218, 220, 85, 23);
@@ -474,18 +494,20 @@ public class TelaManutencao extends JFrame {
 				
 			}
 		});
-	
-
 		
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+				int DialogButton = JOptionPane.showConfirmDialog (null, "Deseja excluir o coletor "+ nomeTable +" ?", nomeTable, dialogButton);
+				if(DialogButton == JOptionPane.YES_OPTION){
 				
 				coletor.ExcluirColetor(nomeTable, emailTable);
 				coletor.PreencherTabela("select nome,email from coletor where nome <> ' ' order by nome", dadosColetor);
 				//coletor.verificaCadastroColetor(nomeTable, emailTable);
 				TableColetor.setAutoCreateRowSorter(true);
+				}
 			}
 		});
 		btnExcluir.setBounds(276, 89, 99, 23);
@@ -512,7 +534,6 @@ public class TelaManutencao extends JFrame {
 					coletor.PreencherTabela("select nome,email from coletor where nome <> ' ' order by nome", dadosColetor);
 				
 					TableColetor.setAutoCreateRowSorter(true);
-					
 
 				}
 			}}
