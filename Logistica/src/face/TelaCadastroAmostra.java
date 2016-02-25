@@ -231,33 +231,8 @@ public class TelaCadastroAmostra extends JFrame {
 									+ amostraDAO.buscarIdProposta(txtProposta.getText()),
 							dados);
 
-					tableAmostra.setSurrendersFocusOnKeystroke(true);
-					tableAmostra.setFocusTraversalPolicyProvider(true);
-					tableAmostra.setFocusCycleRoot(true);
-					tableAmostra.setForeground(new Color(0, 0, 0));
-					tableAmostra.setSelectionForeground(new Color(0, 0, 0));
-					tableAmostra.setFillsViewportHeight(true);
-					tableAmostra.setSelectionBackground(new Color(135, 206, 235));
 					tableAmostra.setAutoCreateRowSorter(true);
-					ScrolPaneDashBoard.setViewportView(tableAmostra);
 
-					tableAmostra.getColumnModel().getColumn(0).setPreferredWidth(100);
-					tableAmostra.getColumnModel().getColumn(1).setPreferredWidth(100);
-					tableAmostra.getColumnModel().getColumn(2).setPreferredWidth(400);
-					tableAmostra.getColumnModel().getColumn(3).setPreferredWidth(150);
-					tableAmostra.getTableHeader().setReorderingAllowed(false);
-					tableAmostra.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-					tableAmostra.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-					tableAmostra.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-
-						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-								boolean hasFocus, int row, int column) {
-							super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-							this.setHorizontalAlignment(CENTER);
-
-							return this;
-						}
-					});
 				} finally {
 				}
 			}
@@ -277,33 +252,8 @@ public class TelaCadastroAmostra extends JFrame {
 										+ amostraDAO.buscarIdProposta(txtProposta.getText()),
 								dados);
 
-						tableAmostra.setSurrendersFocusOnKeystroke(true);
-						tableAmostra.setFocusTraversalPolicyProvider(true);
-						tableAmostra.setFocusCycleRoot(true);
-						tableAmostra.setForeground(new Color(0, 0, 0));
-						tableAmostra.setSelectionForeground(new Color(0, 0, 0));
-						tableAmostra.setFillsViewportHeight(true);
-						tableAmostra.setSelectionBackground(new Color(135, 206, 235));
 						tableAmostra.setAutoCreateRowSorter(true);
-						ScrolPaneDashBoard.setViewportView(tableAmostra);
 
-						tableAmostra.getColumnModel().getColumn(0).setPreferredWidth(100);
-						tableAmostra.getColumnModel().getColumn(1).setPreferredWidth(100);
-						tableAmostra.getColumnModel().getColumn(2).setPreferredWidth(400);
-						tableAmostra.getColumnModel().getColumn(3).setPreferredWidth(150);
-						tableAmostra.getTableHeader().setReorderingAllowed(false);
-						tableAmostra.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-						tableAmostra.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-						tableAmostra.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-
-							public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-									boolean hasFocus, int row, int column) {
-								super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-								this.setHorizontalAlignment(CENTER);
-
-								return this;
-							}
-						});
 					} finally {
 					}
 				}
@@ -375,11 +325,11 @@ public class TelaCadastroAmostra extends JFrame {
 
 				boolean existe = amostraDAO.verificaExistenciaAmostra(txtAmostra.getText());
 				
-				if (amostraDAO.verificaCadastroAmostra(amostra, proposta) == "false" || existe == true) {
+				if (amostraDAO.verificaCadastroAmostra(amostra, proposta) == "false" || existe == true && !txtAmostra.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Amostra ja cadastrada antes!");
 				} else {
 
-					if (amostraDAO.verificaQtdAmostras(qtd, proposta) == true ) {
+					if (amostraDAO.verificaQtdAmostras(qtd, proposta) == true  ) {
 
 						amostraDAO.cadastrarAmostra(amostra, periodicidade, ponto, proposta, endereco);
 						Integer idamostra = Integer.parseInt(amostraDAO.buscarIdAmostra(txtAmostra.getText()));
@@ -398,37 +348,8 @@ public class TelaCadastroAmostra extends JFrame {
 									+ amostraDAO.buscarIdProposta(txtProposta.getText()),
 							dados);
 
-					tableAmostra.setSurrendersFocusOnKeystroke(true);
-					tableAmostra.setFocusTraversalPolicyProvider(true);
-					tableAmostra.setFocusCycleRoot(true);
-					tableAmostra.setForeground(new Color(0, 0, 0));
-					tableAmostra.setSelectionForeground(new Color(0, 0, 0));
-					tableAmostra.setFillsViewportHeight(true);
-					tableAmostra.setSelectionBackground(new Color(135, 206, 235));
 					tableAmostra.setAutoCreateRowSorter(true);
 
-					ScrolPaneDashBoard.setViewportView(tableAmostra);
-
-					tableAmostra.getColumnModel().getColumn(0).setPreferredWidth(100);
-					tableAmostra.getColumnModel().getColumn(1).setPreferredWidth(100);
-					tableAmostra.getColumnModel().getColumn(2).setPreferredWidth(400);
-					tableAmostra.getColumnModel().getColumn(3).setPreferredWidth(150);
-					tableAmostra.getColumnModel().getColumn(4).setPreferredWidth(400);
-
-					tableAmostra.getTableHeader().setReorderingAllowed(false);
-					tableAmostra.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-					tableAmostra.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-					tableAmostra.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-
-						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-								boolean hasFocus, int row, int column) {
-							super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-							this.setHorizontalAlignment(CENTER);
-
-							return this;
-						}
-					});
 				} finally {
 
 				}
@@ -470,36 +391,8 @@ public class TelaCadastroAmostra extends JFrame {
 									+ amostraDAO.buscarIdProposta(txtProposta.getText()),
 							dados);
 
-					tableAmostra.setSurrendersFocusOnKeystroke(true);
-					tableAmostra.setFocusTraversalPolicyProvider(true);
-					tableAmostra.setFocusCycleRoot(true);
-					tableAmostra.setForeground(new Color(0, 0, 0));
-					tableAmostra.setSelectionForeground(new Color(0, 0, 0));
-					tableAmostra.setFillsViewportHeight(true);
-					tableAmostra.setSelectionBackground(new Color(135, 206, 235));
 					tableAmostra.setAutoCreateRowSorter(true);
 
-					ScrolPaneDashBoard.setViewportView(tableAmostra);
-
-					tableAmostra.getColumnModel().getColumn(0).setPreferredWidth(100);
-					tableAmostra.getColumnModel().getColumn(1).setPreferredWidth(100);
-					tableAmostra.getColumnModel().getColumn(2).setPreferredWidth(400);
-					tableAmostra.getColumnModel().getColumn(3).setPreferredWidth(150);
-
-					tableAmostra.getTableHeader().setReorderingAllowed(false);
-					tableAmostra.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-					tableAmostra.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-					tableAmostra.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-
-						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-								boolean hasFocus, int row, int column) {
-							super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-							this.setHorizontalAlignment(CENTER);
-
-							return this;
-						}
-					});
 				} finally {
 
 				}
@@ -508,7 +401,36 @@ public class TelaCadastroAmostra extends JFrame {
 			}
 		});
 
+		tableAmostra.setSurrendersFocusOnKeystroke(true);
+		tableAmostra.setFocusTraversalPolicyProvider(true);
+		tableAmostra.setFocusCycleRoot(true);
+		tableAmostra.setForeground(new Color(0, 0, 0));
+		tableAmostra.setSelectionForeground(new Color(0, 0, 0));
+		tableAmostra.setFillsViewportHeight(true);
+		tableAmostra.setSelectionBackground(new Color(135, 206, 235));
+		tableAmostra.setAutoCreateRowSorter(true);
 
+		ScrolPaneDashBoard.setViewportView(tableAmostra);
+
+		tableAmostra.getColumnModel().getColumn(0).setPreferredWidth(100);
+		tableAmostra.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tableAmostra.getColumnModel().getColumn(2).setPreferredWidth(400);
+		tableAmostra.getColumnModel().getColumn(3).setPreferredWidth(150);
+
+		tableAmostra.getTableHeader().setReorderingAllowed(false);
+		tableAmostra.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+		tableAmostra.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		tableAmostra.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+					boolean hasFocus, int row, int column) {
+				super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+				this.setHorizontalAlignment(CENTER);
+
+				return this;
+			}
+		});
 	}
 }
 	

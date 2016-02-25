@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -24,18 +25,23 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import javax.swing.plaf.basic.BasicComboPopup;
+import javax.swing.plaf.basic.ComboPopup;
+import javax.swing.plaf.metal.MetalComboBoxUI;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import utilitarios.ModeloTable;
 import DAO.amostraDAO;
 import DAO.coletorDAO;
 import DAO.frascoDAO;
 import DAO.parametroDAO;
 import DAO.preservacaoDAO;
 import DAO.volumeDAO;
-import utilitarios.ModeloTable;
 
 public class TelaManutencao extends JFrame {
 
@@ -381,7 +387,13 @@ public class TelaManutencao extends JFrame {
 		lblLegislao.setBounds(10, 159, 79, 17);
 		panelLegislacao.add(lblLegislao);
 		
-		final JComboBox cbLegislacao = new JComboBox();
+		final ComboBoxComScrollHorizontal cbLegislacao = new ComboBoxComScrollHorizontal();
+		cbLegislacao.setDoubleBuffered(true);
+		
+		JScrollPane scroll = new JScrollPane(cbLegislacao,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	
+		cbLegislacao.setAutoscrolls(true);
 		cbLegislacao.setBounds(88, 158, 410, 20);
 		panelLegislacao.add(cbLegislacao);
 		
@@ -615,4 +627,54 @@ public class TelaManutencao extends JFrame {
 		});
 	
 	}
+	
+	public class myCombo extends JComboBox{
+	    public myCombo(){
+	        super();
+	        setUI(new myComboUI());
+	    }
+	     
+	    public class myComboUI extends BasicComboBoxUI{
+	        protected ComboPopup createPopup(){
+	            BasicComboPopup popup = new BasicComboPopup(comboBox){
+	                protected JScrollPane createScroller() {
+	                        return new JScrollPane( list, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+	                                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+	              }
+	            };
+	            return popup;
+	        }
+	}
+}
+	
+	public class ComboBoxComScrollHorizontal extends JComboBox{
+		private static final long serialVersionUID = 1L;
+		public ComboBoxComScrollHorizontal() {
+			super();
+			setUI(new GnsCtrGrs1jUI());
+		}                             
+		public ComboBoxComScrollHorizontal(ComboBoxModel aModel) {
+			super(aModel);
+			setUI(new GnsCtrGrs1jUI());
+		}                             
+		public class GnsCtrGrs1jUI extends MetalComboBoxUI {
+			protected ComboPopup createPopup() {
+				GnsBasicComboPopup popup = new GnsBasicComboPopup(comboBox);
+				return popup;
+			}           
+		}              
+		public class GnsBasicComboPopup extends BasicComboPopup {
+			private static final long serialVersionUID = 1L;
+			GnsBasicComboPopup(JComboBox box){
+				super(box);
+			}
+			protected JScrollPane createScroller() {
+				JScrollPane pane = new JScrollPane(list,
+						ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+						ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				return pane;
+			}                                
+		}                                   
+	}
+	
 }
