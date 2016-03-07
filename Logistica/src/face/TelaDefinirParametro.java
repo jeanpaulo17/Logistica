@@ -462,7 +462,7 @@ public class TelaDefinirParametro extends JFrame {
 				String proposta = txtProposta_Amostra.getText();
 
 				int codParametro = p.obterCodigoParametro(String.valueOf(cbParametro.getSelectedItem()));
-
+				if(String.valueOf(cbLegislacao.getSelectedItem()).equals(" ")){
 				if(!String.valueOf(cbLegislacao.getSelectedItem()).equals(" ") && !String.valueOf(cbParametro.getSelectedItem()).equals(" ")){
 					JOptionPane.showMessageDialog(null, "Você não pode cadastrar um parametro e uma legislação ao mesmo tempo!");
 				}else if (p.verificaCadastroParametro(Integer.parseInt(amostraDAO.buscarIdAmostra(numAmostra)),
@@ -550,7 +550,7 @@ public class TelaDefinirParametro extends JFrame {
 						}
 					});
 				}
-			
+				}
 			
 
 			

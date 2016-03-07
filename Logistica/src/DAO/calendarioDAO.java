@@ -126,8 +126,8 @@ public void criaRelatorioPorDataColetor(String sql,String coletor){
 			
 			try {		
 				
-			Map<String, Object> parametros = new HashMap<String,Object>();  
-			parametros.put("SUBREPORT_DIR" , "//192.168.0.8/informacoes/SISTEMAS/relatorios/") ;  
+			Map<String, Object> parametros = new HashMap<String,Object>();
+			parametros.put("SUBREPORT_DIR" , "//192.168.0.8/informacoes/SISTEMAS/relatorios/") ;
 			parametros.put("REPORT_CONNECTION",conexao.getConexao());
 			
 	 		JRResultSetDataSource relatResul = new JRResultSetDataSource(conexao.rs);
