@@ -85,7 +85,7 @@ public class calendarioDAO {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 
-		} finally {
+		} finally { 
 			conexao.desconecta();
 	}
 	}
