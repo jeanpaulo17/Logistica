@@ -423,7 +423,7 @@ public class TelaDefinirDataColeta extends JFrame {
 				}
 
 				else if (!cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() != null
-						&& !cbStatus.getSelectedItem().equals(" ") && (txtBoletim.getText().isEmpty())) {
+						&& cbStatus.getSelectedItem().equals(" ") && (txtBoletim.getText().isEmpty())) {
 
 					try {
 						String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());

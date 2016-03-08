@@ -821,21 +821,33 @@ public class amostraDAO {
 		}
 	}
 	
+	
 	public void DefinirData(int idproposta, int idamostra, int ordem,
 			String datacoleta) throws ParseException {
 		try {
 
-			conexao.conexao();
-			pst = conexao.conn
-					.prepareStatement("UPDATE amostra_os SET datacoleta=? where proposta=? and amostra=? and ordem=? ");
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			Date teste = sdf.parse(datacoleta);
+			GregorianCalendar gc = new GregorianCalendar();
+			gc.setTime(teste);
+			int diaDaSemana = gc.get(GregorianCalendar.DAY_OF_WEEK);
 
-			pst.setString(1, datacoleta);
-			pst.setInt(2, idproposta);
-			pst.setInt(3, idamostra);
-			pst.setInt(4, ordem);
+			if (diaDaSemana != 1) {
+				conexao.conexao();
+				pst = conexao.conn
+						.prepareStatement("UPDATE amostra_os SET datacoleta=? where proposta=? and amostra=? and ordem=? ");
 
-			pst.executeUpdate();
-			JOptionPane.showMessageDialog(null, "Adicionado!");
+				pst.setString(1, datacoleta);
+				pst.setInt(2, idproposta);
+				pst.setInt(3, idamostra);
+				pst.setInt(4, ordem);
+
+				pst.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Adicionado!");
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Você não pode agendar coletas no Domingo!");
+			}
 
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
@@ -844,6 +856,8 @@ public class amostraDAO {
 			conexao.desconecta();
 		}
 	}
+	
+	
 
 	public int verificaQuantidadeDeAmostrasNaProposta(int idproposta) {
 		conexao.conexao();
