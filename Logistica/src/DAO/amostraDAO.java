@@ -40,13 +40,13 @@ public class amostraDAO {
 			t.setLocationRelativeTo(null);
 		} catch (SQLException e) {
 		}
-		
+
 	}
-	
+
 	public void abrirAdicionarMotivo() {
 		TelaAdicionarMotivo t = new TelaAdicionarMotivo();
-			t.setVisible(true);
-			t.setLocationRelativeTo(null);
+		t.setVisible(true);
+		t.setLocationRelativeTo(null);
 	}
 
 	public String buscarEmpresa(String proposta) {
@@ -57,7 +57,9 @@ public class amostraDAO {
 			conexao.conexao();
 
 			stm = conexao.conn.createStatement();
-			ResultSet rs = stm.executeQuery("select empresa from proposta where idproposta='" + proposta + "'");
+			ResultSet rs = stm
+					.executeQuery("select empresa from proposta where idproposta='"
+							+ proposta + "'");
 
 			if (rs.next()) {
 				msg = rs.getString(1);
@@ -79,7 +81,9 @@ public class amostraDAO {
 			conexao.conexao();
 
 			stm = conexao.conn.createStatement();
-			ResultSet rs = stm.executeQuery("select idamostra from amostra where numero_amostra='" + string + "';");
+			ResultSet rs = stm
+					.executeQuery("select idamostra from amostra where numero_amostra='"
+							+ string + "';");
 
 			if (rs.next()) {
 				msg = rs.getString(1);
@@ -102,7 +106,8 @@ public class amostraDAO {
 
 			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
-					.executeQuery("select idproposta from proposta where numero_proposta='" + numero_proposta + "';");
+					.executeQuery("select idproposta from proposta where numero_proposta='"
+							+ numero_proposta + "';");
 
 			if (rs.next()) {
 				msg = rs.getString(1);
@@ -115,13 +120,11 @@ public class amostraDAO {
 			return msg;
 		}
 	}
-	
 
-	
-	public ArrayList<String> obterColetores(){
+	public ArrayList<String> obterColetores() {
 		conexao.conexao();
 		ArrayList<String> dados = new ArrayList<String>();
-		
+
 		try {
 			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
@@ -131,21 +134,23 @@ public class amostraDAO {
 				dados.add(rs.getString(1));
 			}
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null,
-					"Erro ao obter os dados. (obterColetores)" + e.getMessage());
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"Erro ao obter os dados. (obterColetores)"
+									+ e.getMessage());
 		} finally {
 			conexao.desconecta();
 		}
 
 		return dados;
-		
+
 	}
 
-	
-	public ArrayList<String> obterStatus(){
+	public ArrayList<String> obterStatus() {
 		conexao.conexao();
 		ArrayList<String> dados = new ArrayList<String>();
-		
+
 		try {
 			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
@@ -162,9 +167,8 @@ public class amostraDAO {
 		}
 
 		return dados;
-		
-	}
 
+	}
 
 	public String verificaCadastroAmostra(String amostra, int proposta) {
 
@@ -175,8 +179,9 @@ public class amostraDAO {
 		try {
 
 			stm = conexao.conn.createStatement();
-			ResultSet rs = stm.executeQuery("select numero_amostra, proposta from amostra where numero_amostra='"
-					+ amostra + "' and proposta='" + proposta + "'");
+			ResultSet rs = stm
+					.executeQuery("select numero_amostra, proposta from amostra where numero_amostra='"
+							+ amostra + "' and proposta='" + proposta + "'");
 
 			if (rs.next()) {
 
@@ -188,7 +193,6 @@ public class amostraDAO {
 					return status;
 				}
 			}
-			
 
 		} catch (SQLException e) {
 
@@ -199,43 +203,43 @@ public class amostraDAO {
 		}
 
 	}
-	
-public boolean verificaExistenciaAmostra(String amostra){
-		
+
+	public boolean verificaExistenciaAmostra(String amostra) {
+
 		conexao.conexao();
-		
-		boolean ok= false;
-		
+
+		boolean ok = false;
+
 		try {
-			
-			pst = conexao.conn.prepareStatement("Select numero_amostra from amostra where numero_amostra = ?");
+
+			pst = conexao.conn
+					.prepareStatement("Select numero_amostra from amostra where numero_amostra = ?");
 			pst.setString(1, amostra);
 			ResultSet rs = pst.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				ok = true;
-			return ok;
-			}
-			else{
-				
+				return ok;
+			} else {
+
 				ok = false;
 				return ok;
-				
+
 			}
 		} catch (SQLException e) {
-		}
-		finally{
+		} finally {
 			conexao.desconecta();
 		}
 		return ok;
 	}
 
-	public String cadastrarAmostra(String amostra, String periodicidade, String ponto, int proposta, String endereco) {
+	public String cadastrarAmostra(String amostra, String periodicidade,
+			String ponto, int proposta, String endereco) {
 
 		try {
 
 			conexao.conexao();
-			pst = conexao.conn.prepareStatement(
-					"INSERT INTO amostra (numero_amostra,periodicidade,ponto,proposta, endereco) VALUES (?,?,?,?,?)");
+			pst = conexao.conn
+					.prepareStatement("INSERT INTO amostra (numero_amostra,periodicidade,ponto,proposta, endereco) VALUES (?,?,?,?,?)");
 			pst.setString(1, amostra);
 			pst.setString(2, periodicidade);
 			pst.setString(3, ponto);
@@ -266,13 +270,16 @@ public boolean verificaExistenciaAmostra(String amostra){
 				do {
 					dados.add(new Object[] {
 
-							conexao.rs.getObject("PROPOSTA"), conexao.rs.getObject("AMOSTRA"),
-							conexao.rs.getObject("PONTO"), conexao.rs.getObject("PERIODO"), conexao.rs.getObject("endereco")
-							
+					conexao.rs.getObject("PROPOSTA"),
+							conexao.rs.getObject("AMOSTRA"),
+							conexao.rs.getObject("PONTO"),
+							conexao.rs.getObject("PERIODO"),
+							conexao.rs.getObject("endereco")
+
 					});
 
 				} while (conexao.rs.next());
-			}else{
+			} else {
 				dados.clear();
 			}
 
@@ -280,10 +287,9 @@ public boolean verificaExistenciaAmostra(String amostra){
 
 		} finally {
 			conexao.desconecta();
+		}
 	}
-	}
-	
-	
+
 	public void PreencherTabelaCalendario(String sql, ArrayList dados) {
 
 		conexao.conexao();
@@ -295,7 +301,7 @@ public boolean verificaExistenciaAmostra(String amostra){
 				do {
 					dados.add(new Object[] {
 
-							conexao.rs.getObject("PROPOSTA"),
+					conexao.rs.getObject("PROPOSTA"),
 							conexao.rs.getObject("EMPRESA"),
 							conexao.rs.getObject("AMOSTRA"),
 							conexao.rs.getObject("PERIODICIDADE"),
@@ -306,11 +312,10 @@ public boolean verificaExistenciaAmostra(String amostra){
 							conexao.rs.getObject("UNIDADE_MEDIDA"),
 							conexao.rs.getObject("PRESERVACAO"),
 							conexao.rs.getObject("DATACOLETA"),
-							conexao.rs.getObject("COLETOR"),
-					});
+							conexao.rs.getObject("COLETOR"), });
 
 				} while (conexao.rs.next());
-			}else{
+			} else {
 				dados.clear();
 			}
 
@@ -318,10 +323,9 @@ public boolean verificaExistenciaAmostra(String amostra){
 
 		} finally {
 			conexao.desconecta();
+		}
 	}
-	}
-	
-	
+
 	public void PreencherTabelaColeta(String sql, ArrayList dados) {
 
 		conexao.conexao();
@@ -333,14 +337,19 @@ public boolean verificaExistenciaAmostra(String amostra){
 				do {
 					dados.add(new Object[] {
 
-							conexao.rs.getObject("PROPOSTA"), conexao.rs.getObject("EMPRESA"), conexao.rs.getObject("AMOSTRA"),
-							conexao.rs.getObject("ORDEM"), conexao.rs.getObject("COLETOR"),
-							conexao.rs.getObject("DATACOLETA"),conexao.rs.getObject("STATUS")
+					conexao.rs.getObject("PROPOSTA"),
+							conexao.rs.getObject("EMPRESA"),
+							conexao.rs.getObject("AMOSTRA"),
+							conexao.rs.getObject("BOLETIM"),
+							conexao.rs.getObject("ORDEM"),
+							conexao.rs.getObject("COLETOR"),
+							conexao.rs.getObject("DATACOLETA"),
+							conexao.rs.getObject("STATUS")
 
 					});
 
 				} while (conexao.rs.next());
-			}else{
+			} else {
 				dados.clear();
 			}
 
@@ -359,10 +368,12 @@ public boolean verificaExistenciaAmostra(String amostra){
 			pst = conexao.conn.prepareStatement(sql);
 			pst.setString(1, tipo);
 			pst.executeUpdate();
-			JOptionPane.showMessageDialog(null, "Tipo de Amostra cadastrada com sucesso!");
+			JOptionPane.showMessageDialog(null,
+					"Tipo de Amostra cadastrada com sucesso!");
 
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Erro ao cadastrar tipo de amostra!" + e.getMessage());
+			JOptionPane.showMessageDialog(null,
+					"Erro ao cadastrar tipo de amostra!" + e.getMessage());
 		} finally {
 			conexao.desconecta();
 		}
@@ -389,35 +400,37 @@ public boolean verificaExistenciaAmostra(String amostra){
 			conexao.desconecta();
 		}
 	}
-	
-	
-	public void DefinirDataColetor(int idproposta, int idamostra, int ordem, String datacoleta, String coletor, String status) throws ParseException {
+
+	public void DefinirDataColetor(int idproposta, int idamostra, int ordem,
+			String datacoleta, String coletor, String status)
+			throws ParseException {
 		try {
-			
-			 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-	         Date teste = sdf.parse(datacoleta);
-	         GregorianCalendar gc = new GregorianCalendar();
-	         gc.setTime(teste);
-	         int diaDaSemana = gc.get(GregorianCalendar.DAY_OF_WEEK);
-	            
-	         
-	        if(diaDaSemana != 1){ 
-			conexao.conexao();
-			pst = conexao.conn.prepareStatement("UPDATE amostra_os SET coletor=?, datacoleta=?, status_amostra=? where proposta=? and amostra=? and ordem=? ");
-			
-			pst.setString(1, coletor);
-			pst.setString(2, datacoleta);
-			pst.setString(3, status);
-			pst.setInt(4, idproposta);
-			pst.setInt(5, idamostra);
-			pst.setInt(6, ordem);
-			
-			pst.executeUpdate();
-			JOptionPane.showMessageDialog(null, "Adicionado!");
-	        }else{
-	        	JOptionPane.showMessageDialog(null, "Você não pode agendar coletas no Domingo!");
-	        }
-			
+
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			Date teste = sdf.parse(datacoleta);
+			GregorianCalendar gc = new GregorianCalendar();
+			gc.setTime(teste);
+			int diaDaSemana = gc.get(GregorianCalendar.DAY_OF_WEEK);
+
+			if (diaDaSemana != 1) {
+				conexao.conexao();
+				pst = conexao.conn
+						.prepareStatement("UPDATE amostra_os SET coletor=?, datacoleta=?, status_amostra=? where proposta=? and amostra=? and ordem=? ");
+
+				pst.setString(1, coletor);
+				pst.setString(2, datacoleta);
+				pst.setString(3, status);
+				pst.setInt(4, idproposta);
+				pst.setInt(5, idamostra);
+				pst.setInt(6, ordem);
+
+				pst.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Adicionado!");
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Você não pode agendar coletas no Domingo!");
+			}
+
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
 
@@ -425,33 +438,35 @@ public boolean verificaExistenciaAmostra(String amostra){
 			conexao.desconecta();
 		}
 	}
-	
-	public void DefinirStatusData(int idproposta, int idamostra, int ordem, String datacoleta, String status) throws ParseException {
+
+	public void DefinirStatusData(int idproposta, int idamostra, int ordem,
+			String datacoleta, String status) throws ParseException {
 		try {
-			
-			 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-	         Date teste = sdf.parse(datacoleta);
-	         GregorianCalendar gc = new GregorianCalendar();
-	         gc.setTime(teste);
-	         int diaDaSemana = gc.get(GregorianCalendar.DAY_OF_WEEK);
-	            
-	         
-	        if(diaDaSemana != 1){ 
-			conexao.conexao();
-			pst = conexao.conn.prepareStatement("UPDATE amostra_os SET datacoleta=?, status_amostra=? where proposta=? and amostra=? and ordem=? ");
-			
-			pst.setString(1, datacoleta);
-			pst.setString(2, status);
-			pst.setInt(3, idproposta);
-			pst.setInt(4, idamostra);
-			pst.setInt(5, ordem);
-			
-			pst.executeUpdate();
-			JOptionPane.showMessageDialog(null, "Adicionado!");
-	        }else{
-	        	JOptionPane.showMessageDialog(null, "Você não pode agendar coletas no Domingo!");
-	        }
-			
+
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			Date teste = sdf.parse(datacoleta);
+			GregorianCalendar gc = new GregorianCalendar();
+			gc.setTime(teste);
+			int diaDaSemana = gc.get(GregorianCalendar.DAY_OF_WEEK);
+
+			if (diaDaSemana != 1) {
+				conexao.conexao();
+				pst = conexao.conn
+						.prepareStatement("UPDATE amostra_os SET datacoleta=?, status_amostra=? where proposta=? and amostra=? and ordem=? ");
+
+				pst.setString(1, datacoleta);
+				pst.setString(2, status);
+				pst.setInt(3, idproposta);
+				pst.setInt(4, idamostra);
+				pst.setInt(5, ordem);
+
+				pst.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Adicionado!");
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Você não pode agendar coletas no Domingo!");
+			}
+
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
 
@@ -459,48 +474,48 @@ public boolean verificaExistenciaAmostra(String amostra){
 			conexao.desconecta();
 		}
 	}
-	
-	public void DefinirStatusColetor(int idproposta, int idamostra, int ordem, String coletor, String status) throws ParseException {
+
+	public void DefinirStatusColetor(int idproposta, int idamostra, int ordem,
+			String coletor, String status) throws ParseException {
 		try {
-			
-	            
-	         
+
 			conexao.conexao();
-			pst = conexao.conn.prepareStatement("UPDATE amostra_os SET coletor=?, status_amostra=? where proposta=? and amostra=? and ordem=? ");
-			
+			pst = conexao.conn
+					.prepareStatement("UPDATE amostra_os SET coletor=?, status_amostra=? where proposta=? and amostra=? and ordem=? ");
+
 			pst.setString(1, coletor);
 			pst.setString(2, status);
 			pst.setInt(3, idproposta);
 			pst.setInt(4, idamostra);
 			pst.setInt(5, ordem);
-			
+
 			pst.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Adicionado!");
-	        
-			
+
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
 
 		} finally {
 			conexao.desconecta();
 		}
-}
-	
+	}
 
-	public void DefinirStatus(int idproposta, int idamostra, int ordem, String status) throws ParseException {
+	public void DefinirStatus(int idproposta, int idamostra, int ordem,
+			String status) throws ParseException {
 		try {
-			
+
 			conexao.conexao();
-			pst = conexao.conn.prepareStatement("UPDATE amostra_os SET status_amostra=? where proposta=? and amostra=? and ordem=? ");
-			
+			pst = conexao.conn
+					.prepareStatement("UPDATE amostra_os SET status_amostra=? where proposta=? and amostra=? and ordem=? ");
+
 			pst.setString(1, status);
 			pst.setInt(2, idproposta);
 			pst.setInt(3, idamostra);
 			pst.setInt(4, ordem);
-			
+
 			pst.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Adicionado!");
-	     			
+
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
 
@@ -508,22 +523,24 @@ public boolean verificaExistenciaAmostra(String amostra){
 			conexao.desconecta();
 		}
 	}
-	
-	public void DefinirObservacao(int propostaObs, int amostraObs, int ordem, String status, String observacao) throws ParseException {
+
+	public void DefinirObservacao(int propostaObs, int amostraObs, int ordem,
+			String status, String observacao) throws ParseException {
 		try {
-			
+
 			conexao.conexao();
-			pst = conexao.conn.prepareStatement("UPDATE amostra_os SET observacao=? where proposta=? and amostra=? and ordem=? and status_amostra=? ");
-			
+			pst = conexao.conn
+					.prepareStatement("UPDATE amostra_os SET observacao=? where proposta=? and amostra=? and ordem=? and status_amostra=? ");
+
 			pst.setString(1, observacao);
 			pst.setInt(2, propostaObs);
 			pst.setInt(3, amostraObs);
 			pst.setInt(4, ordem);
 			pst.setString(5, status);
-			
+
 			pst.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Adicionado!");
-	     			
+
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
 
@@ -531,21 +548,23 @@ public boolean verificaExistenciaAmostra(String amostra){
 			conexao.desconecta();
 		}
 	}
-	
-	public void DefinirColetor(int idproposta, int idamostra, int ordem, String coletor) throws ParseException {
+
+	public void DefinirColetor(int idproposta, int idamostra, int ordem,
+			String coletor) throws ParseException {
 		try {
-			
+
 			conexao.conexao();
-			pst = conexao.conn.prepareStatement("UPDATE amostra_os SET coletor=? where proposta=? and amostra=? and ordem=? ");
-			
+			pst = conexao.conn
+					.prepareStatement("UPDATE amostra_os SET coletor=? where proposta=? and amostra=? and ordem=? ");
+
 			pst.setString(1, coletor);
 			pst.setInt(2, idproposta);
 			pst.setInt(3, idamostra);
 			pst.setInt(4, ordem);
-			
+
 			pst.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Adicionado!");
-	     			
+
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
 
@@ -554,20 +573,270 @@ public boolean verificaExistenciaAmostra(String amostra){
 		}
 	}
 	
-	public void DefinirData(int idproposta, int idamostra, int ordem, String datacoleta) throws ParseException {
+	public void DefinirBoletim(int idproposta, int idamostra, int ordem,
+			String boletim) throws ParseException {
 		try {
-			
+
 			conexao.conexao();
-			pst = conexao.conn.prepareStatement("UPDATE amostra_os SET datacoleta=? where proposta=? and amostra=? and ordem=? ");
-			
+			pst = conexao.conn
+					.prepareStatement("UPDATE amostra_os SET boletim=? where proposta=? and amostra=? and ordem=? ");
+
+			pst.setString(1, boletim);
+			pst.setInt(2, idproposta);
+			pst.setInt(3, idamostra);
+			pst.setInt(4, ordem);
+
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Adicionado!");
+
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+	
+	public void DefinirBoletimColetor(int idproposta, int idamostra, int ordem,
+			String boletim, String coletor) throws ParseException {
+		try {
+
+			conexao.conexao();
+			pst = conexao.conn
+					.prepareStatement("UPDATE amostra_os SET boletim=?, coletor=? where proposta=? and amostra=? and ordem=? ");
+
+			pst.setString(1, boletim);
+			pst.setString(2, coletor);
+			pst.setInt(3, idproposta);
+			pst.setInt(4, idamostra);
+			pst.setInt(5, ordem);
+
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Adicionado!");
+
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+	
+	public void DefinirBoletimStatus(int idproposta, int idamostra, int ordem,
+			String boletim, String status) throws ParseException {
+		try {
+
+			conexao.conexao();
+			pst = conexao.conn
+					.prepareStatement("UPDATE amostra_os SET boletim=?, status_amostra=? where proposta=? and amostra=? and ordem=? ");
+
+			pst.setString(1, boletim);
+			pst.setString(2, status);
+			pst.setInt(3, idproposta);
+			pst.setInt(4, idamostra);
+			pst.setInt(5, ordem);
+
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Adicionado!");
+
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+	
+	public void DefinirBoletimColetorStatus(int idproposta, int idamostra, int ordem,
+			String boletim, String coletor, String status) throws ParseException {
+		try {
+
+			conexao.conexao();
+			pst = conexao.conn
+					.prepareStatement("UPDATE amostra_os SET boletim=?, coletor=?, status_amostra=? where proposta=? and amostra=? and ordem=? ");
+
+			pst.setString(1, boletim);
+			pst.setString(2, coletor);
+			pst.setString(3, status);
+			pst.setInt(4, idproposta);
+			pst.setInt(5, idamostra);
+			pst.setInt(6, ordem);
+
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Adicionado!");
+
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+
+	public void DefinirBoletimData(int idproposta, int idamostra, int ordem,
+			String datacoleta, String boletim) throws ParseException {
+		try {
+
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			Date teste = sdf.parse(datacoleta);
+			GregorianCalendar gc = new GregorianCalendar();
+			gc.setTime(teste);
+			int diaDaSemana = gc.get(GregorianCalendar.DAY_OF_WEEK);
+
+			if (diaDaSemana != 1) {
+				conexao.conexao();
+				pst = conexao.conn
+						.prepareStatement("UPDATE amostra_os SET datacoleta=?, boletim=? where proposta=? and amostra=? and ordem=? ");
+
+				pst.setString(1, datacoleta);
+				pst.setString(2, boletim);
+				pst.setInt(3, idproposta);
+				pst.setInt(4, idamostra);
+				pst.setInt(5, ordem);
+
+				pst.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Adicionado!");
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Você não pode agendar coletas no Domingo!");
+			}
+
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+	
+	public void DefinirBoletimDataColetor(int idproposta, int idamostra, int ordem,
+			String datacoleta, String boletim, String coletor) throws ParseException {
+		try {
+
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			Date teste = sdf.parse(datacoleta);
+			GregorianCalendar gc = new GregorianCalendar();
+			gc.setTime(teste);
+			int diaDaSemana = gc.get(GregorianCalendar.DAY_OF_WEEK);
+
+			if (diaDaSemana != 1) {
+				conexao.conexao();
+				pst = conexao.conn
+						.prepareStatement("UPDATE amostra_os SET datacoleta=?, boletim=?, coletor=? where proposta=? and amostra=? and ordem=? ");
+
+				pst.setString(1, datacoleta);
+				pst.setString(2, boletim);
+				pst.setString(3, coletor);
+				pst.setInt(4, idproposta);
+				pst.setInt(5, idamostra);
+				pst.setInt(6, ordem);
+
+				pst.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Adicionado!");
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Você não pode agendar coletas no Domingo!");
+			}
+
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+	
+	public void DefinirBoletimDataStatus(int idproposta, int idamostra, int ordem,
+			String datacoleta, String boletim, String status_amostra) throws ParseException {
+		try {
+
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			Date teste = sdf.parse(datacoleta);
+			GregorianCalendar gc = new GregorianCalendar();
+			gc.setTime(teste);
+			int diaDaSemana = gc.get(GregorianCalendar.DAY_OF_WEEK);
+
+			if (diaDaSemana != 1) {
+				conexao.conexao();
+				pst = conexao.conn
+						.prepareStatement("UPDATE amostra_os SET datacoleta=?, boletim=?, status_amostra=? where proposta=? and amostra=? and ordem=? ");
+
+				pst.setString(1, datacoleta);
+				pst.setString(2, boletim);
+				pst.setString(3, status_amostra);
+				pst.setInt(4, idproposta);
+				pst.setInt(5, idamostra);
+				pst.setInt(6, ordem);
+
+				pst.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Adicionado!");
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Você não pode agendar coletas no Domingo!");
+			}
+
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+	
+	public void DefinirBoletimDataStatusColetor(int idproposta, int idamostra, int ordem,
+			String datacoleta, String boletim, String status, String coletor) throws ParseException {
+		try {
+
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			Date teste = sdf.parse(datacoleta);
+			GregorianCalendar gc = new GregorianCalendar();
+			gc.setTime(teste);
+			int diaDaSemana = gc.get(GregorianCalendar.DAY_OF_WEEK);
+
+			if (diaDaSemana != 1) {
+				conexao.conexao();
+				pst = conexao.conn
+						.prepareStatement("UPDATE amostra_os SET datacoleta=?, boletim=?, status_amostra=?, coletor=? where proposta=? and amostra=? and ordem=? ");
+
+				pst.setString(1, datacoleta);
+				pst.setString(2, boletim);
+				pst.setString(3, status);
+				pst.setString(4, coletor);
+				pst.setInt(5, idproposta);
+				pst.setInt(6, idamostra);
+				pst.setInt(7, ordem);
+
+				pst.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Adicionado!");
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Você não pode agendar coletas no Domingo!");
+			}
+
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+	
+	public void DefinirData(int idproposta, int idamostra, int ordem,
+			String datacoleta) throws ParseException {
+		try {
+
+			conexao.conexao();
+			pst = conexao.conn
+					.prepareStatement("UPDATE amostra_os SET datacoleta=? where proposta=? and amostra=? and ordem=? ");
+
 			pst.setString(1, datacoleta);
 			pst.setInt(2, idproposta);
 			pst.setInt(3, idamostra);
 			pst.setInt(4, ordem);
-			
+
 			pst.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Adicionado!");
-	     			
+
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
 
@@ -576,14 +845,15 @@ public boolean verificaExistenciaAmostra(String amostra){
 		}
 	}
 
-	
 	public int verificaQuantidadeDeAmostrasNaProposta(int idproposta) {
 		conexao.conexao();
 
 		try {
 
 			stm = conexao.conn.createStatement();
-			ResultSet rs = stm.executeQuery("select quantidadedeamostras from proposta where idproposta=" + idproposta);
+			ResultSet rs = stm
+					.executeQuery("select quantidadedeamostras from proposta where idproposta="
+							+ idproposta);
 
 			if (rs.next()) {
 				return rs.getInt(1);
@@ -603,7 +873,9 @@ public boolean verificaExistenciaAmostra(String amostra){
 		try {
 
 			stm = conexao.conn.createStatement();
-			ResultSet rs = stm.executeQuery("select count(proposta) from amostra_os where proposta=" + idproposta);
+			ResultSet rs = stm
+					.executeQuery("select count(proposta) from amostra_os where proposta="
+							+ idproposta);
 
 			if (rs.next()) {
 				return rs.getInt(1);
@@ -622,7 +894,8 @@ public boolean verificaExistenciaAmostra(String amostra){
 		amostraDAO dao = new amostraDAO();
 
 		int qtdNaProposta = dao.contaQuantidadeDeAmostrasNaProposta(idproposta);
-		int qtdPermitida = dao.verificaQuantidadeDeAmostrasNaProposta(idproposta);
+		int qtdPermitida = dao
+				.verificaQuantidadeDeAmostrasNaProposta(idproposta);
 
 		if (qtdNaProposta + qtd_inserir > qtdPermitida) {
 			ok = false;
@@ -632,45 +905,50 @@ public boolean verificaExistenciaAmostra(String amostra){
 		return ok;
 
 	}
-	
-	public boolean verificarDiasIguais(String data, int idproposta, int idamostra){
-		boolean ok=false;
-		
+
+	public boolean verificarDiasIguais(String data, int idproposta,
+			int idamostra) {
+		boolean ok = false;
+
 		conexao.conexao();
-		try{
-		pst = conexao.conn.prepareStatement("Select * from amostra_os where datacoleta=? and  proposta=? and  amostra=?");
-		
-		pst.setString(1, data);
-		pst.setInt(2, idproposta);
-		pst.setInt(3, idamostra);
-		
-		ResultSet rs = pst.executeQuery();
-		
-		if(rs.next()){
-			ok = true;
-			JOptionPane.showMessageDialog(null, "Você não pode alocar 2 ou mais amostras da mesma proposta no mesmo dia!");
-			return ok;
-		}else{
-			ok = false;
-			return ok;
-		}
-		}catch(SQLException ex){
-		}finally{
+		try {
+			pst = conexao.conn
+					.prepareStatement("Select * from amostra_os where datacoleta=? and  proposta=? and  amostra=?");
+
+			pst.setString(1, data);
+			pst.setInt(2, idproposta);
+			pst.setInt(3, idamostra);
+
+			ResultSet rs = pst.executeQuery();
+
+			if (rs.next()) {
+				ok = true;
+				JOptionPane
+						.showMessageDialog(null,
+								"Você não pode alocar 2 ou mais amostras da mesma proposta no mesmo dia!");
+				return ok;
+			} else {
+				ok = false;
+				return ok;
+			}
+		} catch (SQLException ex) {
+		} finally {
 			conexao.desconecta();
 		}
-		return ok; 
+		return ok;
 	}
-	
+
 	public void ExcluirAmostra(int proposta, String amostra) {
 
 		try {
 			conexao.conexao();
 
-			pst = conexao.conn.prepareStatement("DELETE FROM amostra WHERE proposta=? and numero_amostra=?");
+			pst = conexao.conn
+					.prepareStatement("DELETE FROM amostra WHERE proposta=? and numero_amostra=?");
 			pst.setInt(1, proposta);
 			pst.setString(2, amostra);
-			
-			if(pst.executeUpdate() == 1){
+
+			if (pst.executeUpdate() == 1) {
 			}
 
 		} catch (SQLException e1) {
@@ -678,16 +956,21 @@ public boolean verificaExistenciaAmostra(String amostra){
 			conexao.desconecta();
 		}
 	}
-	
-	public String obterObservacao(int proposta, int amostra, int ordem){
-	 String obs = null;
+
+	public String obterObservacao(int proposta, int amostra, int ordem) {
+		String obs = null;
 		try {
 			conexao.conexao();
 
 			stm = conexao.conn.createStatement();
-					ResultSet rs = stm.executeQuery("select observacao from amostra_os where proposta = "+proposta+" and amostra = "+amostra+" and ordem = " +ordem);
-			
-			if(rs.next()){
+			ResultSet rs = stm
+					.executeQuery("select observacao from amostra_os where proposta = "
+							+ proposta
+							+ " and amostra = "
+							+ amostra
+							+ " and ordem = " + ordem);
+
+			if (rs.next()) {
 				obs = rs.getString("observacao");
 				return obs;
 			}
@@ -698,65 +981,71 @@ public boolean verificaExistenciaAmostra(String amostra){
 		}
 		return obs;
 	}
-	
-	public String obterProposta(int proposta){
-		 String obs = null;
-			try {
-				conexao.conexao();
 
-				stm = conexao.conn.createStatement();
-						ResultSet rs = stm.executeQuery("SELECT numero_proposta FROM proposta where idproposta = "+ proposta);
-				
-				if(rs.next()){
-					obs = rs.getString("numero_proposta");
-					return obs;
-				}
+	public String obterProposta(int proposta) {
+		String obs = null;
+		try {
+			conexao.conexao();
 
-			} catch (SQLException e1) {
-			} finally {
-				conexao.desconecta();
+			stm = conexao.conn.createStatement();
+			ResultSet rs = stm
+					.executeQuery("SELECT numero_proposta FROM proposta where idproposta = "
+							+ proposta);
+
+			if (rs.next()) {
+				obs = rs.getString("numero_proposta");
+				return obs;
 			}
-			return obs;
+
+		} catch (SQLException e1) {
+		} finally {
+			conexao.desconecta();
 		}
-	
-	public String obterAmostra(int amostra){
-		 String obs = null;
-			try {
-				conexao.conexao();
+		return obs;
+	}
 
-				stm = conexao.conn.createStatement();
-						ResultSet rs = stm.executeQuery("SELECT numero_amostra FROM amostra where idamostra = "+ amostra);
-				
-				if(rs.next()){
-					obs = rs.getString("numero_amostra");
-					return obs;
-				}
+	public String obterAmostra(int amostra) {
+		String obs = null;
+		try {
+			conexao.conexao();
 
-			} catch (SQLException e1) {
-			} finally {
-				conexao.desconecta();
+			stm = conexao.conn.createStatement();
+			ResultSet rs = stm
+					.executeQuery("SELECT numero_amostra FROM amostra where idamostra = "
+							+ amostra);
+
+			if (rs.next()) {
+				obs = rs.getString("numero_amostra");
+				return obs;
 			}
-			return obs;
+
+		} catch (SQLException e1) {
+		} finally {
+			conexao.desconecta();
 		}
+		return obs;
+	}
 
-	public String obterEmpresa(int proposta){
-		 String obs = null;
-			try {
-				conexao.conexao();
+	public String obterEmpresa(int proposta) {
+		String obs = null;
+		try {
+			conexao.conexao();
 
-				stm = conexao.conn.createStatement();
-						ResultSet rs = stm.executeQuery("SELECT empresa FROM proposta where idproposta = "+ proposta);
-				
-				if(rs.next()){
-					obs = rs.getString("empresa");
-					return obs;
-				}
+			stm = conexao.conn.createStatement();
+			ResultSet rs = stm
+					.executeQuery("SELECT empresa FROM proposta where idproposta = "
+							+ proposta);
 
-			} catch (SQLException e1) {
-			} finally {
-				conexao.desconecta();
+			if (rs.next()) {
+				obs = rs.getString("empresa");
+				return obs;
 			}
-			return obs;
+
+		} catch (SQLException e1) {
+		} finally {
+			conexao.desconecta();
 		}
+		return obs;
+	}
 
 }
