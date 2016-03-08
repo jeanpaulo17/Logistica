@@ -402,7 +402,7 @@ public class amostraDAO {
 	}
 
 	public void DefinirDataColetor(int idproposta, int idamostra, int ordem,
-			String datacoleta, String coletor, String status)
+			String datacoleta, String coletor)
 			throws ParseException {
 		try {
 
@@ -415,14 +415,13 @@ public class amostraDAO {
 			if (diaDaSemana != 1) {
 				conexao.conexao();
 				pst = conexao.conn
-						.prepareStatement("UPDATE amostra_os SET coletor=?, datacoleta=?, status_amostra=? where proposta=? and amostra=? and ordem=? ");
+						.prepareStatement("UPDATE amostra_os SET coletor=?, datacoleta=? where proposta=? and amostra=? and ordem=? ");
 
 				pst.setString(1, coletor);
 				pst.setString(2, datacoleta);
-				pst.setString(3, status);
-				pst.setInt(4, idproposta);
-				pst.setInt(5, idamostra);
-				pst.setInt(6, ordem);
+				pst.setInt(3, idproposta);
+				pst.setInt(4, idamostra);
+				pst.setInt(5, ordem);
 
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Adicionado!");
@@ -805,6 +804,43 @@ public class amostraDAO {
 				pst.setInt(5, idproposta);
 				pst.setInt(6, idamostra);
 				pst.setInt(7, ordem);
+
+				pst.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Adicionado!");
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Você não pode agendar coletas no Domingo!");
+			}
+
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+	
+	public void DefinirDataStatusColetor(int idproposta, int idamostra, int ordem,
+			String datacoleta, String status, String coletor) throws ParseException {
+		try {
+
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			Date teste = sdf.parse(datacoleta);
+			GregorianCalendar gc = new GregorianCalendar();
+			gc.setTime(teste);
+			int diaDaSemana = gc.get(GregorianCalendar.DAY_OF_WEEK);
+
+			if (diaDaSemana != 1) {
+				conexao.conexao();
+				pst = conexao.conn
+						.prepareStatement("UPDATE amostra_os SET datacoleta=?, coletor=?, status_amostra=? where proposta=? and amostra=? and ordem=? ");
+
+				pst.setString(1, datacoleta);
+				pst.setString(2, coletor);
+				pst.setString(3, status);
+				pst.setInt(4, idproposta);
+				pst.setInt(5, idamostra);
+				pst.setInt(6, ordem);
 
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Adicionado!");

@@ -435,10 +435,8 @@ public class TelaDefinirDataColeta extends JFrame {
 									Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
 									Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
 									Integer.valueOf(txtOrdemAuto.getText()), datacoleta,
-									String.valueOf(cbcoletor.getSelectedItem()),
-									String.valueOf(cbStatus.getSelectedItem())
-
-							);
+									String.valueOf(cbcoletor.getSelectedItem()));
+							
 							tableColeta.setAutoCreateRowSorter(true);
 
 						}
@@ -609,6 +607,30 @@ public class TelaDefinirDataColeta extends JFrame {
 									Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
 									Integer.valueOf(txtOrdemAuto.getText()), datacoleta,
 									String.valueOf(txtBoletim.getText()),
+									String.valueOf(cbStatus.getSelectedItem()),
+									String.valueOf(cbcoletor.getSelectedItem()));
+							tableColeta.setAutoCreateRowSorter(true);
+						}
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				else if (!cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() != null
+						&& !cbStatus.getSelectedItem().equals(" ") && (txtBoletim.getText().isEmpty())) {
+					try {
+						String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());
+						boolean ok = amostraDAO.verificarDiasIguais(datacoleta, prop, amost);
+
+						if (ok == false) {
+							amostraDAO.DefinirDataStatusColetor(
+									Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
+									Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
+									Integer.valueOf(txtOrdemAuto.getText()), datacoleta,
 									String.valueOf(cbStatus.getSelectedItem()),
 									String.valueOf(cbcoletor.getSelectedItem()));
 							tableColeta.setAutoCreateRowSorter(true);

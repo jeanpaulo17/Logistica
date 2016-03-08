@@ -1168,7 +1168,8 @@ public class TelaPendencias extends JFrame {
 		}
 	}
 	
-	else{
+	else if(!cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() != null
+			&& cbStatus.getSelectedItem().equals(" ") && (txtBoletim.getText().isEmpty())){
 	
 	try {
 	
@@ -1184,10 +1185,7 @@ public class TelaPendencias extends JFrame {
 	Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
 	Integer.valueOf(txtOrdemAuto.getText()),
 	datacoleta,
-	String.valueOf(cbcoletor.getSelectedItem()),
-	String.valueOf(cbStatus.getSelectedItem())
-	
-	);
+	String.valueOf(cbcoletor.getSelectedItem()));
 	
 	if(rdbtnCancelada.isSelected()){
 	// canceladas
@@ -1249,6 +1247,85 @@ public class TelaPendencias extends JFrame {
 	}	
 	}
 	
+	else if(!cbcoletor.getSelectedItem().equals(" ") && txtDataCol.getDate() != null
+			&& !cbStatus.getSelectedItem().equals(" ") && (txtBoletim.getText().isEmpty())){
+	
+	try {
+	
+	
+	String datacoleta = new SimpleDateFormat("dd/MM/yyyy").format(txtDataCol.getDate());
+	boolean ok = amostraDAO.verificarDiasIguais(datacoleta, prop, amost);
+	
+	if(ok == false){
+	
+	
+	amostraDAO.DefinirDataStatusColetor(
+	Integer.valueOf(amostraDAO.buscarIdProposta(txtPropostaAuto.getText())),
+	Integer.valueOf(amostraDAO.buscarIdAmostra(txtAmostraAuto.getText())),
+	Integer.valueOf(txtOrdemAuto.getText()),
+	datacoleta,
+	String.valueOf(cbStatus.getSelectedItem()),
+	String.valueOf(cbcoletor.getSelectedItem()));
+	
+	if(rdbtnCancelada.isSelected()){
+	// canceladas
+	
+	sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, "
+	+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+	+ " WHERE os.status_amostra = 'Cancelado' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+	+ " and st.descricao = os.status_amostra "
+	+ " order by amostra,ordem";
+	
+	amostraDAO.PreencherTabelaColeta(sql,dados3);
+	tableColeta.setAutoCreateRowSorter(true);
+	
+	} else if(rdbtnConcluidas.isSelected()){
+	// concluidas
+	
+	sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, "
+	+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+	+ " WHERE os.status_amostra = 'Concluido' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+	+ " and st.descricao = os.status_amostra "
+	+ " order by amostra,ordem";
+	
+	amostraDAO.PreencherTabelaColeta(sql,dados3);
+	tableColeta.setAutoCreateRowSorter(true);
+
+	
+	}else if(rdbtnNaoDatadas.isSelected()){
+	// nao datadas
+	
+	sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, "
+	+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os "
+	+ " WHERE os.datacoleta is null and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+	+ " order by amostra,ordem";
+	
+	amostraDAO.PreencherTabelaColeta(sql,dados3);
+	tableColeta.setAutoCreateRowSorter(true);
+
+	
+	}else if(rdbtnPendentes.isSelected()){
+	// pendentes
+	
+	sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, "
+	+ " os.status_amostra as status FROM proposta as pr, amostra as am, amostra_os as os, status_amostra as st "
+	+ " WHERE os.status_amostra = 'Pendente' and os.proposta = pr.idproposta and os.amostra = am.idamostra "
+	+ " and st.descricao = os.status_amostra "
+	+ " order by amostra,ordem";
+	
+	amostraDAO.PreencherTabelaColeta(sql,dados3);
+	
+	tableColeta.setAutoCreateRowSorter(true);
+
+	}	
+	
+	
+	
+	}
+	}catch (NumberFormatException e) {
+	} catch (ParseException e) {
+	}	
+	}
 
 	}
 	});
