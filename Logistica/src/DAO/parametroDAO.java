@@ -607,7 +607,7 @@ public class parametroDAO {
 		try {
 			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
-					.executeQuery("select volume FROM volume where id_unidade_medida=3 order by volume");
+					.executeQuery("select volume FROM volume where id_unidade_medida=1 order by volume");
 
 			while (rs.next()) {
 				String opcao = rs.getString(1);
@@ -634,7 +634,7 @@ public class parametroDAO {
 		try {
 			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
-					.executeQuery("select volume FROM volume where id_unidade_medida=1 order by volume");
+					.executeQuery("select volume FROM volume where id_unidade_medida=3 order by volume");
 
 			while (rs.next()) {
 				String opcao = rs.getString(1);
