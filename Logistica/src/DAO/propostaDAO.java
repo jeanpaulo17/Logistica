@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 import utilitarios.ConectaBanco;
 import face.TelaCadastroProposta;
-import face.TelaEditarAmostra1;
+import face.TelaEditarAmostra;
 import face.TelaEditarProposta;
 import face.TelaVerPropostas;
 

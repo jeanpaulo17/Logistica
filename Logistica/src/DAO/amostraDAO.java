@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 
 import face.TelaAdicionarMotivo;
 import face.TelaCadastroAmostra;
-import face.TelaEditarAmostra1;
+import face.TelaEditarAmostra;
 import face.TelaManutencao;
 import face.TelaVerAmostra;
 import utilitarios.ConectaBanco;
@@ -268,7 +268,7 @@ public class amostraDAO {
 	}
 
 	public void abrirEditarAmostra() {
-		TelaEditarAmostra1 t = new TelaEditarAmostra1();
+		TelaEditarAmostra t = new TelaEditarAmostra();
 		t.setVisible(true);
 		t.setLocationRelativeTo(null);
 	}
