@@ -7,10 +7,11 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import utilitarios.ConectaBanco;
 import face.TelaCadastroProposta;
+import face.TelaEditarAmostra1;
 import face.TelaEditarProposta;
 import face.TelaVerPropostas;
-import utilitarios.ConectaBanco;
 
 public class propostaDAO {
 	
@@ -40,8 +41,7 @@ public class propostaDAO {
 		t.setVisible(true);
 		t.setLocationRelativeTo(null);
 	}
-
-
+	
 	public String cadastrarProposta(String proposta, String empresa, Integer qtd) {
 
 		
@@ -97,6 +97,7 @@ public class propostaDAO {
 		}
 	}
 	
+	
 	public void ExcluirProposta(String proposta)   {
 
 		try {
@@ -115,6 +116,7 @@ public class propostaDAO {
 			 
 		}
 	}
+	
 	
 public String editarProposta(String propostaNova, String empresa, Integer qtd, String proposta) {
 

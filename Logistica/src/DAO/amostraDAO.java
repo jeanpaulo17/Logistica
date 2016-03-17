@@ -14,7 +14,9 @@ import javax.swing.JOptionPane;
 
 import face.TelaAdicionarMotivo;
 import face.TelaCadastroAmostra;
+import face.TelaEditarAmostra1;
 import face.TelaManutencao;
+import face.TelaVerAmostra;
 import utilitarios.ConectaBanco;
 
 public class amostraDAO {
@@ -45,6 +47,12 @@ public class amostraDAO {
 
 	public void abrirAdicionarMotivo() {
 		TelaAdicionarMotivo t = new TelaAdicionarMotivo();
+		t.setVisible(true);
+		t.setLocationRelativeTo(null);
+	}
+
+	public void abrirAmostrasCadastradas() {
+		TelaVerAmostra t = new TelaVerAmostra();
 		t.setVisible(true);
 		t.setLocationRelativeTo(null);
 	}
@@ -259,6 +267,99 @@ public class amostraDAO {
 
 	}
 
+	public void abrirEditarAmostra() {
+		TelaEditarAmostra1 t = new TelaEditarAmostra1();
+		t.setVisible(true);
+		t.setLocationRelativeTo(null);
+	}
+
+	public void ExcluirAmostra(String amostra) {
+
+		try {
+			conexao.conexao();
+
+			pst = conexao.conn
+					.prepareStatement("DELETE FROM amostra WHERE numero_amostra=?");
+			pst.setString(1, amostra);
+
+			if (pst.executeUpdate() == 1) {
+			}
+
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, e1.getMessage());
+		} finally {
+			conexao.desconecta();
+
+		}
+	}
+
+	public String editarAmostra(String amostraNova, String amostra,
+			String periodicidade, String ponto, String endereco) {
+
+		conexao.conexao();
+		String sql = "update amostra set"
+				+ " numero_amostra = ?, periodicidade = ?, ponto = ?, endereco = ?"
+				+ " where numero_amostra = '" + amostra + "'";
+
+		try {
+			PreparedStatement pst = conexao.conn.prepareStatement(sql);
+			pst.setString(1, amostraNova);
+			pst.setString(2, periodicidade);
+			pst.setString(3, ponto);
+			pst.setString(4, endereco);
+
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Amostra Editada!");
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Erro!" + e.getMessage());
+		} finally {
+			conexao.desconecta();
+		}
+
+		return null;
+
+	}
+
+	public void PreencherTabelaAmostrasCadastradas(String sql, ArrayList dados) {
+
+		conexao.conexao();
+		conexao.executaSQL(sql);
+		try {
+
+			if (conexao.rs.first()) {
+				dados.clear();
+				do {
+					dados.add(new Object[] {
+
+					conexao.rs.getObject("EMPRESA"),
+							conexao.rs.getObject("PROPOSTA"),
+							conexao.rs.getObject("AMOSTRA"),
+							conexao.rs.getObject("PONTO"),
+							conexao.rs.getObject("PERIODICIDADE"),
+							conexao.rs.getObject("ENDERECO") });
+
+				} while (conexao.rs.next());
+			} else {
+
+			}
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,
+					"Erro ao obter os dados.(PreencherTabelaPropostasCadastradas)"
+							+ e.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
+
+	public void fecharTelaCadastroAmostra() {
+
+		TelaCadastroAmostra t = new TelaCadastroAmostra();
+		t.dispose();
+	}
+
 	public void PreencherTabela(String sql, ArrayList dados) {
 
 		conexao.conexao();
@@ -402,8 +503,7 @@ public class amostraDAO {
 	}
 
 	public void DefinirDataColetor(int idproposta, int idamostra, int ordem,
-			String datacoleta, String coletor)
-			throws ParseException {
+			String datacoleta, String coletor) throws ParseException {
 		try {
 
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -571,7 +671,7 @@ public class amostraDAO {
 			conexao.desconecta();
 		}
 	}
-	
+
 	public void DefinirBoletim(int idproposta, int idamostra, int ordem,
 			String boletim) throws ParseException {
 		try {
@@ -595,7 +695,7 @@ public class amostraDAO {
 			conexao.desconecta();
 		}
 	}
-	
+
 	public void DefinirBoletimColetor(int idproposta, int idamostra, int ordem,
 			String boletim, String coletor) throws ParseException {
 		try {
@@ -620,7 +720,7 @@ public class amostraDAO {
 			conexao.desconecta();
 		}
 	}
-	
+
 	public void DefinirBoletimStatus(int idproposta, int idamostra, int ordem,
 			String boletim, String status) throws ParseException {
 		try {
@@ -645,9 +745,10 @@ public class amostraDAO {
 			conexao.desconecta();
 		}
 	}
-	
-	public void DefinirBoletimColetorStatus(int idproposta, int idamostra, int ordem,
-			String boletim, String coletor, String status) throws ParseException {
+
+	public void DefinirBoletimColetorStatus(int idproposta, int idamostra,
+			int ordem, String boletim, String coletor, String status)
+			throws ParseException {
 		try {
 
 			conexao.conexao();
@@ -707,9 +808,10 @@ public class amostraDAO {
 			conexao.desconecta();
 		}
 	}
-	
-	public void DefinirBoletimDataColetor(int idproposta, int idamostra, int ordem,
-			String datacoleta, String boletim, String coletor) throws ParseException {
+
+	public void DefinirBoletimDataColetor(int idproposta, int idamostra,
+			int ordem, String datacoleta, String boletim, String coletor)
+			throws ParseException {
 		try {
 
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -744,9 +846,10 @@ public class amostraDAO {
 			conexao.desconecta();
 		}
 	}
-	
-	public void DefinirBoletimDataStatus(int idproposta, int idamostra, int ordem,
-			String datacoleta, String boletim, String status_amostra) throws ParseException {
+
+	public void DefinirBoletimDataStatus(int idproposta, int idamostra,
+			int ordem, String datacoleta, String boletim, String status_amostra)
+			throws ParseException {
 		try {
 
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -781,9 +884,10 @@ public class amostraDAO {
 			conexao.desconecta();
 		}
 	}
-	
-	public void DefinirBoletimDataStatusColetor(int idproposta, int idamostra, int ordem,
-			String datacoleta, String boletim, String status, String coletor) throws ParseException {
+
+	public void DefinirBoletimDataStatusColetor(int idproposta, int idamostra,
+			int ordem, String datacoleta, String boletim, String status,
+			String coletor) throws ParseException {
 		try {
 
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -819,9 +923,10 @@ public class amostraDAO {
 			conexao.desconecta();
 		}
 	}
-	
-	public void DefinirDataStatusColetor(int idproposta, int idamostra, int ordem,
-			String datacoleta, String status, String coletor) throws ParseException {
+
+	public void DefinirDataStatusColetor(int idproposta, int idamostra,
+			int ordem, String datacoleta, String status, String coletor)
+			throws ParseException {
 		try {
 
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -856,8 +961,7 @@ public class amostraDAO {
 			conexao.desconecta();
 		}
 	}
-	
-	
+
 	public void DefinirData(int idproposta, int idamostra, int ordem,
 			String datacoleta) throws ParseException {
 		try {
@@ -892,8 +996,6 @@ public class amostraDAO {
 			conexao.desconecta();
 		}
 	}
-	
-	
 
 	public int verificaQuantidadeDeAmostrasNaProposta(int idproposta) {
 		conexao.conexao();

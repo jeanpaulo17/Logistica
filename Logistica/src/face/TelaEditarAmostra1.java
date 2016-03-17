@@ -39,7 +39,7 @@ import javax.swing.table.DefaultTableModel;
 import DAO.amostraDAO;
 import utilitarios.ModeloTable;
 
-public class TelaCadastroAmostra extends JFrame {
+public class TelaEditarAmostra1 extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtProposta;
@@ -58,9 +58,9 @@ public class TelaCadastroAmostra extends JFrame {
 	private String amostraTable;
 	private JTextField txtEndereco;
 
-	public TelaCadastroAmostra() {
+	public TelaEditarAmostra1() {
 
-		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCadastroAmostra.class.getResource("/face/amostra_icon.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaEditarAmostra1.class.getResource("/face/amostra_icon.png")));
 		setTitle("Cadastro de Amostras");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1097, 700);
@@ -80,8 +80,8 @@ public class TelaCadastroAmostra extends JFrame {
 		lblNProposta.setBounds(27, 29, 139, 20);
 		contentPane.add(lblNProposta);
 
-		txtProposta = new JTextField();
-		txtProposta.setText("Exemplo: 14589/2015");
+		txtProposta = new JTextField(TelaVerAmostra.propostaParaEditar);
+		/*txtProposta.setText("Exemplo: 14589/2015");
 		txtProposta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -93,13 +93,13 @@ public class TelaCadastroAmostra extends JFrame {
 			}
 		});
 
-		txtProposta.setForeground(Color.GRAY);
+		txtProposta.setForeground(Color.GRAY);*/
 		txtProposta.setHorizontalAlignment(SwingConstants.CENTER);
 		txtProposta.setBounds(176, 32, 309, 20);
 		contentPane.add(txtProposta);
 		txtProposta.setColumns(10);
 
-		txtEmpresa = new JTextField();
+		txtEmpresa = new JTextField(TelaVerAmostra.empresaParaEditar);
 		txtEmpresa.setHorizontalAlignment(SwingConstants.CENTER);
 		txtEmpresa.setEditable(false);
 		txtEmpresa.setBackground(Color.WHITE);
@@ -112,10 +112,10 @@ public class TelaCadastroAmostra extends JFrame {
 
 		final amostraDAO amostraDAO = new DAO.amostraDAO();
 
-		JButton btnCadastar = new JButton("Adicionar");
+		JButton btnEditar = new JButton("Editar");
 
-		btnCadastar.setBounds(516, 254, 89, 23);
-		contentPane.add(btnCadastar);
+		btnEditar.setBounds(516, 254, 89, 23);
+		contentPane.add(btnEditar);
 
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
@@ -138,8 +138,8 @@ public class TelaCadastroAmostra extends JFrame {
 		lblAmostra.setBounds(27, 123, 139, 20);
 		contentPane.add(lblAmostra);
 
-		txtAmostra = new JTextField();
-		txtAmostra.addMouseListener(new MouseAdapter() {
+		txtAmostra = new JTextField(TelaVerAmostra.amostraParaEditar);
+		/*txtAmostra.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
@@ -150,9 +150,9 @@ public class TelaCadastroAmostra extends JFrame {
 			}
 		});
 
-		txtAmostra.setForeground(Color.GRAY);
+		txtAmostra.setForeground(Color.GRAY);*/
 		txtAmostra.setHorizontalAlignment(SwingConstants.CENTER);
-		txtAmostra.setText("Exemplo: 35648/2015");
+	//	txtAmostra.setText("Exemplo: 35648/2015");
 		txtAmostra.setColumns(10);
 		txtAmostra.setBounds(176, 126, 429, 20);
 		contentPane.add(txtAmostra);
@@ -193,13 +193,13 @@ public class TelaCadastroAmostra extends JFrame {
 		lblPonto.setBounds(27, 169, 139, 20);
 		contentPane.add(lblPonto);
 
-		txtPonto = new JTextField();
+		txtPonto = new JTextField(TelaVerAmostra.pontoParaEditar);
 		txtPonto.setColumns(10);
 		txtPonto.setBounds(176, 172, 429, 20);
 		contentPane.add(txtPonto);
 
 		JLabel lblImg = new JLabel("");
-		lblImg.setIcon(new ImageIcon(TelaCadastroAmostra.class.getResource("/face/vidro.png")));
+		lblImg.setIcon(new ImageIcon(TelaEditarAmostra1.class.getResource("/face/vidro.png")));
 		lblImg.setBounds(743, 11, 215, 256);
 		contentPane.add(lblImg);
 
@@ -276,7 +276,7 @@ public class TelaCadastroAmostra extends JFrame {
 		lblEndereco.setBounds(27, 209, 139, 20);
 		contentPane.add(lblEndereco);
 		
-		txtEndereco = new JTextField();
+		txtEndereco = new JTextField(TelaVerAmostra.enderecoParaEditar);
 		txtEndereco.setBounds(176, 212, 429, 20);
 		contentPane.add(txtEndereco);
 		txtEndereco.setColumns(10);
@@ -309,49 +309,28 @@ public class TelaCadastroAmostra extends JFrame {
 		ModeloTable modelo1 = new ModeloTable(dados, colunas);
 		tableAmostra.setModel(modelo1);
 
-		btnCadastar.addActionListener(new ActionListener() {
+		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				Integer proposta = Integer.parseInt(amostraDAO.buscarIdProposta(txtProposta.getText()));
-				String amostra = txtAmostra.getText();
+				String amostraNova = txtAmostra.getText();
+				int proposta = Integer.valueOf(amostraDAO.buscarIdProposta(txtProposta.getText()));
+				String endereco = txtEndereco.getText();
+				String empresa = txtEmpresa.getText();
+				String amostra= TelaVerAmostra.amostraParaEditar; 
 				String periodicidade = (String) cbPeriodicidade.getSelectedItem();
 				String ponto = txtPonto.getText();
-				String endereco = txtEndereco.getText();
-				int qtd = Integer.valueOf(spinner.getValue().toString());
-				int ordem = 1;
+						
+			amostraDAO.editarAmostra(amostraNova, amostra, periodicidade, ponto, endereco);
+			
+			amostraDAO.PreencherTabela(
+					"select p.numero_proposta PROPOSTA ,a.numero_amostra AMOSTRA ,a.ponto PONTO, a.periodicidade PERIODO, a.endereco "
+							+ "from proposta as p , amostra as a where p.idproposta = a.proposta and p.idproposta="
+							+ amostraDAO.buscarIdProposta(txtProposta.getText()),
+					dados);
 
-				amostraDAO amostraDAO = new DAO.amostraDAO();
-
-				boolean existe = amostraDAO.verificaExistenciaAmostra(txtAmostra.getText());
-				
-				if (amostraDAO.verificaCadastroAmostra(amostra, proposta) == "false" || existe == true && !txtAmostra.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Amostra ja cadastrada antes!");
-				} else {
-
-					if (amostraDAO.verificaQtdAmostras(qtd, proposta) == true  ) {
-
-						amostraDAO.cadastrarAmostra(amostra, periodicidade, ponto, proposta, endereco);
-						Integer idamostra = Integer.parseInt(amostraDAO.buscarIdAmostra(txtAmostra.getText()));
-						amostraDAO.cadastrarAmostra_OS(proposta, idamostra, qtd);
-					} else {
-						JOptionPane.showMessageDialog(null,
-								"Você esta tentando cadastrar uma quantidade maior de amostras do que é permitido na proposta!");
-					}
-
-				}
-
-				try {
-					amostraDAO.PreencherTabela(
-							"select p.numero_proposta PROPOSTA ,a.numero_amostra AMOSTRA ,a.ponto PONTO, a.periodicidade PERIODO, a.endereco "
-									+ "from proposta as p , amostra as a where p.idproposta = a.proposta and p.idproposta="
-									+ amostraDAO.buscarIdProposta(txtProposta.getText()),
-							dados);
-
-					tableAmostra.setAutoCreateRowSorter(true);
-
-				} finally {
-
-				}
+			tableAmostra.setAutoCreateRowSorter(true);
+			
+			
 			}
 		});
 		
@@ -415,6 +394,7 @@ public class TelaCadastroAmostra extends JFrame {
 		tableAmostra.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tableAmostra.getColumnModel().getColumn(2).setPreferredWidth(400);
 		tableAmostra.getColumnModel().getColumn(3).setPreferredWidth(150);
+		tableAmostra.getColumnModel().getColumn(4).setPreferredWidth(150);
 
 		tableAmostra.getTableHeader().setReorderingAllowed(false);
 		tableAmostra.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);

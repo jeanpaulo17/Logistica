@@ -46,10 +46,10 @@ ConectaBanco conexao = new ConectaBanco();
     	  
     	  try {
 			email.addTo("ti@grupoqualityambiental.com.br", "Ficha de Coleta");
-			//destinatário  
-	    	  email.setFrom("logistica.qualylab@gmail.com; jeanpaulo@grupoqualityambiental.com.br"); // remetente 
+			  //destinatário  
+	    	  email.setFrom(" ti@grupoqualityambiental.com.br"); // remetente 
 	    	  email.setSubject("Ficha de Coleta: "+coletores.get(i)); // assunto do e-mail  
-			 //conteudo do e-mail abaixo
+			  //conteudo do e-mail abaixo
 	    	  email.setMsg("Email automático do Sistema não responda.");
 	    	  
 	    	  email.attach(attachment);

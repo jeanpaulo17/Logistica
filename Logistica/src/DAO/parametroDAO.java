@@ -134,7 +134,7 @@ public class parametroDAO {
 		try {
 			stm = conexao.conn.createStatement();
 			ResultSet rs = stm
-					.executeQuery("SELECT descricao FROM legislacao order by descricao desc");
+					.executeQuery("SELECT descricao FROM legislacao order by descricao");
 
 			while (rs.next()) {
 				dados.add(rs.getString(1));
