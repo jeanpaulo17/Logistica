@@ -134,8 +134,7 @@ public class TelaVerAmostra extends JFrame {
 						
 
 						amostraDAO.abrirEditarAmostra();
-						dispose();
-						amostraDAO.fecharTelaCadastroAmostra();
+  						amostraDAO.fecharTelaCadastroAmostra();
 						}  
 					
 				}

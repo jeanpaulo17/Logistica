@@ -319,7 +319,7 @@ public class TelaEditarAmostra extends JFrame {
 				String amostra= TelaVerAmostra.amostraParaEditar; 
 				String periodicidade = (String) cbPeriodicidade.getSelectedItem();
 				String ponto = txtPonto.getText();
-						
+			
 			amostraDAO.editarAmostra(amostraNova, amostra, periodicidade, ponto, endereco);
 			
 			amostraDAO.PreencherTabela(

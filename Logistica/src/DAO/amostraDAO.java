@@ -56,6 +56,13 @@ public class amostraDAO {
 		t.setVisible(true);
 		t.setLocationRelativeTo(null);
 	}
+	
+	public void fecharTelaCadastroAmostra() {
+
+		TelaCadastroAmostra t = new TelaCadastroAmostra();
+		t.setVisible(false);
+		t.dispose();
+	}
 
 	public String buscarEmpresa(String proposta) {
 		String msg = "";
@@ -354,11 +361,7 @@ public class amostraDAO {
 		}
 	}
 
-	public void fecharTelaCadastroAmostra() {
 
-		TelaCadastroAmostra t = new TelaCadastroAmostra();
-		t.dispose();
-	}
 
 	public void PreencherTabela(String sql, ArrayList dados) {
 
