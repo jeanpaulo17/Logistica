@@ -262,11 +262,11 @@ public class TelaCalendario extends JFrame {
 							+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME, "
 							+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR, am.endereco "
 							+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, amostra_parametro as ap, "
-							+ " frasco as fr, volume as vol, preservacao as pre , unidade_medida as un, coletor as co "
+							+ " frasco as fr, volume as vol, preservacao as pre , unidade_medida as un "
 							+ " where aos.datacoleta = '"+data+"' and pr.idproposta = aos.proposta and aos.proposta = ap.proposta "
 							+ " and aos.amostra = am.idamostra and aos.amostra =ap.amostra and pa.idparametro = ap.parametro "
 							+ " and fr.id_frasco = pa.frasco and vol.id_volume = pa.volume and pre.id_preservacao = pa.preservacao "
-							+ " and un.id_unidade_medida = vol.id_unidade_medida and aos.coletor = co.nome"
+							+ " and un.id_unidade_medida = vol.id_unidade_medida"
 							+ " ORDER BY am.numero_amostra, aos.ordem,  pa.descricao";
 					
 					calendario.PreencherTabela(sql, dados2);

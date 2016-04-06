@@ -22,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SpinnerModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
@@ -51,12 +52,15 @@ public class TelaVerAmostra extends JFrame {
 	public static String periodicidadeParaEditar;
 	public static String enderecoParaEditar;
 	public static String pontoParaEditar;
+	public static int quantidadeParaEditar;
 	private String empresa;
 	private String amostra;
 	private String periodicidade;
 	private String endereco;
 	private String ponto;
+	private int quantidade;
 	private JTextField txtAmostra;
+
 
 	public TelaVerAmostra() {
 
@@ -96,7 +100,7 @@ public class TelaVerAmostra extends JFrame {
 
 		// FUNCIONA!
 
-		colunas = new String[] { "EMPRESA" , "PROPOSTA", "AMOSTRA", "PONTO", "PERIODICIDADE", "ENDERECO" };
+		colunas = new String[] { "EMPRESA" , "PROPOSTA", "AMOSTRA", "PONTO", "QUANTIDADE", "PERIODICIDADE", "ENDERECO" };
 		dados = new ArrayList();
 		ModeloTable modelo = new ModeloTable(dados, colunas);
 		tableAmostra.setModel(modelo);
@@ -105,7 +109,7 @@ public class TelaVerAmostra extends JFrame {
 			
 		int idlegislacao = TelaManutencao.leg;
 			
-		amostraDAO.PreencherTabelaAmostrasCadastradas("select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, am.periodicidade, "
+		amostraDAO.PreencherTabelaAmostrasCadastradas("select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, pr.quantidadedeamostras as quantidade, am.periodicidade, "
 				+ "am.endereco from amostra as am, proposta as pr where pr.idproposta = am.proposta", dados);
 	
 				tableAmostra.setAutoCreateRowSorter(true);
@@ -113,14 +117,16 @@ public class TelaVerAmostra extends JFrame {
 			tableAmostra.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
+					
 
 					linha = tableAmostra.getSelectedRow();
 					proposta = (String) tableAmostra.getValueAt(linha, 1);
 					empresa = (String) tableAmostra.getValueAt(linha, 0);
 					amostra = (String) tableAmostra.getValueAt(linha, 2);
-					periodicidade = (String) tableAmostra.getValueAt(linha, 4);
+					periodicidade = (String) tableAmostra.getValueAt(linha, 5);
 					ponto = (String) tableAmostra.getValueAt(linha, 3);
-					endereco = (String) tableAmostra.getValueAt(linha, 5);
+					endereco = (String) tableAmostra.getValueAt(linha, 6);
+					quantidade =  (int) tableAmostra.getValueAt(linha, 4);
 					
 					
 					if (e.getClickCount() > 1) { 
@@ -131,6 +137,7 @@ public class TelaVerAmostra extends JFrame {
 						periodicidadeParaEditar = periodicidade;
 						enderecoParaEditar = endereco;
 						pontoParaEditar = ponto;
+						quantidadeParaEditar = quantidade;
 						
 
 						amostraDAO.abrirEditarAmostra();
@@ -153,7 +160,7 @@ public class TelaVerAmostra extends JFrame {
 					
 			try {
 					
-						amostraDAO.PreencherTabelaAmostrasCadastradas("select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, am.periodicidade, "
+						amostraDAO.PreencherTabelaAmostrasCadastradas("select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, pr.quantidadedeamostras as quantidade as quantidade, am.periodicidade, "
 				+ "am.endereco from amostra as am, proposta as pr where pr.idproposta = am.proposta", dados);
 						
 						tableAmostra.setAutoCreateRowSorter(true);
@@ -190,14 +197,14 @@ public class TelaVerAmostra extends JFrame {
 			btnPesquisar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if(txtAmostra.getText().isEmpty()){
-						amostraDAO.PreencherTabelaAmostrasCadastradas("select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, am.periodicidade, "
+						amostraDAO.PreencherTabelaAmostrasCadastradas("select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, pr.quantidadedeamostras as quantidade, am.periodicidade, "
 				+ "am.endereco from amostra as am, proposta as pr where pr.idproposta = am.proposta", dados);
 						
 						tableAmostra.setAutoCreateRowSorter(true);
 					}
 					else{
 					amostraDAO.PreencherTabelaAmostrasCadastradas("select empresa, numero_proposta as proposta, am.numero_amostra as amostra, "
-							+ "am.periodicidade, am.ponto, am.endereco from amostra as am, proposta as pr where pr.idproposta = am.proposta "
+							+ "am.periodicidade, am.ponto, pr.quantidadedeamostras as quantidade, am.endereco from amostra as am, proposta as pr where pr.idproposta = am.proposta "
 							+ "and numero_amostra ='"+txtAmostra.getText()+"'", dados);
 					tableAmostra.setAutoCreateRowSorter(true);
 					}
@@ -208,13 +215,13 @@ public class TelaVerAmostra extends JFrame {
 				public void keyPressed(KeyEvent ke) {
 					if (ke.getKeyCode() == 10) {
 						if(txtAmostra.getText().isEmpty()){
-							amostraDAO.PreencherTabelaAmostrasCadastradas("select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, am.periodicidade, "
+							amostraDAO.PreencherTabelaAmostrasCadastradas("select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, pr.quantidadedeamostras as quantidade, am.periodicidade, "
 				+ "am.endereco from amostra as am, proposta as pr where pr.idproposta = am.proposta", dados);
 							
 							tableAmostra.setAutoCreateRowSorter(true);
 						}
 						else{
-						amostraDAO.PreencherTabelaAmostrasCadastradas("select empresa, numero_proposta as proposta, am.numero_amostra as amostra,  am.ponto, "
+						amostraDAO.PreencherTabelaAmostrasCadastradas("select empresa, numero_proposta as proposta, am.numero_amostra as amostra,  am.ponto, pr.quantidadedeamostras as quantidade, "
 							+ "am.periodicidade, am.endereco from amostra as am, proposta as pr where pr.idproposta = am.proposta "
 							+ "and numero_amostra ='"+txtAmostra.getText()+"'", dados);
 						
@@ -243,6 +250,8 @@ public class TelaVerAmostra extends JFrame {
 			tableAmostra.getColumnModel().getColumn(2).setPreferredWidth(150);
 			tableAmostra.getColumnModel().getColumn(3).setPreferredWidth(150);
 			tableAmostra.getColumnModel().getColumn(4).setPreferredWidth(150);
+			tableAmostra.getColumnModel().getColumn(5).setPreferredWidth(150);
+			tableAmostra.getColumnModel().getColumn(6).setPreferredWidth(150);
 			
 			tableAmostra.getTableHeader().setReorderingAllowed(false);
 			tableAmostra.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);

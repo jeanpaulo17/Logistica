@@ -36,6 +36,7 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import jxl.biff.drawing.ComboBox;
 import DAO.amostraDAO;
 import utilitarios.ModeloTable;
 
@@ -61,11 +62,11 @@ public class TelaEditarAmostra extends JFrame {
 	public TelaEditarAmostra() {
 
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaEditarAmostra.class.getResource("/face/amostra_icon.png")));
-		setTitle("Cadastro de Amostras");
+		setTitle("Editar Amostras");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1097, 700);
 		contentPane = new JPanel();
-		contentPane.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Cadastro de Amostras",
+		contentPane.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Editar Amostras",
 				TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
 
 		contentPane.setLayout(null);
@@ -170,9 +171,13 @@ public class TelaEditarAmostra extends JFrame {
 		cbPeriodicidade.setBounds(365, 255, 124, 20);
 		cbPeriodicidade.setRenderer(UIResource);
 		contentPane.add(cbPeriodicidade);
+		
+	
 
-		String[] periodo = new String[] { "SEMANAL", "QUINZENAL", "MENSAL", "TRIMESTRAL" };
+		String[] periodo = new String[] { "SEMANAL", "QUINZENAL", "MENSAL", "TRIMESTRAL", "ANUAL" };
 		cbPeriodicidade.setModel(new DefaultComboBoxModel(periodo));
+		
+		cbPeriodicidade.setSelectedItem((String)TelaVerAmostra.periodicidadeParaEditar);
 
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 327, 1056, 2);
@@ -215,6 +220,7 @@ public class TelaEditarAmostra extends JFrame {
 		spinner.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		spinner.setBounds(177, 255, 51, 20);
 		contentPane.add(spinner);
+		spinner.setValue(TelaVerAmostra.quantidadeParaEditar);
 
 		JButton brnPesquisar = new JButton("Pesquisar");
 		brnPesquisar.addActionListener(new ActionListener() {

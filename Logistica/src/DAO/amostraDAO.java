@@ -343,6 +343,7 @@ public class amostraDAO {
 							conexao.rs.getObject("PROPOSTA"),
 							conexao.rs.getObject("AMOSTRA"),
 							conexao.rs.getObject("PONTO"),
+							conexao.rs.getObject("QUANTIDADE"),
 							conexao.rs.getObject("PERIODICIDADE"),
 							conexao.rs.getObject("ENDERECO") });
 
@@ -353,7 +354,7 @@ public class amostraDAO {
 
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null,
-					"Erro ao obter os dados.(PreencherTabelaPropostasCadastradas)"
+					"Erro ao obter os dados.(PreencherTabelaAmostrasCadastradas)"
 							+ e.getMessage());
 
 		} finally {
@@ -444,6 +445,7 @@ public class amostraDAO {
 					conexao.rs.getObject("PROPOSTA"),
 							conexao.rs.getObject("EMPRESA"),
 							conexao.rs.getObject("AMOSTRA"),
+							conexao.rs.getObject("PONTO"),
 							conexao.rs.getObject("BOLETIM"),
 							conexao.rs.getObject("ORDEM"),
 							conexao.rs.getObject("COLETOR"),

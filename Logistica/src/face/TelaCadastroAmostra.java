@@ -171,7 +171,7 @@ public class TelaCadastroAmostra extends JFrame {
 		cbPeriodicidade.setRenderer(UIResource);
 		contentPane.add(cbPeriodicidade);
 
-		String[] periodo = new String[] { "SEMANAL", "QUINZENAL", "MENSAL", "TRIMESTRAL" };
+		String[] periodo = new String[] { "SEMANAL", "QUINZENAL", "MENSAL", "TRIMESTRAL", "ANUAL" };
 		cbPeriodicidade.setModel(new DefaultComboBoxModel(periodo));
 
 		JSeparator separator = new JSeparator();

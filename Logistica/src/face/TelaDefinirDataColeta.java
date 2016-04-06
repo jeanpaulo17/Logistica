@@ -120,7 +120,7 @@ public class TelaDefinirDataColeta extends JFrame {
 		panelDatas.add(label_1);
 
 		dados3 = new ArrayList();
-		colunas3 = new String[] { "PROPOSTA", "EMPRESA", "AMOSTRA", "BOLETIM", "ORDEM", "COLETOR", "DATACOLETA", "STATUS" };
+		colunas3 = new String[] { "PROPOSTA", "EMPRESA", "AMOSTRA","PONTO", "BOLETIM", "ORDEM", "COLETOR", "DATACOLETA", "STATUS" };
 
 		ModeloTable modelo3 = new ModeloTable(dados3, colunas3);
 		tableColeta.setModel(modelo3);
@@ -647,7 +647,7 @@ public class TelaDefinirDataColeta extends JFrame {
 
 				if (!txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty()) {
 
-					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+					sql = "SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
 							+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
 							+ amostraDAO.buscarIdProposta(txtDatasProposta.getText())
 							+ " and os.proposta = pr.idproposta and os.amostra = am.idamostra  order by amostra,ordem";
@@ -659,7 +659,7 @@ public class TelaDefinirDataColeta extends JFrame {
 				}
 
 				if (txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
-					sql = "SELECT pr.numero_proposta as PROPOSTA, pr.empresa, am.numero_amostra as AMOSTRA, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+					sql = "SELECT pr.numero_proposta as PROPOSTA, pr.empresa, am.numero_amostra as AMOSTRA, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
 							+ "	FROM  amostra_os as os, amostra as am, proposta as pr " + " WHERE am.numero_amostra='"
 							+ txtDatasAmostra.getText()
 							+ "' and  os.amostra = am.idamostra and os.proposta = pr.idproposta  "
@@ -673,7 +673,7 @@ public class TelaDefinirDataColeta extends JFrame {
 
 				if (!txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
 
-					sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.boletim, os.ordem , os.coletor as coletor os.datacoleta, os.status_amostra as status "
+					sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, am.ponto os.boletim, os.ordem , os.coletor as coletor os.datacoleta, os.status_amostra as status "
 							+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
 							+ amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + " and os.amostra= "
 							+ amostraDAO.buscarIdAmostra(txtDatasAmostra.getText()) + ""
@@ -709,7 +709,7 @@ public class TelaDefinirDataColeta extends JFrame {
 
 				if (!txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty()) {
 
-					sql = "SELECT pr.numero_proposta as proposta,  pr.empresa, am.numero_amostra as amostra, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+					sql = "SELECT pr.numero_proposta as proposta,  pr.empresa, am.numero_amostra as amostra, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
 							+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
 							+ amostraDAO.buscarIdProposta(txtDatasProposta.getText())
 							+ " and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem";
@@ -721,7 +721,7 @@ public class TelaDefinirDataColeta extends JFrame {
 				}
 
 				if (txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
-					sql = "SELECT pr.numero_proposta as PROPOSTA,  pr.empresa, am.numero_amostra as AMOSTRA, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+					sql = "SELECT pr.numero_proposta as PROPOSTA,  pr.empresa, am.numero_amostra as AMOSTRA, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
 							+ "	FROM  amostra_os as os, amostra as am, proposta as pr  " + " WHERE am.numero_amostra='"
 							+ txtDatasAmostra.getText()
 							+ "' and  os.amostra = am.idamostra and os.proposta = pr.idproposta "
@@ -734,7 +734,7 @@ public class TelaDefinirDataColeta extends JFrame {
 
 				if (!txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
 
-					sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+					sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
 							+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
 							+ amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + " and os.amostra= "
 							+ amostraDAO.buscarIdAmostra(txtDatasAmostra.getText()) + ""
@@ -759,7 +759,7 @@ public class TelaDefinirDataColeta extends JFrame {
 
 					if (!txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty()) {
 
-						sql = "SELECT pr.numero_proposta as proposta,  pr.empresa, am.numero_amostra as amostra, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+						sql = "SELECT pr.numero_proposta as proposta,  pr.empresa, am.numero_amostra as amostra, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
 								+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
 								+ amostraDAO.buscarIdProposta(txtDatasProposta.getText())
 								+ " and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem";
@@ -771,7 +771,7 @@ public class TelaDefinirDataColeta extends JFrame {
 					}
 
 					if (txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
-						sql = "SELECT pr.numero_proposta as PROPOSTA,  pr.empresa, am.numero_amostra as AMOSTRA, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+						sql = "SELECT pr.numero_proposta as PROPOSTA,  pr.empresa, am.numero_amostra as AMOSTRA, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
 								+ "	FROM  amostra_os as os, amostra as am, proposta as pr  "
 								+ " WHERE am.numero_amostra='" + txtDatasAmostra.getText()
 								+ "' and  os.amostra = am.idamostra and os.proposta = pr.idproposta "
@@ -785,7 +785,7 @@ public class TelaDefinirDataColeta extends JFrame {
 
 					if (!txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
 
-						sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+						sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
 								+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
 								+ amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + " and os.amostra= "
 								+ amostraDAO.buscarIdAmostra(txtDatasAmostra.getText()) + ""
@@ -811,7 +811,7 @@ public class TelaDefinirDataColeta extends JFrame {
 
 					if (!txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty()) {
 
-						sql = "SELECT pr.numero_proposta as proposta,  pr.empresa, am.numero_amostra as amostra, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+						sql = "SELECT pr.numero_proposta as proposta,  pr.empresa, am.numero_amostra as amostra, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
 								+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
 								+ amostraDAO.buscarIdProposta(txtDatasProposta.getText())
 								+ " and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem";
@@ -823,7 +823,7 @@ public class TelaDefinirDataColeta extends JFrame {
 					}
 
 					if (txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
-						sql = "SELECT pr.numero_proposta as PROPOSTA,  pr.empresa, am.numero_amostra as AMOSTRA, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+						sql = "SELECT pr.numero_proposta as PROPOSTA,  pr.empresa, am.numero_amostra as AMOSTRA, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
 								+ "	FROM  amostra_os as os, amostra as am, proposta as pr  "
 								+ " WHERE am.numero_amostra='" + txtDatasAmostra.getText()
 								+ "' and  os.amostra = am.idamostra and os.proposta = pr.idproposta "
@@ -837,7 +837,7 @@ public class TelaDefinirDataColeta extends JFrame {
 
 					if (!txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
 
-						sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
+						sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
 								+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
 								+ amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + " and os.amostra= "
 								+ amostraDAO.buscarIdAmostra(txtDatasAmostra.getText()) + ""
@@ -866,11 +866,12 @@ public class TelaDefinirDataColeta extends JFrame {
 		tableColeta.getColumnModel().getColumn(0).setPreferredWidth(130);
 		tableColeta.getColumnModel().getColumn(1).setPreferredWidth(200);
 		tableColeta.getColumnModel().getColumn(2).setPreferredWidth(130);
-		tableColeta.getColumnModel().getColumn(3).setPreferredWidth(130);
+		tableColeta.getColumnModel().getColumn(3).setPreferredWidth(200);
 		tableColeta.getColumnModel().getColumn(4).setPreferredWidth(200);
-		tableColeta.getColumnModel().getColumn(5).setPreferredWidth(400);
-		tableColeta.getColumnModel().getColumn(6).setPreferredWidth(200);
-		tableColeta.getColumnModel().getColumn(7).setPreferredWidth(130);
+		tableColeta.getColumnModel().getColumn(5).setPreferredWidth(200);
+		tableColeta.getColumnModel().getColumn(6).setPreferredWidth(400);
+		tableColeta.getColumnModel().getColumn(7).setPreferredWidth(200);
+		tableColeta.getColumnModel().getColumn(8).setPreferredWidth(130);
 		tableColeta.getTableHeader().setReorderingAllowed(false);
 		tableColeta.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 		tableColeta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

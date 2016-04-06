@@ -120,7 +120,6 @@ public class propostaDAO {
 	
 public String editarProposta(String propostaNova, String empresa, Integer qtd, String proposta) {
 
-		
 		conexao.conexao();
 		String sql = "update proposta set"
 				+ " numero_proposta = ?, empresa = ?, quantidadedeamostras = ?"
