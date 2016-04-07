@@ -139,7 +139,6 @@ public class TelaVerAmostra extends JFrame {
 						pontoParaEditar = ponto;
 						quantidadeParaEditar = quantidade;
 						
-
 						amostraDAO.abrirEditarAmostra();
   						amostraDAO.fecharTelaCadastroAmostra();
 						}  

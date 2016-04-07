@@ -12,12 +12,12 @@ import java.util.GregorianCalendar;
 
 import javax.swing.JOptionPane;
 
+import utilitarios.ConectaBanco;
 import face.TelaAdicionarMotivo;
 import face.TelaCadastroAmostra;
 import face.TelaEditarAmostra;
 import face.TelaManutencao;
 import face.TelaVerAmostra;
-import utilitarios.ConectaBanco;
 
 public class amostraDAO {
 	final ConectaBanco conexao = new ConectaBanco();
