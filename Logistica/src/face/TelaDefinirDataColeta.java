@@ -68,7 +68,7 @@ public class TelaDefinirDataColeta extends JFrame {
 			            boolean isSelected, boolean hasFocus, int row, int column) {  
 			        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);  
 			        
-			        final String ref = String.valueOf(tableColeta.getValueAt(row, 7));
+			        final String ref = String.valueOf(tableColeta.getValueAt(row, 8));
 			        
 			        Color verdeClaro = new Color(152, 251, 152); 
 			        Color vermelhoClaro = new Color(255, 106, 106); 
@@ -278,8 +278,8 @@ public class TelaDefinirDataColeta extends JFrame {
 				int linha = tableColeta.getSelectedRow();
 				String proposta = (String) tableColeta.getValueAt(linha, 0);
 				String amostra = (String) tableColeta.getValueAt(linha, 2);
-				int ordem = (Integer) tableColeta.getValueAt(linha, 4);
-				final String status = (String) tableColeta.getValueAt(linha, 7);
+				int ordem = (Integer) tableColeta.getValueAt(linha, 5);
+				final String status = (String) tableColeta.getValueAt(linha, 8);
 
 				amostraObs = Integer.valueOf(amostraDAO.buscarIdAmostra(amostra));
 				propostaObs = Integer.valueOf(amostraDAO.buscarIdProposta(proposta));
@@ -710,7 +710,7 @@ public class TelaDefinirDataColeta extends JFrame {
 				if (!txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty()) {
 
 					sql = "SELECT pr.numero_proposta as proposta,  pr.empresa, am.numero_amostra as amostra, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
-							+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
+							+ " FROM proposta as pr, amostra as am, amostra_os as os WHERE os.proposta = "
 							+ amostraDAO.buscarIdProposta(txtDatasProposta.getText())
 							+ " and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem";
 
@@ -722,7 +722,7 @@ public class TelaDefinirDataColeta extends JFrame {
 
 				if (txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
 					sql = "SELECT pr.numero_proposta as PROPOSTA,  pr.empresa, am.numero_amostra as AMOSTRA, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
-							+ "	FROM  amostra_os as os, amostra as am, proposta as pr  " + " WHERE am.numero_amostra='"
+							+ "	FROM  amostra_os as os, amostra as am, proposta as pr  WHERE am.numero_amostra='"
 							+ txtDatasAmostra.getText()
 							+ "' and  os.amostra = am.idamostra and os.proposta = pr.idproposta "
 							+ " ORDER BY proposta, amostra, ordem";
@@ -735,7 +735,7 @@ public class TelaDefinirDataColeta extends JFrame {
 				if (!txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
 
 					sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
-							+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
+							+ " FROM proposta as pr, amostra as am, amostra_os as os WHERE os.proposta = "
 							+ amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + " and os.amostra= "
 							+ amostraDAO.buscarIdAmostra(txtDatasAmostra.getText()) + ""
 							+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta ORDER BY proposta, amostra, ordem";
@@ -760,7 +760,7 @@ public class TelaDefinirDataColeta extends JFrame {
 					if (!txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty()) {
 
 						sql = "SELECT pr.numero_proposta as proposta,  pr.empresa, am.numero_amostra as amostra, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
-								+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
+								+ " FROM proposta as pr, amostra as am, amostra_os as os WHERE os.proposta = "
 								+ amostraDAO.buscarIdProposta(txtDatasProposta.getText())
 								+ " and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem";
 
@@ -786,7 +786,7 @@ public class TelaDefinirDataColeta extends JFrame {
 					if (!txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
 
 						sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
-								+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
+								+ " FROM proposta as pr, amostra as am, amostra_os as os WHERE os.proposta = "
 								+ amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + " and os.amostra= "
 								+ amostraDAO.buscarIdAmostra(txtDatasAmostra.getText()) + ""
 								+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta ORDER BY proposta, amostra, ordem";
@@ -812,7 +812,7 @@ public class TelaDefinirDataColeta extends JFrame {
 					if (!txtDatasProposta.getText().isEmpty() && txtDatasAmostra.getText().isEmpty()) {
 
 						sql = "SELECT pr.numero_proposta as proposta,  pr.empresa, am.numero_amostra as amostra, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
-								+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
+								+ " FROM proposta as pr, amostra as am, amostra_os as os WHERE os.proposta = "
 								+ amostraDAO.buscarIdProposta(txtDatasProposta.getText())
 								+ " and os.proposta = pr.idproposta and os.amostra = am.idamostra order by amostra,ordem";
 
@@ -838,7 +838,7 @@ public class TelaDefinirDataColeta extends JFrame {
 					if (!txtDatasProposta.getText().isEmpty() && !txtDatasAmostra.getText().isEmpty()) {
 
 						sql = " SELECT pr.numero_proposta as proposta, pr.empresa, am.numero_amostra as amostra, am.ponto, os.boletim, os.ordem , os.coletor as coletor, os.datacoleta, os.status_amostra as status "
-								+ " FROM proposta as pr, amostra as am, amostra_os as os " + " WHERE os.proposta = "
+								+ " FROM proposta as pr, amostra as am, amostra_os as os WHERE os.proposta = "
 								+ amostraDAO.buscarIdProposta(txtDatasProposta.getText()) + " and os.amostra= "
 								+ amostraDAO.buscarIdAmostra(txtDatasAmostra.getText()) + ""
 								+ " and os.amostra = am.idamostra and os.proposta = pr.idproposta ORDER BY proposta, amostra, ordem";

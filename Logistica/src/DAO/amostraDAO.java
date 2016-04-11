@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import utilitarios.ConectaBanco;
@@ -60,8 +61,7 @@ public class amostraDAO {
 	public void fecharTelaCadastroAmostra() {
 
 		TelaCadastroAmostra t = new TelaCadastroAmostra();
-		t.setVisible(false);
-		t.dispose();
+		t.setDefaultCloseOperation(t.DISPOSE_ON_CLOSE);
 	}
 
 	public String buscarEmpresa(String proposta) {
