@@ -61,7 +61,6 @@ public class TelaVerAmostra extends JFrame {
 	private int quantidade;
 	private JTextField txtAmostra;
 
-
 	public TelaVerAmostra() {
 
 		setTitle("Amostras Cadastradas");
@@ -72,7 +71,7 @@ public class TelaVerAmostra extends JFrame {
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 
 		getContentPane().add(tabbedPane);
-		
+
 		final propostaDAO p = new propostaDAO();
 
 		final amostraDAO amostraDAO = new DAO.amostraDAO();
@@ -80,44 +79,53 @@ public class TelaVerAmostra extends JFrame {
 		BasicComboBoxRenderer.UIResource UIResource = new BasicComboBoxRenderer.UIResource();
 		UIResource.setHorizontalAlignment(SwingConstants.CENTER);
 
-
 		// ATÉ AQUI TA CERTO!
 
 		panelAmostra = new JPanel();
 
-		panelAmostra.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Amostras Cadastradas", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panelAmostra
+				.setBorder(new TitledBorder(UIManager
+						.getBorder("TitledBorder.border"),
+						"Amostras Cadastradas", TitledBorder.CENTER,
+						TitledBorder.TOP, null, new Color(0, 0, 0)));
 
 		panelAmostra.setLayout(null);
 
 		tabbedPane.add("Amostras Cadastradas", panelAmostra);
 
-		
+		scrollPaneAmostra.setViewportBorder(new TitledBorder(null, "",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollPaneAmostra
-				.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		scrollPaneAmostra.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPaneAmostra.setBounds(10, 22, 610, 342);
 		panelAmostra.add(scrollPaneAmostra);
 
 		// FUNCIONA!
 
-		colunas = new String[] { "EMPRESA" , "PROPOSTA", "AMOSTRA", "PONTO", "QUANTIDADE", "PERIODICIDADE", "ENDERECO" };
+		colunas = new String[] { "EMPRESA", "PROPOSTA", "AMOSTRA", "PONTO",
+				"QUANTIDADE", "PERIODICIDADE", "ENDERECO" };
 		dados = new ArrayList();
 		ModeloTable modelo = new ModeloTable(dados, colunas);
 		tableAmostra.setModel(modelo);
-		
+
 		try {
-			
-		int idlegislacao = TelaManutencao.leg;
-			
-		amostraDAO.PreencherTabelaAmostrasCadastradas("select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, pr.quantidadedeamostras as quantidade, am.periodicidade, "
-				+ "am.endereco from amostra as am, proposta as pr where pr.idproposta = am.proposta", dados);
-	
-				tableAmostra.setAutoCreateRowSorter(true);
-			
+
+			int idlegislacao = TelaManutencao.leg;
+
+			amostraDAO
+					.PreencherTabelaAmostrasCadastradas(
+							"select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, "
+							+ " max(aos.ordem) as quantidade, am.periodicidade, am.endereco from amostra as am, proposta as pr, amostra_os as aos "
+							+ " where pr.idproposta = am.proposta and aos.proposta = pr.idproposta and aos.amostra = am.idamostra "
+							+ " group by empresa, numero_proposta, numero_amostra, ponto, periodicidade, endereco "
+							+ " order by empresa",
+							dados);
+
+			tableAmostra.setAutoCreateRowSorter(true);
+
 			tableAmostra.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					
 
 					linha = tableAmostra.getSelectedRow();
 					proposta = (String) tableAmostra.getValueAt(linha, 1);
@@ -126,11 +134,10 @@ public class TelaVerAmostra extends JFrame {
 					periodicidade = (String) tableAmostra.getValueAt(linha, 5);
 					ponto = (String) tableAmostra.getValueAt(linha, 3);
 					endereco = (String) tableAmostra.getValueAt(linha, 6);
-					quantidade =  (int) tableAmostra.getValueAt(linha, 4);
-					
-					
-					if (e.getClickCount() > 1) { 
-						
+					quantidade = (int) tableAmostra.getValueAt(linha, 4);
+
+					if (e.getClickCount() > 1) {
+
 						propostaParaEditar = proposta;
 						empresaParaEditar = empresa;
 						amostraParaEditar = amostra;
@@ -138,93 +145,125 @@ public class TelaVerAmostra extends JFrame {
 						enderecoParaEditar = endereco;
 						pontoParaEditar = ponto;
 						quantidadeParaEditar = quantidade;
-						
+
 						amostraDAO.abrirEditarAmostra();
-  						amostraDAO.fecharTelaCadastroAmostra();
-						}  
-					
+						amostraDAO.fecharTelaCadastroAmostra();
+					}
+
 				}
 			});
-			
+
 			btnExcluir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+
 					int dialogButton = JOptionPane.YES_NO_OPTION;
-					int DialogButton = JOptionPane.showConfirmDialog (null, "Deseja excluir a amostra "+ amostra +" ?",amostra, dialogButton);
-					if(DialogButton == JOptionPane.YES_OPTION){
-					
-					
-					amostraDAO.ExcluirAmostra(amostra);
+					int DialogButton = JOptionPane.showConfirmDialog(null,
+							"Deseja excluir a amostra " + amostra + " ?",
+							amostra, dialogButton);
+					if (DialogButton == JOptionPane.YES_OPTION) {
 
-					
-			try {
-					
-						amostraDAO.PreencherTabelaAmostrasCadastradas("select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, pr.quantidadedeamostras as quantidade as quantidade, am.periodicidade, "
-				+ "am.endereco from amostra as am, proposta as pr where pr.idproposta = am.proposta", dados);
-						
-						tableAmostra.setAutoCreateRowSorter(true);
+						amostraDAO.ExcluirAmostra(amostra);
 
-						tableAmostra.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+						try {
 
-							public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-									boolean hasFocus, int row, int column) {
-								super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-								this.setHorizontalAlignment(CENTER);
-								return this;
-							}
-						});
-							} finally {
-							}
+							amostraDAO
+							.PreencherTabelaAmostrasCadastradas(
+									"select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, "
+									+ " max(aos.ordem) as quantidade, am.periodicidade, am.endereco from amostra as am, proposta as pr, amostra_os as aos "
+									+ " where pr.idproposta = am.proposta and aos.proposta = pr.idproposta and aos.amostra = am.idamostra "
+									+ " group by empresa, numero_proposta, numero_amostra, ponto, periodicidade, endereco "
+									+ " order by empresa",
+									dados);
+
+							tableAmostra.setAutoCreateRowSorter(true);
+
+							tableAmostra.setDefaultRenderer(Object.class,
+									new DefaultTableCellRenderer() {
+
+										public Component getTableCellRendererComponent(
+												JTable table, Object value,
+												boolean isSelected,
+												boolean hasFocus, int row,
+												int column) {
+											super.getTableCellRendererComponent(
+													table, value, isSelected,
+													hasFocus, row, column);
+											this.setHorizontalAlignment(CENTER);
+											return this;
+										}
+									});
+						} finally {
+						}
 					}
 				}
 			});
 			btnExcluir.setBounds(531, 371, 89, 23);
-			
+
 			panelAmostra.add(btnExcluir);
-			
+
 			JLabel lblAmostra = new JLabel("Amostra: ");
 			lblAmostra.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 			lblAmostra.setBounds(20, 368, 74, 23);
 			panelAmostra.add(lblAmostra);
-			
+
 			txtAmostra = new JTextField();
 			txtAmostra.setBounds(96, 372, 156, 20);
 			panelAmostra.add(txtAmostra);
 			txtAmostra.setColumns(10);
-			
+
 			JButton btnPesquisar = new JButton("Pesquisar");
 			btnPesquisar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					if(txtAmostra.getText().isEmpty()){
-						amostraDAO.PreencherTabelaAmostrasCadastradas("select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, pr.quantidadedeamostras as quantidade, am.periodicidade, "
-				+ "am.endereco from amostra as am, proposta as pr where pr.idproposta = am.proposta", dados);
-						
+					if (txtAmostra.getText().isEmpty()) {
+						amostraDAO
+						.PreencherTabelaAmostrasCadastradas(
+								"select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, "
+								+ " max(aos.ordem) as quantidade, am.periodicidade, am.endereco from amostra as am, proposta as pr, amostra_os as aos "
+								+ " where pr.idproposta = am.proposta and aos.proposta = pr.idproposta and aos.amostra = am.idamostra "
+								+ " group by empresa, numero_proposta, numero_amostra, ponto, periodicidade, endereco "
+								+ " order by empresa",
+								dados);
+
 						tableAmostra.setAutoCreateRowSorter(true);
-					}
-					else{
-					amostraDAO.PreencherTabelaAmostrasCadastradas("select empresa, numero_proposta as proposta, am.numero_amostra as amostra, "
-							+ "am.periodicidade, am.ponto, pr.quantidadedeamostras as quantidade, am.endereco from amostra as am, proposta as pr where pr.idproposta = am.proposta "
-							+ "and numero_amostra ='"+txtAmostra.getText()+"'", dados);
-					tableAmostra.setAutoCreateRowSorter(true);
+					} else {
+						amostraDAO
+						.PreencherTabelaAmostrasCadastradas(
+								"select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, "
+								+ " max(aos.ordem) as quantidade, am.periodicidade, am.endereco from amostra as am, proposta as pr, amostra_os as aos "
+								+ " where pr.idproposta = am.proposta and aos.proposta = pr.idproposta and aos.amostra = am.idamostra and numero_amostra ='"+ txtAmostra.getText() + "'"
+								+ " group by empresa, numero_proposta, numero_amostra, ponto, periodicidade, endereco "
+								+ " order by empresa",
+										dados);
+						tableAmostra.setAutoCreateRowSorter(true);
 					}
 				}
 			});
-			
+
 			this.txtAmostra.addKeyListener(new KeyAdapter() {
 				public void keyPressed(KeyEvent ke) {
 					if (ke.getKeyCode() == 10) {
-						if(txtAmostra.getText().isEmpty()){
-							amostraDAO.PreencherTabelaAmostrasCadastradas("select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, pr.quantidadedeamostras as quantidade, am.periodicidade, "
-				+ "am.endereco from amostra as am, proposta as pr where pr.idproposta = am.proposta", dados);
-							
+						if (txtAmostra.getText().isEmpty()) {
+							amostraDAO
+							.PreencherTabelaAmostrasCadastradas(
+									"select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, "
+									+ " max(aos.ordem) as quantidade, am.periodicidade, am.endereco from amostra as am, proposta as pr, amostra_os as aos "
+									+ " where pr.idproposta = am.proposta and aos.proposta = pr.idproposta and aos.amostra = am.idamostra "
+									+ " group by empresa, numero_proposta, numero_amostra, ponto, periodicidade, endereco "
+									+ " order by empresa",
+											dados);
+
 							tableAmostra.setAutoCreateRowSorter(true);
-						}
-						else{
-						amostraDAO.PreencherTabelaAmostrasCadastradas("select empresa, numero_proposta as proposta, am.numero_amostra as amostra,  am.ponto, pr.quantidadedeamostras as quantidade, "
-							+ "am.periodicidade, am.endereco from amostra as am, proposta as pr where pr.idproposta = am.proposta "
-							+ "and numero_amostra ='"+txtAmostra.getText()+"'", dados);
-						
-						tableAmostra.setAutoCreateRowSorter(true);
+						} else {
+							amostraDAO
+							.PreencherTabelaAmostrasCadastradas(
+									"select pr.empresa, pr.numero_proposta as proposta, am.numero_amostra as amostra, am.ponto, "
+									+ " max(aos.ordem) as quantidade, am.periodicidade, am.endereco from amostra as am, proposta as pr, amostra_os as aos "
+									+ " where pr.idproposta = am.proposta and aos.proposta = pr.idproposta and aos.amostra = am.idamostra and numero_amostra ='"+ txtAmostra.getText() + "'"
+									+ " group by empresa, numero_proposta, numero_amostra, ponto, periodicidade, endereco "
+									+ " order by empresa",
+											dados);
+
+							tableAmostra.setAutoCreateRowSorter(true);
 						}
 
 					}
@@ -232,8 +271,7 @@ public class TelaVerAmostra extends JFrame {
 				}
 
 			});
-			
-			
+
 			tableAmostra.setSurrendersFocusOnKeystroke(true);
 			tableAmostra.setFocusTraversalPolicyProvider(true);
 			tableAmostra.setFocusCycleRoot(true);
@@ -251,28 +289,29 @@ public class TelaVerAmostra extends JFrame {
 			tableAmostra.getColumnModel().getColumn(4).setPreferredWidth(150);
 			tableAmostra.getColumnModel().getColumn(5).setPreferredWidth(150);
 			tableAmostra.getColumnModel().getColumn(6).setPreferredWidth(150);
-			
+
 			tableAmostra.getTableHeader().setReorderingAllowed(false);
 			tableAmostra.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 			tableAmostra.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			
+
 			btnPesquisar.setBounds(262, 371, 108, 23);
 			panelAmostra.add(btnPesquisar);
-			tableAmostra.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			tableAmostra.setDefaultRenderer(Object.class,
+					new DefaultTableCellRenderer() {
 
-				public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-						boolean hasFocus, int row, int column) {
-					super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-					this.setHorizontalAlignment(CENTER);
+						public Component getTableCellRendererComponent(
+								JTable table, Object value, boolean isSelected,
+								boolean hasFocus, int row, int column) {
+							super.getTableCellRendererComponent(table, value,
+									isSelected, hasFocus, row, column);
+							this.setHorizontalAlignment(CENTER);
 
-					return this;
-				}
-			});
+							return this;
+						}
+					});
 		} finally {
-	
+
 		}
-		
-	
-		
+
 	}
 }
