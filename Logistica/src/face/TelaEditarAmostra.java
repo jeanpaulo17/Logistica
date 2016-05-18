@@ -174,7 +174,7 @@ public class TelaEditarAmostra extends JFrame {
 		
 	
 
-		String[] periodo = new String[] { "SEMANAL", "QUINZENAL", "MENSAL", "TRIMESTRAL", "ANUAL" };
+		String[] periodo = new String[] { "SEMANAL", "QUINZENAL", "MENSAL", "TRIMESTRAL", "SEMESTRAL", "ANUAL" };
 		cbPeriodicidade.setModel(new DefaultComboBoxModel(periodo));
 		
 		cbPeriodicidade.setSelectedItem((String)TelaVerAmostra.periodicidadeParaEditar);
