@@ -506,6 +506,28 @@ public class amostraDAO {
 			conexao.desconecta();
 		}
 	}
+	
+	public void EditarAmostra_OS(int idproposta, int idamostra, int qtd) {
+		try {
+			conexao.conexao();
+			pst = conexao.conn
+					.prepareStatement("update amostra_os set ordem = "+qtd+"where amostra = "+idamostra+"and proposta = "+idproposta);
+			int ordem = 0;
+
+			for (int i = 1; i <= qtd; i++) {
+				ordem = i;
+				pst.setInt(1, ordem);
+				pst.setInt(2, idamostra);
+				pst.setInt(3, idproposta);
+				pst.executeUpdate();
+			}
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "ERROR" + ex.getMessage());
+
+		} finally {
+			conexao.desconecta();
+		}
+	}
 
 	public void DefinirDataColetor(int idproposta, int idamostra, int ordem,
 			String datacoleta, String coletor) throws ParseException {

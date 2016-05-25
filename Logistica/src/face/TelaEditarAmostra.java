@@ -325,9 +325,21 @@ public class TelaEditarAmostra extends JFrame {
 				String amostra= TelaVerAmostra.amostraParaEditar; 
 				String periodicidade = (String) cbPeriodicidade.getSelectedItem();
 				String ponto = txtPonto.getText();
-			
-			amostraDAO.editarAmostra(amostraNova, amostra, periodicidade, ponto, endereco);
-			
+				int qtd = Integer.valueOf(spinner.getValue().toString());
+				
+				
+				
+				
+					if (amostraDAO.verificaQtdAmostras(qtd, proposta) == true  ) {
+
+						amostraDAO.editarAmostra(amostraNova, amostra, periodicidade, ponto, endereco);
+						Integer idamostra = Integer.parseInt(amostraDAO.buscarIdAmostra(txtAmostra.getText()));
+						amostraDAO.EditarAmostra_OS(proposta, idamostra, qtd);
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Você esta tentando cadastrar uma quantidade maior de amostras do que é permitido na proposta!");
+					}
+
 			amostraDAO.PreencherTabela(
 					"select p.numero_proposta PROPOSTA ,a.numero_amostra AMOSTRA ,a.ponto PONTO, a.periodicidade PERIODO, a.endereco "
 							+ "from proposta as p , amostra as a where p.idproposta = a.proposta and p.idproposta="
