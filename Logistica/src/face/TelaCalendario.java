@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -60,6 +62,9 @@ public class TelaCalendario extends JFrame {
 	private JTextField txtAmostra;
 	private String data;
 	JDateChooser dateChooser;
+	public static int propostaObs;
+	public static int amostraObs;
+	public static int ordemObs;
 	
 	public TelaCalendario() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCalendario.class.getResource("/face/calendario-icon.png")));
@@ -79,7 +84,7 @@ public class TelaCalendario extends JFrame {
 		TableCalendarioSoma.setVisible(false);
 		
 		dados2 = new ArrayList();
-		colunas = new String[] { "PROPOSTA", "EMPRESA","AMOSTRA","PERIODICIDADE", "ORDEM", "PARAMETRO", "FRASCO", "VOLUME","UN", "PRESERVACAO","DATACOLETA","COLETOR", "ENDERECO" };
+		colunas = new String[] { "PROPOSTA", "EMPRESA","AMOSTRA","PERIODICIDADE", "ORDEM", "PARAMETRO", "FRASCO", "VOLUME","UN", "PRESERVACAO","DATACOLETA","COLETOR", "OBSERVACAO" };
 
 		ModeloTable modelo = new ModeloTable(dados2, colunas);
 		TableCalendario.setModel(modelo);
@@ -89,6 +94,31 @@ public class TelaCalendario extends JFrame {
 		
 		ModeloTable modeloSoma = new ModeloTable(dadosSoma, colunasSoma);
 		TableCalendarioSoma.setModel(modeloSoma);
+		
+		final amostraDAO a = new amostraDAO();
+		
+		TableCalendario.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				int linha = TableCalendario.getSelectedRow();
+				String proposta = (String) TableCalendario.getValueAt(linha, 0);
+				String amostra = (String) TableCalendario.getValueAt(linha, 2);
+				int ordem = (Integer) TableCalendario.getValueAt(linha, 4);
+
+				if(e.getClickCount() >1){
+				
+					amostraObs = Integer.valueOf(a.buscarIdAmostra(amostra));
+					propostaObs = Integer.valueOf(a.buscarIdProposta(proposta));
+					ordemObs = ordem;
+					
+					a.abrirVerMotivo();				
+
+				}
+				
+			}
+		});
+		
 		
 		dateChooser = new JDateChooser();
 		dateChooser.setVerifyInputWhenFocusTarget(false);
@@ -214,7 +244,7 @@ public class TelaCalendario extends JFrame {
 					
 					sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
 							+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME,"
-							+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR, am.endereco"
+							+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR, aos.observacao"
 							+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, frasco as fr, volume as vol,"
 							+ " unidade_medida as un, preservacao as pre, coletor as co, amostra_parametro as ap"
 							+ " where aos.coletor='"+cbcoletor.getSelectedItem().toString()+"' and pr.idproposta = aos.proposta and aos.proposta = ap.proposta"
@@ -237,7 +267,7 @@ public class TelaCalendario extends JFrame {
 					
 					sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
 							+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME,"
-							+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR, am.endereco"
+							+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR, aos.observacao"
 							+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, frasco as fr, volume as vol, unidade_medida as un, preservacao as pre, coletor as co, amostra_parametro as ap"
 							+ " where aos.coletor = '"+cbcoletor.getSelectedItem().toString()+"' AND aos.datacoleta = '"+data+"' and pr.idproposta = aos.proposta and aos.proposta = ap.proposta and aos.amostra = am.idamostra "
 							+ " and aos.amostra =ap.amostra and pa.idparametro = ap.parametro and fr.id_frasco = pa.frasco "
@@ -260,7 +290,7 @@ public class TelaCalendario extends JFrame {
 
 					sql =   "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA, "
 							+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME, "
-							+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR, am.endereco "
+							+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR, aos.observacao "
 							+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, amostra_parametro as ap, "
 							+ " frasco as fr, volume as vol, preservacao as pre , unidade_medida as un "
 							+ " where aos.datacoleta = '"+data+"' and pr.idproposta = aos.proposta and aos.proposta = ap.proposta "
@@ -288,7 +318,7 @@ public class TelaCalendario extends JFrame {
 						sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
 						+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO,"
 						+ " vol.volume as VOLUME, un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA,"
-						+ " aos.coletor as COLETOR, am.endereco "
+						+ " aos.coletor as COLETOR, aos.observacao "
 						+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, frasco as fr, volume as vol, "
 						+ " unidade_medida as un, preservacao as pre, coletor as co, amostra_parametro as ap "
 						+ " where aos.coletor = '"+cbcoletor.getSelectedItem().toString()+"' AND aos.datacoleta = '"+data+"' and aos.amostra="+Integer.valueOf(dao.buscarIdAmostra(txtAmostra.getText()))+" "
@@ -323,7 +353,7 @@ public class TelaCalendario extends JFrame {
 							sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
 							+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO,"
 							+ " vol.volume as VOLUME, un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA,"
-							+ " aos.coletor as COLETOR, am.endereco "
+							+ " aos.coletor as COLETOR, aos.observacao "
 							+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, frasco as fr, volume as vol, "
 							+ " unidade_medida as un, preservacao as pre, coletor as co, amostra_parametro as ap "
 							+ " where aos.amostra="+Integer.valueOf(dao.buscarIdAmostra(txtAmostra.getText()))+" "
@@ -350,7 +380,7 @@ public class TelaCalendario extends JFrame {
 								sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
 								+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO,"
 								+ " vol.volume as VOLUME, un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA,"
-								+ " aos.coletor as COLETOR, am.endereco "
+								+ " aos.coletor as COLETOR, aos.observacao "
 								+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, frasco as fr, volume as vol, "
 								+ " unidade_medida as un, preservacao as pre, coletor as co, amostra_parametro as ap "
 								+ " where aos.amostra="+Integer.valueOf(dao.buscarIdAmostra(txtAmostra.getText()))+" and aos.datacoleta = '"+data+"'  "
@@ -373,7 +403,7 @@ public class TelaCalendario extends JFrame {
 				
 				sql = "select  pr.numero_proposta as PROPOSTA, pr.empresa as EMPRESA, am.numero_amostra as AMOSTRA,"
 						+ " am.periodicidade as PERIODICIDADE, aos.ordem as ORDEM,  pa.descricao as PARAMETRO, fr.descricao as FRASCO, vol.volume as VOLUME,"
-						+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR, am.endereco"
+						+ " un.unidade_medida as UNIDADEMEDIDA, pre.descricao as PRESERVACAO, aos.datacoleta as DATACOLETA, aos.coletor as COLETOR, aos.observacao"
 						+ " from proposta as pr, amostra as am, amostra_os as aos, parametro as pa, frasco as fr, volume as vol,"
 						+ " unidade_medida as un, preservacao as pre, coletor as co, amostra_parametro as ap"
 						+ " where aos.coletor='"+cbcoletor.getSelectedItem().toString()+"'"

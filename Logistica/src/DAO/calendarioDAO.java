@@ -43,7 +43,7 @@ public class calendarioDAO {
 							conexao.rs.getObject("PERIODICIDADE"), conexao.rs.getObject("ORDEM"), conexao.rs.getObject("PARAMETRO"),
 							 conexao.rs.getObject("FRASCO"), conexao.rs.getObject("VOLUME"), conexao.rs.getObject("UNIDADEMEDIDA"),
 							 conexao.rs.getObject("PRESERVACAO"), conexao.rs.getObject("DATACOLETA"), conexao.rs.getObject("COLETOR"),
-							 conexao.rs.getObject("ENDERECO")
+							 conexao.rs.getObject("OBSERVACAO")
 							
 					});
 

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import utilitarios.ConectaBanco;
@@ -19,6 +18,7 @@ import face.TelaCadastroAmostra;
 import face.TelaEditarAmostra;
 import face.TelaManutencao;
 import face.TelaVerAmostra;
+import face.TelaVerMotivo;
 
 public class amostraDAO {
 	final ConectaBanco conexao = new ConectaBanco();
@@ -48,6 +48,12 @@ public class amostraDAO {
 
 	public void abrirAdicionarMotivo() {
 		TelaAdicionarMotivo t = new TelaAdicionarMotivo();
+		t.setVisible(true);
+		t.setLocationRelativeTo(null);
+	}
+	
+	public void abrirVerMotivo() {
+		TelaVerMotivo t = new TelaVerMotivo();
 		t.setVisible(true);
 		t.setLocationRelativeTo(null);
 	}
@@ -446,6 +452,7 @@ public class amostraDAO {
 							conexao.rs.getObject("EMPRESA"),
 							conexao.rs.getObject("AMOSTRA"),
 							conexao.rs.getObject("PONTO"),
+							conexao.rs.getObject("PERIODICIDADE"),
 							conexao.rs.getObject("BOLETIM"),
 							conexao.rs.getObject("ORDEM"),
 							conexao.rs.getObject("COLETOR"),
@@ -650,19 +657,17 @@ public class amostraDAO {
 		}
 	}
 
-	public void DefinirObservacao(int propostaObs, int amostraObs, int ordem,
-			String status, String observacao) throws ParseException {
+	public void DefinirObservacao(int propostaObs, int amostraObs, int ordem, String observacao) throws ParseException {
 		try {
 
 			conexao.conexao();
 			pst = conexao.conn
-					.prepareStatement("UPDATE amostra_os SET observacao=? where proposta=? and amostra=? and ordem=? and status_amostra=? ");
+					.prepareStatement("UPDATE amostra_os SET observacao=? where proposta=? and amostra=? and ordem=?");
 
 			pst.setString(1, observacao);
 			pst.setInt(2, propostaObs);
 			pst.setInt(3, amostraObs);
 			pst.setInt(4, ordem);
-			pst.setString(5, status);
 
 			pst.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Adicionado!");

@@ -1,25 +1,23 @@
 package face;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import DAO.amostraDAO;
 
-import javax.swing.JTextArea;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-
-public class TelaAdicionarMotivo extends JFrame {
+public class TelaVerMotivo extends JFrame {
 
 	private JPanel contentPane;
 	amostraDAO a = new amostraDAO();
@@ -31,7 +29,7 @@ public class TelaAdicionarMotivo extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaAdicionarMotivo frame = new TelaAdicionarMotivo();
+					TelaVerMotivo frame = new TelaVerMotivo();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -43,7 +41,7 @@ public class TelaAdicionarMotivo extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaAdicionarMotivo() {
+	public TelaVerMotivo() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -51,7 +49,7 @@ public class TelaAdicionarMotivo extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		final JTextArea textAreaMotivo = new JTextArea(a.obterObservacao(TelaDefinirDataColeta.propostaObs, TelaDefinirDataColeta.amostraObs, TelaDefinirDataColeta.ordemObs));
+		final JTextArea textAreaMotivo = new JTextArea(a.obterObservacao(TelaCalendario.propostaObs, TelaCalendario.amostraObs, TelaCalendario.ordemObs));
 		textAreaMotivo.setLineWrap(true);
 		textAreaMotivo.setBounds(10, 68, 414, 155);
 		contentPane.add(textAreaMotivo);
@@ -73,9 +71,13 @@ public class TelaAdicionarMotivo extends JFrame {
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
+				TelaCalendario c = new TelaCalendario();
+				
 				try {
 				
-					a.DefinirObservacao(TelaDefinirDataColeta.propostaObs, TelaDefinirDataColeta.amostraObs, TelaDefinirDataColeta.ordemObs, textAreaMotivo.getText());
+					a.DefinirObservacao(TelaCalendario.propostaObs, TelaCalendario.amostraObs, TelaCalendario.ordemObs, textAreaMotivo.getText());
+					dispose();
+
 				} catch (ParseException e) {
 					
 					JOptionPane.showMessageDialog(null, "Erro ao definir Observação!");
@@ -88,19 +90,19 @@ public class TelaAdicionarMotivo extends JFrame {
 		btnAdicionar.setBounds(198, 228, 108, 23);
 		contentPane.add(btnAdicionar);
 		
-		JLabel lblPropostaObs = new JLabel("Proposta: " +a.obterProposta(TelaDefinirDataColeta.propostaObs));
+		JLabel lblPropostaObs = new JLabel("Proposta: " +a.obterProposta(TelaCalendario.propostaObs));
 		lblPropostaObs.setHorizontalAlignment(SwingConstants.LEFT);
 		lblPropostaObs.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		lblPropostaObs.setBounds(10, 34, 189, 23);
 		contentPane.add(lblPropostaObs);
 		
-		JLabel lblAmostraObs = new JLabel("Amostra: "+ a.obterAmostra(TelaDefinirDataColeta.amostraObs));
+		JLabel lblAmostraObs = new JLabel("Amostra: "+ a.obterAmostra(TelaCalendario.amostraObs));
 		lblAmostraObs.setHorizontalAlignment(SwingConstants.LEFT);
 		lblAmostraObs.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		lblAmostraObs.setBounds(198, 34, 189, 23);
 		contentPane.add(lblAmostraObs);
 		
-		JLabel lblEmpresaObs = new JLabel("Empresa: " + a.obterEmpresa(TelaDefinirDataColeta.propostaObs));
+		JLabel lblEmpresaObs = new JLabel("Empresa: " + a.obterEmpresa(TelaCalendario.propostaObs));
 		lblEmpresaObs.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		lblEmpresaObs.setBounds(10, 11, 414, 22);
 		contentPane.add(lblEmpresaObs);
